@@ -1,4 +1,8 @@
-# Nuxt Minimal Starter
+# KodHau Landing
+
+Single-page landing for **KodHau**, an online coding and programming education platform. Built with Nuxt 3, Vue 3, and Tailwind CSS. Minimal, flat design focused on conversion.
+
+See [FEATURES.md](./FEATURES.md) for page structure, design rules, and tech details.
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
