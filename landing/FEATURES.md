@@ -6,13 +6,13 @@ Single-page marketing landing for **KodHau**, an online coding and programming e
 
 ## Page Structure
 
-- **Top navigation** — Brand on the left (logo placeholder + “KodHau”), centered section links (Problem / Solution / Features / Proof), and Login + Register actions on the right.
-- **Hero** — Bold developer-focused headline, subheadline for beginners & self-taught developers, primary CTA (“Start learning”), secondary CTA (“See the learning flow”).
+- **Top navigation** — Brand on the left (logo placeholder + "KodHau"), centered section links (Problem / Solution / Features / Proof), and Login + Register actions on the right.
+- **Hero** — Headline "Learn to code your dreams and design your future" with highlighted "code" (amber) and "design" (blue) words. Checkered grid background with radial fade at corners. Draggable tech logos (HTML5, CSS3, Python, Swift, PostgreSQL) that are semi-transparent by default, opaque on hover, and can be repositioned by drag-and-drop. CTAs: "Explore Course" (primary amber) and "Join Free Course" (secondary outline).
 - **Problem** — Three pain points: no plan, tutorial mode, wrong order.
 - **Solution / Product** — Four cards with inline SVG icons: structured curriculum, real coding practice, modern stack, clarity and focus.
 - **Key Features** — Six feature cards in a grid with inline SVG icons (flat, on-palette).
 - **Social Proof** — Credibility section with two real-feeling testimonials (no placeholder text).
-- **Call to Action** — Final CTA and a single primary button (“Register and start”).
+- **Call to Action** — Final CTA and a single primary button ("Register and start").
 - **Footer** — Product name (KodHau), current year, and placeholder links (Terms, Privacy).
 
 ## Tech Stack
@@ -24,10 +24,12 @@ Single-page marketing landing for **KodHau**, an online coding and programming e
 
 ## Design
 
-- Flat, minimal layout. No animations, gradients, glassmorphism, or heavy shadows.
-- Single palette: primary (blue-600), neutral background (white / slate-50), text (slate-900 / slate-600).
+- Flat, minimal layout. No gradients, glassmorphism, or heavy shadows.
+- Single palette: primary (blue-600, amber-400/500), neutral background (white / slate-50), text (slate-900 / slate-600).
 - Large, readable typography; consistent spacing; no carousels or popups.
 - Inline icons are SVGs embedded in the page (no icon library dependency).
+- Hero section has a checkered grid background with radial fade for soft edges.
+- Draggable tech logos use native drag events (mouse and touch) for interactivity.
 
 ## Routes
 
@@ -42,4 +44,4 @@ No new dependencies. Uses existing Nuxt stack: `@nuxt/a11y`, `@nuxt/eslint`, `@n
 
 ## Files Touched
 
-- `app/pages/index.vue` — Full landing content and layout, sticky top navigation, inline SVG icons for cards, and `useHead` for title/meta description.
+- `app/pages/index.vue` — Full landing content and layout, sticky top navigation, hero with checkered background and draggable tech logos, inline SVG icons, and `useHead` for title/meta description.
