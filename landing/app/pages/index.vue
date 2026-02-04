@@ -80,8 +80,8 @@
         </div>
 
         <!-- Hero content - z-10 but pointer-events-none so logos can be dragged through -->
-        <div class="pointer-events-none relative z-10 mx-auto max-w-4xl text-center">
-          <h1 class="overflow-visible font-serif text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
+        <div class="font-inter pointer-events-none relative z-10 mx-auto max-w-4xl text-center">
+          <h1 class="overflow-visible text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
             Learn to
             <span
               class="inline-block rounded-none px-2 py-1"

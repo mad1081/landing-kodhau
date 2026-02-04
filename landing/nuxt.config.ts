@@ -15,5 +15,10 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/fonts',
     '@nuxt/image'
-  ]
+  ],
+  fonts: {
+    families: [
+      { name: 'Inter', provider: 'google' }
+    ]
+  }
 });
