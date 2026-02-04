@@ -81,12 +81,28 @@
 
         <!-- Hero content - z-10 but pointer-events-none so logos can be dragged through -->
         <div class="pointer-events-none relative z-10 mx-auto max-w-4xl text-center">
-          <h1 class="font-serif text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
+          <h1 class="overflow-visible font-serif text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
             Learn to
-            <span class="inline-block rounded bg-amber-400 px-2 py-1 text-slate-900">code</span>
+            <span
+              class="inline-block rounded-none px-2 py-1"
+              style="
+                background: linear-gradient(105deg, #ea580c 0%, #eab308 100%);
+                transform: skewX(-6deg);
+              "
+            >
+              <span class="inline-block text-white" style="transform: skewX(6deg)">code</span>
+            </span>
             your<br class="hidden sm:inline" />
             dreams and
-            <span class="inline-block rounded bg-blue-400 px-2 py-1 text-slate-900">design</span>
+            <span
+              class="inline-block rounded-none px-2 py-1"
+              style="
+                background: linear-gradient(105deg, #2563eb 0%, #7c3aed 100%);
+                transform: skewX(6deg);
+              "
+            >
+              <span class="inline-block text-white" style="transform: skewX(-6deg)">design</span>
+            </span>
             your<br class="hidden sm:inline" />
             future
           </h1>
@@ -97,7 +113,7 @@
           <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="#cta"
-              class="pointer-events-auto inline-block rounded-md bg-amber-500 px-8 py-3 text-center text-base font-medium text-white"
+              class="pointer-events-auto inline-block rounded-md bg-blue-500 px-8 py-3 text-center text-base font-medium text-white"
             >
               Explore Course
             </a>
@@ -428,7 +444,7 @@ const logos = reactive<Logo[]>([
   { id: 'html', label: 'HTML5', src: htmlLogo, x: 60, y: 120 },
   { id: 'css', label: 'CSS3', src: cssLogo, x: 40, y: 280 },
   { id: 'python', label: 'Python', src: pythonLogo, x: 820, y: 100 },
-  { id: 'swift', label: 'Swift', src: swiftLogo, x: 100, y: 400 },
+  { id: 'swift', label: 'Swift', src: swiftLogo, x: 200, y: 400 },
   { id: 'postgresql', label: 'PostgreSQL', src: postgresqlLogo, x: 780, y: 340 },
 ])
 
