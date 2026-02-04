@@ -29,7 +29,9 @@ Single-page marketing landing for **KodHau**, an online coding and programming e
 - Large, readable typography; consistent spacing; no carousels or popups.
 - Inline icons are SVGs embedded in the page (no icon library dependency).
 - Hero section has a checkered grid background with radial fade for soft edges.
-- Draggable tech logos use native drag events (mouse and touch) for interactivity.
+- Draggable tech logos use native drag events (mouse and touch) with `requestAnimationFrame` for smooth 60fps movement.
+- Logos use `transform: translate3d()` for GPU-accelerated positioning.
+- Smooth opacity transitions (20% → 100%) with 300ms ease-out timing.
 
 ## Routes
 
