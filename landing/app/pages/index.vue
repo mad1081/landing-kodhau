@@ -395,7 +395,7 @@
       <footer class="border-t border-slate-200 px-4 py-8">
         <div class="mx-auto flex max-w-4xl flex-col items-center justify-between gap-4 sm:flex-row">
           <span class="text-sm text-slate-600">
-            KodHau · {{ currentYear }}
+            KodHau · {{ currentYear }} · All rights reserved · Created by Zhasulan Serikbek
           </span>
           <nav class="flex gap-6 text-sm">
             <a href="#" class="text-slate-600">Terms</a>
