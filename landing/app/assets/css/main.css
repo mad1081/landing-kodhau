@@ -3,3 +3,16 @@
 .font-inter {
   font-family: 'Inter', sans-serif;
 }
+
+@keyframes trusted-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-trusted-marquee {
+  animation: trusted-marquee 40s linear infinite;
+}

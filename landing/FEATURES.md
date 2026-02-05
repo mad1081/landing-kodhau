@@ -8,6 +8,7 @@ Single-page marketing landing for **KodHau**, an online coding and programming e
 
 - **Top navigation** — Brand on the left (logo placeholder + "KodHau"), centered section links (Problem / Solution / Features / Proof), and Login + Register actions on the right.
 - **Hero** — Headline "Learn to code your dreams and design your future" with highlighted "code" (amber) and "design" (blue) words. Checkered grid background with radial fade at corners. Draggable tech logos (HTML5, CSS3, Python, Swift, PostgreSQL) that are semi-transparent by default, opaque on hover, and can be repositioned by drag-and-drop. CTAs: "Explore Course" (primary amber) and "Join Free Course" (secondary outline).
+- **Trusted by** — Centered label "TRUSTED BY STUDENTS AT" with an infinite right-to-left marquee of school logos/names: Harvard, Astana IT University (AITU logo image), Stanford, Duke, NYU, Coventry University. Schools without logo assets use styled text pills; AITU uses `app/assets/images/aitu.png`. Marquee implemented with duplicated content and CSS keyframe animation in `app/assets/css/main.css` (`.animate-trusted-marquee`).
 - **Problem** — Three pain points: no plan, tutorial mode, wrong order.
 - **Solution / Product** — Four cards with inline SVG icons: structured curriculum, real coding practice, modern stack, clarity and focus.
 - **Key Features** — Six feature cards in a grid with inline SVG icons (flat, on-palette).
@@ -46,4 +47,5 @@ No new dependencies. Uses existing Nuxt stack: `@nuxt/a11y`, `@nuxt/eslint`, `@n
 
 ## Files Touched
 
-- `app/pages/index.vue` — Full landing content and layout, sticky top navigation, hero with checkered background and draggable tech logos, inline SVG icons, and `useHead` for title/meta description.
+- `app/pages/index.vue` — Full landing content and layout, sticky top navigation, hero with checkered background and draggable tech logos, trusted-by marquee (school list and AITU logo import), inline SVG icons, and `useHead` for title/meta description.
+- `app/assets/css/main.css` — `@keyframes trusted-marquee` and `.animate-trusted-marquee` for the infinite right-to-left logo strip.

@@ -116,7 +116,7 @@
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-semibold text-white"
               @click.prevent="onGetStarted"
             >
-              <span>Get started</span>
+              <span>Explore Course</span>
               <kbd class="rounded-md bg-blue-400 px-2 py-0.5 text-sm font-medium text-white">
                 ⌘ S
               </kbd>
@@ -126,11 +126,48 @@
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900"
               @click.prevent="onScheduleCall"
             >
-              <span>Schedule Free Call</span>
+              <span>Join Free Course</span>
               <kbd class="rounded-md bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
                 ⌘ K
               </kbd>
             </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trusted by: infinite logo marquee -->
+      <section class="border-y border-slate-200 bg-white py-8">
+        <p class="text-center text-sm font-semibold uppercase tracking-wider text-slate-500">
+          Trusted by students at
+        </p>
+        <div class="relative mt-6 overflow-hidden">
+          <div
+            class="flex w-max animate-trusted-marquee items-center gap-12 px-4"
+            aria-hidden="true"
+          >
+            <template v-for="(_, setIndex) in 2" :key="setIndex">
+              <a
+                v-for="school in trustedBySchools"
+                :key="`${setIndex}-${school.name}`"
+                :href="school.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex shrink-0 items-center justify-center gap-2 transition-opacity hover:opacity-80"
+              >
+                <img
+                  v-if="school.logo"
+                  :src="school.logo"
+                  :alt="school.name"
+                  class="h-8 max-w-[120px] object-contain object-center md:h-10"
+                />
+                <span
+                  v-else
+                  class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700"
+                >
+                  {{ school.name }}
+                </span>
+              </a>
+            </template>
           </div>
         </div>
       </section>
@@ -423,8 +460,32 @@ import cssLogo from '~/assets/images/css.svg'
 import pythonLogo from '~/assets/images/python.svg'
 import swiftLogo from '~/assets/images/swift.svg'
 import postgresqlLogo from '~/assets/images/postgresql.svg'
+import aituLogo from '~/assets/images/aitu.png'
+import harvardLogo from '~/assets/images/veritas.webp'
+import stanfordLogo from '~/assets/images/stanford.png'
 
 const currentYear = new Date().getFullYear()
+
+interface TrustedBySchool {
+  name: string
+  logo?: string
+  url: string
+}
+
+const trustedBySchools: TrustedBySchool[] = [
+  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
+  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
+  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
+  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
+  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
+  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
+  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
+  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
+  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
+  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
+  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
+  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
+]
 
 useHead({
   title: 'KodHau — Learn to code your dreams and design your future',

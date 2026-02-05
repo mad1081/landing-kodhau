@@ -1,6 +1,6 @@
 # KodHau Landing
 
-Single-page landing for **KodHau**, an online coding and programming education platform. Built with Nuxt 3, Vue 3, and Tailwind CSS. Minimal, flat design focused on conversion.
+Single-page landing for **KodHau**, an online coding and programming education platform. Built with Nuxt 3, Vue 3, and Tailwind CSS. Minimal, flat design focused on conversion. Includes a “Trusted by students at” strip with an infinite right-to-left marquee of university logos (Harvard, AITU, Stanford, Duke, NYU, Coventry).
 
 See [FEATURES.md](./FEATURES.md) for page structure, design rules, and tech details.
 
