@@ -43,16 +43,17 @@ function App() {
   }
   const { messages, loading, requestMentor } = useMentor(mentorParams)
   const lastMentorReplyRef = useRef<string | null>(null)
-  const prevMessagesLengthRef = useRef(0)
 
   useEffect(() => {
     const mentorMessages = messages.filter((m) => m.role === 'mentor')
     const last = mentorMessages[mentorMessages.length - 1]
-    if (last && messages.length > prevMessagesLengthRef.current && last.text !== lastMentorReplyRef.current) {
-      lastMentorReplyRef.current = last.text
-      if (voiceOn) speak(last.text)
+    if (!last) return
+    if (last.text === lastMentorReplyRef.current) return
+    lastMentorReplyRef.current = last.text
+    if (voiceOn) {
+      console.log('[Voice] Mentor reply received. Sending text to TTS — wait a few seconds for audio.')
+      speak(last.text)
     }
-    prevMessagesLengthRef.current = messages.length
   }, [messages, voiceOn, speak])
 
   const subtitleText = (() => {

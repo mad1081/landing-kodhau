@@ -40,10 +40,11 @@ export function useVoice() {
     const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY
     const voiceId = import.meta.env.VITE_ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'
     if (!apiKey) {
-      console.warn('VITE_ELEVENLABS_API_KEY not set; skipping TTS')
+      console.warn('[Voice] VITE_ELEVENLABS_API_KEY not set; skipping TTS. Add the key in .env to hear audio.')
       playNextInQueue()
       return
     }
+    console.log('[Voice] Requesting audio from ElevenLabs… (may take a few seconds)')
     try {
       const res = await fetch(
         `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
@@ -71,8 +72,9 @@ export function useVoice() {
         playNextInQueue()
       }
       await audio.play()
+      console.log('[Voice] Playing audio.')
     } catch (e) {
-      console.warn('TTS failed:', e)
+      console.warn('[Voice] TTS failed (no audio will play):', e)
       playNextInQueue()
     }
   }, [])
@@ -80,8 +82,13 @@ export function useVoice() {
   const speak = useCallback(
     (text: string) => {
       if (!text.trim()) return
-      if (!voiceOn) return
+      if (!voiceOn) {
+        console.log('[Voice] Voice is OFF — text not sent to TTS. Turn Voice ON to hear the mentor.')
+        return
+      }
       queueRef.current.push(text.trim())
+      const queueLen = queueRef.current.length
+      console.log('[Voice] Text sent to voice (TTS). Queue length:', queueLen, '— wait a few seconds for audio.')
       if (isPlayingRef.current) return
       isPlayingRef.current = true
       setIsSpeaking(true)
