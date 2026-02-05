@@ -6,7 +6,8 @@ declare module '*.md?raw' {
 }
 
 interface ImportMetaEnv {
-  readonly VITE_GEMINI_API_KEY?: string
+  readonly VITE_OPENROUTER_API_KEY?: string
+  readonly VITE_OPENROUTER_MODEL?: string
   readonly VITE_ELEVENLABS_API_KEY?: string
   readonly VITE_ELEVENLABS_VOICE_ID?: string
 }

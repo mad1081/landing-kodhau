@@ -22,15 +22,15 @@ export function useMentor(params: UseMentorParams) {
 
   const requestMentor = useCallback(
     async (code: string) => {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY
+      const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
       if (!apiKey) {
-        setError('Missing VITE_GEMINI_API_KEY')
+        setError('Missing VITE_OPENROUTER_API_KEY')
         setMessages((m) => [
           ...m,
           {
             id: `sys-${Date.now()}`,
             role: 'system',
-            text: 'Mentor is unavailable: add VITE_GEMINI_API_KEY to .env',
+            text: 'Mentor is unavailable: add VITE_OPENROUTER_API_KEY to .env',
           },
         ])
         return
@@ -61,46 +61,50 @@ ${code}
 
 Provide minimal mentor feedback (no full solution, no final code). One short response.`
 
+        const model = import.meta.env.VITE_OPENROUTER_MODEL ?? 'google/gemini-2.0-flash-exp:free'
         const requestPayload = {
-          systemInstruction: { parts: [{ text: systemPrompt.trim() }] },
-          contents: [{ role: 'user', parts: [{ text: userContent }] }],
-          generationConfig: { maxOutputTokens: 2048 },
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt.trim() },
+            { role: 'user', content: userContent },
+          ],
+          max_tokens: 2048,
         }
         console.log('[Mentor] Request payload:', {
+          model: requestPayload.model,
           systemPromptLength: systemPrompt.trim().length,
           systemPromptPreview: systemPrompt.trim().slice(0, 300) + (systemPrompt.trim().length > 300 ? '...' : ''),
           userContent,
-          generationConfig: requestPayload.generationConfig,
+          max_tokens: requestPayload.max_tokens,
         })
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${encodeURIComponent(apiKey)}`
-        const res = await fetch(url, {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
           body: JSON.stringify(requestPayload),
         })
 
         if (!res.ok) {
           const err = await res.json().catch(() => ({}))
-          const msg = err?.error?.message ?? err?.message ?? `Gemini error: ${res.status}`
+          const msg = err?.error?.message ?? err?.message ?? `OpenRouter error: ${res.status}`
           throw new Error(msg)
         }
 
         const data = (await res.json()) as {
-          candidates?: Array<{
-            content?: { parts?: Array<{ text?: string }> }
-            finishReason?: string
-          }>
+          choices?: Array<{ message?: { content?: string }; finish_reason?: string }>
         }
-        const candidate = data.candidates?.[0]
-        const text = candidate?.content?.parts?.[0]?.text?.trim()
+        const choice = data.choices?.[0]
+        const text = choice?.message?.content?.trim()
         const reply = text ?? 'No response from mentor.'
-        const finishReason = candidate?.finishReason
+        const finishReason = choice?.finish_reason
 
         console.log('[Mentor] Raw API response:', data)
         console.log('[Mentor] Extracted reply:', { reply, replyLength: reply.length, finishReason })
-        if (finishReason && finishReason !== 'STOP') {
-          console.warn('[Mentor] Response may be truncated. finishReason:', finishReason)
+        if (finishReason && finishReason !== 'stop') {
+          console.warn('[Mentor] Response may be truncated. finish_reason:', finishReason)
         }
 
         setMessages((m) => {
