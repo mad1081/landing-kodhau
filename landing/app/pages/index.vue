@@ -16,13 +16,13 @@
             <li><a href="#solution" class="text-slate-700">Solution</a></li>
             <li><a href="#features" class="text-slate-700">Features</a></li>
             <li><a href="#proof" class="text-slate-700">Proof</a></li>
-            <li><a href="/ide" class="text-slate-700" target="_blank" rel="noopener noreferrer">Try IDE</a></li>
+            <li><a href="https://kodhau-ide.vercel.app/" class="text-slate-700" target="_blank" rel="noopener noreferrer">Try IDE</a></li>
           </ul>
         </nav>
 
         <div class="ml-auto flex items-center gap-3">
           <a
-            href="/ide"
+            href="https://kodhau-ide.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900"
