@@ -112,16 +112,24 @@
           </p>
           <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="#cta"
-              class="pointer-events-auto inline-block rounded-md bg-blue-500 px-8 py-3 text-center text-base font-medium text-white"
+              href="#"
+              class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-semibold text-white"
+              @click.prevent="onGetStarted"
             >
-              Explore Course
+              <span>Get started</span>
+              <kbd class="rounded-md bg-blue-400 px-2 py-0.5 text-sm font-medium text-white">
+                ⌘ S
+              </kbd>
             </a>
             <a
-              href="#solution"
-              class="pointer-events-auto inline-block rounded-md border border-slate-300 bg-white px-8 py-3 text-center text-base font-medium text-slate-900"
+              href="#"
+              class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900"
+              @click.prevent="onScheduleCall"
             >
-              Join Free Course
+              <span>Schedule Free Call</span>
+              <kbd class="rounded-md bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
+                ⌘ K
+              </kbd>
             </a>
           </div>
         </div>
@@ -428,6 +436,28 @@ useHead({
   ],
 })
 
+
+function onGetStarted() {
+  // Placeholder: e.g. navigate to signup or open modal
+}
+
+function onScheduleCall() {
+  // Placeholder: e.g. open scheduling modal
+}
+
+function handleHeroHotkeys(e: KeyboardEvent) {
+  const mod = e.metaKey || e.ctrlKey
+  if (!mod) return
+  if (e.key === 's') {
+    e.preventDefault()
+    onGetStarted()
+  }
+  if (e.key === 'k') {
+    e.preventDefault()
+    onScheduleCall()
+  }
+}
+
 interface Logo {
   id: string
   label: string
@@ -572,10 +602,12 @@ function positionLogosOnMount() {
 onMounted(() => {
   positionLogosOnMount()
   window.addEventListener('resize', positionLogosOnMount)
+  window.addEventListener('keydown', handleHeroHotkeys)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', positionLogosOnMount)
+  window.removeEventListener('keydown', handleHeroHotkeys)
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId)
   }
