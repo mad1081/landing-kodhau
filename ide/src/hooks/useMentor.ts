@@ -8,11 +8,25 @@ export interface MentorMessage {
   text: string
 }
 
+export type MentorLanguage = 'en' | 'ru' | 'kk'
+
+const LANGUAGE_LABELS: Record<MentorLanguage, string> = {
+  en: 'English',
+  ru: 'Russian',
+  kk: 'Kazakh',
+}
+
+function getLanguageInstruction(lang: MentorLanguage): string {
+  const name = LANGUAGE_LABELS[lang]
+  return `\n\nYou must respond only in ${name}. Use ${name} for all your feedback to the user.`
+}
+
 interface UseMentorParams {
   problemTitle: string
   problemDescription: string
   examples: { input: string; output: string }[]
   constraints: string[]
+  language: MentorLanguage
 }
 
 export function useMentor(params: UseMentorParams) {

@@ -8,10 +8,11 @@ import {
   type OutputLine,
 } from './components/OutputPanel'
 import { mockProblem } from './data/mockProblem'
-import { useMentor } from './hooks/useMentor'
+import { useMentor, type MentorLanguage } from './hooks/useMentor'
 import { useVoice } from './hooks/useVoice'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
+const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'
 
 function getInitialTheme(): 'light' | 'dark' {
   try {
@@ -24,8 +25,19 @@ function getInitialTheme(): 'light' | 'dark' {
   return 'light'
 }
 
+function getInitialMentorLanguage(): MentorLanguage {
+  try {
+    const stored = localStorage.getItem(MENTOR_LANGUAGE_KEY)
+    if (stored === 'en' || stored === 'ru' || stored === 'kk') return stored
+  } catch {
+    // ignore
+  }
+  return 'en'
+}
+
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
+  const [mentorLanguage, setMentorLanguage] = useState<MentorLanguage>(getInitialMentorLanguage)
   const [code, setCode] = useState(mockProblem.starterCode)
   const [outputLines] = useState<OutputLine[]>(getDefaultOutputLines)
 
@@ -40,6 +52,7 @@ function App() {
     problemDescription: mockProblem.description,
     examples: mockProblem.examples.map((e) => ({ input: e.input, output: e.output })),
     constraints: mockProblem.constraints,
+    language: mentorLanguage,
   }
   const { messages, loading, requestMentor } = useMentor(mentorParams)
   const lastMentorReplyRef = useRef<string | null>(null)
@@ -66,6 +79,15 @@ function App() {
   }, [requestMentor, code])
 
   const askButtonDisabled = loading || isSpeaking
+
+  const handleMentorLanguageChange = useCallback((lang: MentorLanguage) => {
+    setMentorLanguage(lang)
+    try {
+      localStorage.setItem(MENTOR_LANGUAGE_KEY, lang)
+    } catch {
+      // ignore
+    }
+  }, [])
 
   const toggleTheme = useCallback(() => {
     setTheme((t) => {
@@ -115,6 +137,8 @@ function App() {
                 subtitleText={subtitleText}
                 onAskMentor={handleAskMentor}
                 askButtonDisabled={askButtonDisabled}
+                language={mentorLanguage}
+                onLanguageChange={handleMentorLanguageChange}
               />
             </div>
             <div className="h-[10%] min-h-[80px] shrink-0">

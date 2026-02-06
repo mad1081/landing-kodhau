@@ -1,4 +1,4 @@
-import type { MentorMessage } from '../hooks/useMentor'
+import type { MentorMessage, MentorLanguage } from '../hooks/useMentor'
 
 interface MentorPanelProps {
   messages: MentorMessage[]
@@ -8,7 +8,15 @@ interface MentorPanelProps {
   subtitleText: string
   onAskMentor: () => void
   askButtonDisabled: boolean
+  language: MentorLanguage
+  onLanguageChange: (lang: MentorLanguage) => void
 }
+
+const LANGUAGE_OPTIONS: { value: MentorLanguage; label: string }[] = [
+  { value: 'en', label: 'English' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'kk', label: 'Қазақша' },
+]
 
 export function MentorPanel({
   messages,
@@ -18,14 +26,28 @@ export function MentorPanel({
   subtitleText,
   onAskMentor,
   askButtonDisabled,
+  language,
+  onLanguageChange,
 }: MentorPanelProps) {
   return (
     <div className="flex h-full flex-col overflow-hidden border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-      <div className="flex items-center justify-between gap-2 border-b border-slate-200 px-4 py-2 dark:border-slate-700">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-2 dark:border-slate-700">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
           AI Mentor
         </h3>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={language}
+            onChange={(e) => onLanguageChange(e.target.value as MentorLanguage)}
+            className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+            aria-label="Mentor response language"
+          >
+            {LANGUAGE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
           <button
             type="button"
             onClick={onAskMentor}
