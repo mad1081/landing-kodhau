@@ -1,12 +1,15 @@
 import type { MentorMessage, MentorLanguage } from '../hooks/useMentor'
+import type { MentorPhase } from '../hooks/useAudioDrivenMentor'
 
 interface MentorPanelProps {
+  phase: MentorPhase
+  displayedText: string
   messages: MentorMessage[]
-  loading: boolean
+  error: string | null
   voiceOn: boolean
   onToggleVoice: () => void
-  subtitleText: string
   onAskMentor: () => void
+  onCancel: () => void
   askButtonDisabled: boolean
   language: MentorLanguage
   onLanguageChange: (lang: MentorLanguage) => void
@@ -18,17 +21,39 @@ const LANGUAGE_OPTIONS: { value: MentorLanguage; label: string }[] = [
   { value: 'kk', label: 'Қазақша' },
 ]
 
+function getStatusMessage(phase: MentorPhase): string {
+  switch (phase) {
+    case 'GENERATING_TEXT':
+      return 'Analyzing your code…'
+    case 'GENERATING_AUDIO':
+    case 'AUDIO_READY':
+      return 'Preparing response…'
+    case 'SPEAKING_AND_RENDERING':
+      return ''
+    case 'CANCELLED':
+      return 'Cancelled'
+    default:
+      return ''
+  }
+}
+
 export function MentorPanel({
+  phase,
+  displayedText,
   messages,
-  loading,
+  error,
   voiceOn,
   onToggleVoice,
-  subtitleText,
   onAskMentor,
+  onCancel,
   askButtonDisabled,
   language,
   onLanguageChange,
 }: MentorPanelProps) {
+  const statusMessage = getStatusMessage(phase)
+  const showTypewriter = phase === 'SPEAKING_AND_RENDERING'
+  const subtitleText = displayedText
+
   return (
     <div className="flex h-full flex-col overflow-hidden border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-2 dark:border-slate-700">
@@ -41,6 +66,7 @@ export function MentorPanel({
             onChange={(e) => onLanguageChange(e.target.value as MentorLanguage)}
             className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
             aria-label="Mentor response language"
+            disabled={askButtonDisabled}
           >
             {LANGUAGE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -56,6 +82,15 @@ export function MentorPanel({
           >
             Ask mentor
           </button>
+          {askButtonDisabled && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-900/30 dark:text-red-300"
+            >
+              Cancel
+            </button>
+          )}
           <button
             type="button"
             onClick={onToggleVoice}
@@ -65,40 +100,54 @@ export function MentorPanel({
           </button>
         </div>
       </div>
-      {subtitleText && (
+      {subtitleText !== '' && (phase === 'SPEAKING_AND_RENDERING' || phase === 'COMPLETED') && (
         <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 dark:border-slate-700 dark:bg-slate-900">
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Subtitles
           </p>
           <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
             {subtitleText}
+            {phase === 'SPEAKING_AND_RENDERING' && (
+              <span className="inline-block h-4 w-0.5 animate-pulse bg-slate-500 align-middle" aria-hidden />
+            )}
           </p>
         </div>
       )}
       <div className="flex-1 overflow-y-auto p-4">
-        {loading && (
+        {error && (
+          <p className="mb-2 text-sm text-red-600 dark:text-red-400">{error}</p>
+        )}
+        {statusMessage && (
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Analyzing your code…
+            {statusMessage}
           </p>
         )}
         <div className="space-y-3">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={
-                msg.role === 'system'
-                  ? 'rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-400'
-                  : 'rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800 dark:border-blue-900 dark:bg-slate-800 dark:text-slate-200'
-              }
-            >
-              {msg.role === 'system' && (
-                <span className="mr-2 text-xs font-medium text-slate-500 dark:text-slate-500">
-                  System:
-                </span>
+          {showTypewriter && displayedText && (
+            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800 dark:border-blue-900 dark:bg-slate-800 dark:text-slate-200">
+              {displayedText}
+              {phase === 'SPEAKING_AND_RENDERING' && (
+                <span className="inline-block h-4 w-0.5 animate-pulse bg-slate-600 align-middle" aria-hidden />
               )}
-              {msg.text}
             </div>
-          ))}
+          )}
+          {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className={
+                  msg.role === 'system'
+                    ? 'rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-400'
+                    : 'rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800 dark:border-blue-900 dark:bg-slate-800 dark:text-slate-200'
+                }
+              >
+                {msg.role === 'system' && (
+                  <span className="mr-2 text-xs font-medium text-slate-500 dark:text-slate-500">
+                    System:
+                  </span>
+                )}
+                {msg.text}
+              </div>
+            ))}
         </div>
       </div>
     </div>

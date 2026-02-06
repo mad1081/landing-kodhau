@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ProblemPanel } from './components/ProblemPanel'
 import { CodeEditor } from './components/CodeEditor'
 import { MentorPanel } from './components/MentorPanel'
@@ -8,8 +8,9 @@ import {
   type OutputLine,
 } from './components/OutputPanel'
 import { mockProblem } from './data/mockProblem'
-import { useMentor, type MentorLanguage } from './hooks/useMentor'
+import { useAudioDrivenMentor } from './hooks/useAudioDrivenMentor'
 import { useVoice } from './hooks/useVoice'
+import type { MentorLanguage } from './hooks/useMentor'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
 const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'
@@ -46,7 +47,7 @@ function App() {
     document.documentElement.classList.toggle('dark', isDark)
   }, [isDark])
 
-  const { voiceOn, toggleVoice, speak, isSpeaking } = useVoice()
+  const { voiceOn, toggleVoice } = useVoice()
   const mentorParams = {
     problemTitle: mockProblem.title,
     problemDescription: mockProblem.description,
@@ -54,31 +55,19 @@ function App() {
     constraints: mockProblem.constraints,
     language: mentorLanguage,
   }
-  const { messages, loading, requestMentor } = useMentor(mentorParams)
-  const lastMentorReplyRef = useRef<string | null>(null)
-
-  useEffect(() => {
-    const mentorMessages = messages.filter((m) => m.role === 'mentor')
-    const last = mentorMessages[mentorMessages.length - 1]
-    if (!last) return
-    if (last.text === lastMentorReplyRef.current) return
-    lastMentorReplyRef.current = last.text
-    if (voiceOn) {
-      console.log('[Voice] Mentor reply received. Sending text to TTS — wait a few seconds for audio.')
-      speak(last.text)
-    }
-  }, [messages, voiceOn, speak])
-
-  const subtitleText = (() => {
-    const mentorMessages = messages.filter((m) => m.role === 'mentor')
-    return mentorMessages[mentorMessages.length - 1]?.text ?? ''
-  })()
+  const {
+    phase,
+    displayedText,
+    messages,
+    error,
+    isBusy,
+    askMentor,
+    cancel,
+  } = useAudioDrivenMentor(mentorParams, voiceOn)
 
   const handleAskMentor = useCallback(() => {
-    requestMentor(code)
-  }, [requestMentor, code])
-
-  const askButtonDisabled = loading || isSpeaking
+    askMentor(code)
+  }, [askMentor, code])
 
   const handleMentorLanguageChange = useCallback((lang: MentorLanguage) => {
     setMentorLanguage(lang)
@@ -130,13 +119,15 @@ function App() {
           <section className="flex min-h-0 flex-1 flex-col">
             <div className="h-[45%] min-h-[160px] shrink-0">
               <MentorPanel
+                phase={phase}
+                displayedText={displayedText}
                 messages={messages}
-                loading={loading}
+                error={error}
                 voiceOn={voiceOn}
                 onToggleVoice={toggleVoice}
-                subtitleText={subtitleText}
                 onAskMentor={handleAskMentor}
-                askButtonDisabled={askButtonDisabled}
+                onCancel={cancel}
+                askButtonDisabled={isBusy}
                 language={mentorLanguage}
                 onLanguageChange={handleMentorLanguageChange}
               />
