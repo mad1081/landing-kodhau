@@ -54,7 +54,7 @@ ${params.problemDescription}
 Examples:
 ${params.examples.map((e) => `Input: ${e.input}\nOutput: ${e.output}`).join('\n\n')}
 
-Constraints:
+Constraints (it means it is GUARANTEED THAT OTHER INPUTS WON'T BE TYPED, INPUTS ONLY IN GIVEN RANGES):
 ${params.constraints.join('\n')}
 
 Current code:
