@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Editor from '@monaco-editor/react'
 
+export type EditorLanguage = 'javascript' | 'sql'
+
 interface CodeEditorProps {
   value: string
   onChange: (value: string) => void
   onDebouncedChange?: (value: string) => void
   theme: 'light' | 'vs-dark'
+  language?: EditorLanguage
   debounceMs?: number
 }
 
@@ -14,6 +17,7 @@ export function CodeEditor({
   onChange,
   onDebouncedChange,
   theme,
+  language = 'javascript',
   debounceMs = 600,
 }: CodeEditorProps) {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -49,7 +53,7 @@ export function CodeEditor({
     <div className="h-full w-full overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
       <Editor
         height="100%"
-        language="python"
+        language={language}
         value={localValue}
         onChange={handleChange}
         theme={theme}

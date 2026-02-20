@@ -1,7 +1,7 @@
-import type { MockProblem } from '../data/mockProblem'
+import type { Problem } from '../data/mockProblem'
 
 interface ProblemPanelProps {
-  problem: MockProblem
+  problem: Problem
 }
 
 export function ProblemPanel({ problem }: ProblemPanelProps) {

@@ -3,10 +3,7 @@
     <header class="sticky top-0 z-20 border-b border-slate-200 bg-white">
       <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-4">
         <a href="#top" class="flex items-center gap-3">
-          <span
-            aria-hidden="true"
-            class="h-9 w-9 rounded-lg border border-slate-200 bg-slate-50"
-          />
+          <span aria-hidden="true" class="h-9 w-9 rounded-lg border border-slate-200 bg-slate-50" />
           <span class="text-base font-semibold tracking-tight text-slate-900">KodHau</span>
         </a>
 
@@ -16,29 +13,25 @@
             <li><a href="#solution" class="text-slate-700">Solution</a></li>
             <li><a href="#features" class="text-slate-700">Features</a></li>
             <li><a href="#proof" class="text-slate-700">Proof</a></li>
-            <li><a href="https://kodhau-ide.vercel.app/" class="text-slate-700" target="_blank" rel="noopener noreferrer">Try IDE</a></li>
+            <!-- <li><a href="https://kodhau-ide.vercel.app/" class="text-slate-700" target="_blank" -->
+            <li><a href="localhost:5173" class="text-slate-700" target="_blank"
+                rel="noopener noreferrer">Try IDE</a></li>
           </ul>
         </nav>
 
         <div class="ml-auto flex items-center gap-3">
-          <a
-            href="https://kodhau-ide.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900"
-          >
+          <!-- <a href="https://kodhau-ide.vercel.app/" target="_blank" rel="noopener noreferrer" -->
+          <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
             Try IDE
           </a>
-          <a
-            href="#cta"
-            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900"
-          >
+
+          <a href="#cta"
+            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
             Login
           </a>
-          <a
-            href="#cta"
-            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white"
-          >
+          <a href="#cta"
+            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">
             Register
           </a>
         </div>
@@ -46,95 +39,68 @@
     </header>
     <main>
       <!-- Section 1: Hero -->
-      <section
-        id="top"
-        ref="heroRef"
-        class="relative overflow-hidden px-4 py-20 md:py-28 lg:py-36"
-      >
+      <section id="top" ref="heroRef" class="relative overflow-hidden px-4 py-20 md:py-28 lg:py-36">
         <!-- Checkered background with corner fade -->
-        <div
-          class="pointer-events-none absolute inset-0"
-          :style="{
-            backgroundImage: `
+        <div class="pointer-events-none absolute inset-0" :style="{
+          backgroundImage: `
               linear-gradient(to right, rgba(226,232,240,0.6) 1px, transparent 1px),
               linear-gradient(to bottom, rgba(226,232,240,0.6) 1px, transparent 1px)
             `,
-            backgroundSize: '40px 40px',
-            maskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)',
-          }"
-        />
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)',
+        }" />
 
         <!-- Draggable tech logos - z-5 so they're behind text -->
-        <div
-          v-for="logo in logos"
-          :key="logo.id"
+        <div v-for="logo in logos" :key="logo.id"
           class="absolute z-5 flex cursor-grab select-none flex-col items-center gap-2 transition-opacity duration-300 ease-out will-change-transform active:cursor-grabbing"
           :class="[
-            draggingId === logo.id ? 'opacity-100 duration-0' : 'opacity-20 hover:opacity-100'
-          ]"
-          :style="{
+            draggingId === logo.id ? 'opacity-100 duration-0' : 'opacity-60 hover:opacity-100'
+          ]" :style="{
             transform: `translate3d(${logo.x}px, ${logo.y}px, 0)`,
-          }"
-          @mousedown="(e) => startDrag(e, logo.id)"
-          @touchstart="(e) => startDragTouch(e, logo.id)"
-        >
-          <img
-            :src="logo.src"
-            :alt="logo.label"
-            class="h-16 w-16 md:h-20 md:w-20"
-            draggable="false"
-          />
+          }" @mousedown="(e) => startDrag(e, logo.id)" @touchstart="(e) => startDragTouch(e, logo.id)">
+          <img :src="logo.src" :alt="logo.label" class="h-16 w-16 md:h-20 md:w-20" draggable="false" />
           <span class="text-xs font-medium text-slate-600">{{ logo.label }}</span>
         </div>
 
         <!-- Hero content - z-10 but pointer-events-none so logos can be dragged through -->
         <div class="font-inter pointer-events-none relative z-10 mx-auto max-w-4xl text-center">
-          <h1 class="overflow-visible text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
-            Learn to
-            <span
-              class="inline-block rounded-none px-2 py-1"
-              style="
+          <h1
+            class="overflow-visible text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
+            Освойте
+            <span class="inline-block rounded-none px-2 py-1" style="
                 background: linear-gradient(105deg, #ea580c 0%, #eab308 100%);
                 transform: skewX(-6deg);
-              "
-            >
-              <span class="inline-block text-white" style="transform: skewX(6deg)">code</span>
+              ">
+              <span class="inline-block text-white" style="transform: skewX(6deg)">программирование</span>
             </span>
-            your<br class="hidden sm:inline" />
-            dreams and
-            <span
-              class="inline-block rounded-none px-2 py-1"
-              style="
+            <!-- your -->
+            <br class="hidden sm:inline" />
+            всего за
+            <span class="inline-block rounded-none px-2 py-1" style="
                 background: linear-gradient(105deg, #2563eb 0%, #7c3aed 100%);
                 transform: skewX(6deg);
-              "
-            >
-              <span class="inline-block text-white" style="transform: skewX(-6deg)">design</span>
+              ">
+              <span class="inline-block text-white" style="transform: skewX(-6deg)">месяц</span>
             </span>
-            your<br class="hidden sm:inline" />
-            future
+            вместе <br class="hidden sm:inline" />
+            с нами!
           </h1>
           <p class="mx-auto mt-8 max-w-xl text-base text-slate-500 md:text-lg">
-            Lorem ipsum dolor sit amet consectetur. Vestibulum est dui maecenas integer.
-            Dolor eu dignissim condimentum risus. Quis amet vitae amet lobortis at.
+            Живые занятия с ИИ-ментором, который поможет вам освоить программирование за месяц. Без лишних слов, только практические задания и обратная связь.
           </p>
           <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="#"
+            <a href="#"
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-semibold text-white"
-              @click.prevent="onGetStarted"
-            >
+              @click.prevent="onGetStarted">
               <span>Explore Course</span>
               <kbd class="rounded-md bg-blue-400 px-2 py-0.5 text-sm font-medium text-white">
                 ⌘ S
               </kbd>
             </a>
-            <a
-              href="#"
+            <a href="#"
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900"
-              @click.prevent="onScheduleCall"
-            >
+              @click.prevent="onScheduleCall">
               <span>Join Free Course</span>
               <kbd class="rounded-md bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
                 ⌘ K
@@ -150,29 +116,15 @@
           Trusted by students at
         </p>
         <div class="relative mt-6 overflow-hidden">
-          <div
-            class="flex w-max animate-trusted-marquee items-center gap-12 px-4"
-            aria-hidden="true"
-          >
+          <div class="flex w-max animate-trusted-marquee items-center gap-12 px-4" aria-hidden="true">
             <template v-for="(_, setIndex) in 2" :key="setIndex">
-              <a
-                v-for="school in trustedBySchools"
-                :key="`${setIndex}-${school.name}`"
-                :href="school.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex shrink-0 items-center justify-center gap-2 transition-opacity hover:opacity-80"
-              >
-                <img
-                  v-if="school.logo"
-                  :src="school.logo"
-                  :alt="school.name"
-                  class="h-8 max-w-[120px] object-contain object-center md:h-10"
-                />
-                <span
-                  v-else
-                  class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700"
-                >
+              <a v-for="school in trustedBySchools" :key="`${setIndex}-${school.name}`" :href="school.url"
+                target="_blank" rel="noopener noreferrer"
+                class="flex shrink-0 items-center justify-center gap-2 transition-opacity hover:opacity-80">
+                <img v-if="school.logo" :src="school.logo" :alt="school.name"
+                  class="h-8 max-w-[120px] object-contain object-center md:h-10" />
+                <span v-else
+                  class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
                   {{ school.name }}
                 </span>
               </a>
@@ -201,6 +153,73 @@
         </div>
       </section>
 
+      <section class="bg-white py-24">
+        <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+          <!-- Header -->
+          <div class="text-center">
+            <h2 class="text-4xl font-bold text-gray-900 md:text-4xl">
+              Почему KodHau?
+            </h2>
+            <p class="mx-auto mt-4 max-w-3xl text-lg text-gray-600 md:text-xl">
+              Для студентов, которым нужен результат, а не отчеты об «успеваемости».
+            </p>
+          </div>
+
+          <!-- Card Grid -->
+          <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            <div v-for="(item, index) in comparisonData" :key="index"
+              class="relative rounded-2xl border border-gray-200 bg-white p-6 transition-colors duration-200 hover:border-blue-500">
+              <!-- Category label -->
+              <div class="mb-3 text-sm font-medium text-gray-500">
+                {{ item.category }}
+              </div>
+
+              <!-- Comparison row -->
+              <div class="flex items-end justify-between gap-4">
+                <!-- KodHau side -->
+                <div class="flex-1">
+                  <div :class="[
+                    'mb-2 text-3xl font-bold',
+                    item.kodhau.valueClass || 'text-gray-900',
+                  ]">
+                    {{ item.kodhau.value }}
+                  </div>
+                  <div v-if="item.kodhau.subtitle" class="mb-2 text-xs text-gray-500">
+                    {{ item.kodhau.subtitle }}
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    {{ item.kodhau.label }}
+                  </div>
+                </div>
+
+                <!-- VS divider -->
+                <div class="mb-4 font-medium text-blue-400">
+                  VS
+                </div>
+
+                <!-- Traditional side -->
+                <div class="flex-1 text-right">
+                  <div :class="[
+                    'mb-2 font-bold',
+                    item.traditional.valueClass || 'text-3xl text-gray-400',
+                  ]">
+                    {{ item.traditional.value }}
+                  </div>
+                  <div v-if="item.traditional.subtitle" class="mb-2 text-xs text-gray-500">
+                    {{ item.traditional.subtitle }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    {{ item.traditional.label }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
       <!-- Section 3: Solution / Product -->
       <section id="solution" class="border-t border-slate-200 px-4 py-16 md:py-20">
         <div class="mx-auto max-w-4xl">
@@ -214,7 +233,8 @@
             <li class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 6h16" />
                     <path d="M4 12h16" />
                     <path d="M4 18h10" />
@@ -231,7 +251,8 @@
             <li class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 18l6-6-6-6" />
                     <path d="M8 6l-6 6 6 6" />
                   </svg>
@@ -247,7 +268,8 @@
             <li class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 7l-8 4-8-4" />
                     <path d="M4 7v10l8 4 8-4V7" />
                   </svg>
@@ -263,7 +285,8 @@
             <li class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 20s7-4 7-10V6l-7-2-7 2v4c0 6 7 10 7 10z" />
                   </svg>
                 </span>
@@ -289,7 +312,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 11l3 3L22 4" />
                     <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                   </svg>
@@ -306,7 +330,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M8 6h13" />
                     <path d="M8 12h13" />
                     <path d="M8 18h13" />
@@ -327,7 +352,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 3v18" />
                     <path d="M7 8l5-5 5 5" />
                     <path d="M7 16l5 5 5-5" />
@@ -345,7 +371,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 7h16" />
                     <path d="M4 12h16" />
                     <path d="M4 17h16" />
@@ -365,7 +392,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2a10 10 0 1 0 10 10" />
                     <path d="M12 6v6l4 2" />
                   </svg>
@@ -382,7 +410,8 @@
             <div class="rounded-md border border-slate-200 bg-white p-6">
               <div class="flex items-start gap-4">
                 <span class="rounded-md border border-slate-200 bg-slate-50 p-2 text-blue-700">
-                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 21s7-4 7-10V6l-7-2-7 2v4c0 6 7 10 7 10z" />
                     <path d="M9 12l2 2 4-4" />
                   </svg>
@@ -411,7 +440,8 @@
           <div class="mt-10 space-y-6 border-t border-slate-200 pt-10">
             <blockquote class="border-l-4 border-slate-300 pl-4 text-slate-700">
               <p class="text-lg">
-                "The biggest difference is the order. I stopped jumping around and finally built a small app end-to-end."
+                "The biggest difference is the order. I stopped jumping around and finally built a small app
+                end-to-end."
               </p>
               <footer class="mt-2 text-sm text-slate-600">Amina · Self-taught developer</footer>
             </blockquote>
@@ -435,10 +465,7 @@
             Create your account and begin the first track in minutes.
           </p>
           <div class="mt-10">
-            <a
-              href="#"
-              class="inline-block rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white"
-            >
+            <a href="#" class="inline-block rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white">
               Register and start
             </a>
           </div>
@@ -682,4 +709,81 @@ onUnmounted(() => {
     cancelAnimationFrame(animationFrameId)
   }
 })
+
+interface ComparisonSide {
+  value: string
+  subtitle?: string
+  label: string
+  valueClass?: string
+}
+
+interface ComparisonCard {
+  category: string
+  kodhau: ComparisonSide
+  traditional: ComparisonSide
+}
+
+const comparisonData: ComparisonCard[] = [
+  {
+    category: 'Time to Productivity',
+    kodhau: { value: '14 дней', label: 'KodHau' },
+    traditional: { value: '3-4 месяца', label: 'Традиционные LMS' },
+  },
+  {
+    category: 'Подготовка контента',
+    kodhau: {
+      value: '0 минут',
+      subtitle: 'ИИ берет ваши регламенты',
+      label: 'KodHau',
+    },
+    traditional: {
+      value: '200+ часов',
+      subtitle: 'Прохождение курсов в LMS',
+      label: 'Традиционные LMS',
+    },
+  },
+  {
+    category: 'Удержание знаний',
+    kodhau: {
+      value: '95%',
+      subtitle: 'Обучение в моменте ошибки',
+      label: 'KodHau',
+    },
+    traditional: {
+      value: '12%',
+      subtitle: 'Через неделю всё забыто',
+      label: 'Традиционные LMS',
+    },
+  },
+  {
+    category: 'Внимание Senior-ментора',
+    kodhau: {
+      value: '0 часов',
+      subtitle: 'ИИ-тень делает всё сама',
+      label: 'KodHau',
+    },
+    traditional: {
+      value: '~10 ч/нед',
+      subtitle: 'На одного новичка',
+      label: 'Традиционные LMS',
+    },
+  },
+  {
+    category: 'Стоимость ошибки',
+    kodhau: {
+      value: '$0',
+      subtitle: 'ИИ блокирует ошибку до отправки',
+      label: 'KodHau',
+      valueClass: 'text-green-600',
+    },
+    traditional: {
+      value: '\u221E',
+      subtitle: 'Приходится исправлять ошибку',
+      label: 'Традиционные LMS',
+      // valueClass: 'text-red-500 text-6xl leading-none',
+      valueClass: 'text-red-500 text-6xl',
+    },
+  },
+]
+
 </script>
