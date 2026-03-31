@@ -23,6 +23,15 @@ function getLanguageInstruction(lang: MentorLanguage): string {
   return `\n\nYou must respond only in ${name}. Use ${name} for all your feedback to the user.`
 }
 
+/** Strip Markdown so TTS does not read "star star" or "backtick". */
+function stripMarkdownForTTS(text: string): string {
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+}
+
 const MS_PER_CHAR_VOICE_OFF = 45
 
 export interface AudioDrivenMentorParams {
@@ -119,7 +128,7 @@ Current code:
 ${code}
 \`\`\`
 
-Provide minimal mentor feedback (no full solution, no final code). One short response.`
+Provide minimal mentor feedback (no full solution, no final code). One short response. Use Markdown: **bold** for the key point, \`backticks\` for code or names.`
 
       const systemContent = systemPrompt.trim() + getLanguageInstruction(params.language)
       const model = import.meta.env.VITE_OPENROUTER_MODEL ?? 'google/gemini-2.0-flash-exp:free'
@@ -215,7 +224,7 @@ Provide minimal mentor feedback (no full solution, no final code). One short res
           {
             method: 'POST',
             headers: { 'xi-api-key': elevenKey, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: text.slice(0, 2500), model_id: 'eleven_multilingual_v2' }),
+            body: JSON.stringify({ text: stripMarkdownForTTS(text).slice(0, 2500), model_id: 'eleven_multilingual_v2' }),
             signal,
           }
         )
