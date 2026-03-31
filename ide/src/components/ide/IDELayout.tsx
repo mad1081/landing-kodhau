@@ -8,10 +8,10 @@ import {
   getDefaultOutputLines,
   type OutputLine,
 } from './OutputPanel'
-import type { Problem } from '../data/mockProblem'
-import { useAudioDrivenMentor } from '../hooks/useAudioDrivenMentor'
-import { useVoice } from '../hooks/useVoice'
-import type { MentorLanguage } from '../hooks/useMentor'
+import type { Problem } from '../../data/mockProblem'
+import { useAudioDrivenMentor } from '../../hooks/useAudioDrivenMentor'
+import { useVoice } from '../../hooks/useVoice'
+import type { MentorLanguage } from '../../hooks/useMentor'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
 const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'

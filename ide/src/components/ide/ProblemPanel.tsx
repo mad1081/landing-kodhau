@@ -1,4 +1,4 @@
-import type { Problem } from '../data/mockProblem'
+import type { Problem } from '../../data/mockProblem'
 
 interface ProblemPanelProps {
   problem: Problem

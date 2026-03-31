@@ -1,5 +1,20 @@
-import type { MentorMessage, MentorLanguage } from '../hooks/useMentor'
-import type { MentorPhase } from '../hooks/useAudioDrivenMentor'
+import ReactMarkdown from 'react-markdown'
+import type { Components } from 'react-markdown'
+import type { MentorMessage, MentorLanguage } from '../../hooks/useMentor'
+import type { MentorPhase } from '../../hooks/useAudioDrivenMentor'
+
+const mentorMarkdownComponents: Components = {
+  strong: (props) => (
+    <span className="rounded-sm bg-indigo-50 px-1 text-indigo-600 dark:bg-indigo-950/30 dark:text-indigo-400">
+      {props.children}
+    </span>
+  ),
+  code: (props) => (
+    <code className="rounded bg-slate-100 px-1 font-mono text-[0.9em] text-slate-800 dark:bg-slate-700 dark:text-slate-200">
+      {props.children}
+    </code>
+  ),
+}
 
 interface MentorPanelProps {
   phase: MentorPhase
@@ -105,12 +120,12 @@ export function MentorPanel({
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Subtitles
           </p>
-          <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
-            {subtitleText}
+          <div className="mt-1 text-sm text-slate-700 dark:text-slate-300 [&_p]:my-0">
+            <ReactMarkdown components={mentorMarkdownComponents}>{subtitleText}</ReactMarkdown>
             {phase === 'SPEAKING_AND_RENDERING' && (
               <span className="inline-block h-4 w-0.5 animate-pulse bg-slate-500 align-middle" aria-hidden />
             )}
-          </p>
+          </div>
         </div>
       )}
       <div className="flex-1 overflow-y-auto p-4">
@@ -124,8 +139,8 @@ export function MentorPanel({
         )}
         <div className="space-y-3">
           {showTypewriter && displayedText && (
-            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800 dark:border-blue-900 dark:bg-slate-800 dark:text-slate-200">
-              {displayedText}
+            <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-slate-800 dark:border-blue-900 dark:bg-slate-800 dark:text-slate-200 [&_p]:my-0">
+              <ReactMarkdown components={mentorMarkdownComponents}>{displayedText}</ReactMarkdown>
               {phase === 'SPEAKING_AND_RENDERING' && (
                 <span className="inline-block h-4 w-0.5 animate-pulse bg-slate-600 align-middle" aria-hidden />
               )}
@@ -145,7 +160,13 @@ export function MentorPanel({
                     System:
                   </span>
                 )}
-                {msg.text}
+                {msg.role === 'mentor' ? (
+                  <span className="[&_p]:my-0">
+                    <ReactMarkdown components={mentorMarkdownComponents}>{msg.text}</ReactMarkdown>
+                  </span>
+                ) : (
+                  msg.text
+                )}
               </div>
             ))}
         </div>

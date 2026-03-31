@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom'
-import { IDELayout } from '../components/IDELayout'
+import { IDELayout } from '../components/ide/IDELayout'
 import { getTaskById } from '../data/taskStorage'
 
 export function IDEPage() {
