@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { IconBolt, IconHexagons, IconPlus, IconChevronRight } from '@tabler/icons-react'
+import { IconPlus, IconChevronRight } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
 import { supabase } from '../lib/supabase'
 
