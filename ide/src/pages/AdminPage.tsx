@@ -6,10 +6,12 @@ import { supabase } from '../lib/supabase'
 
 const API = import.meta.env.VITE_API_URL
 
-async function authHeaders() {
+async function authHeaders(): Promise<Record<string, string>> {
   const { data } = await supabase.auth.getSession()
   const token = data.session?.access_token
-  return token ? { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` } : { 'Content-Type': 'application/json' }
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  return headers
 }
 
 type Tab = 'course' | 'module' | 'lesson' | 'task'
