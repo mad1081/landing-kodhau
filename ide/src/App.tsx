@@ -43,13 +43,13 @@ function App() {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/" element={<RequireAuth session={session}><DashboardPage /></RequireAuth>} />
-      <Route path="/course/:courseSlug" element={<RequireAuth session={session}><CoursePlanPage /></RequireAuth>} />
-      <Route path="/ide/:taskId" element={<RequireAuth session={session}><IDEPage /></RequireAuth>} />
-      <Route path="/admin" element={<RequireAuth session={session}><AdminPage /></RequireAuth>} />
-      <Route path="/lesson/:lessonId" element={<RequireAuth session={session}><LessonTheoryPage /></RequireAuth>} />
-      <Route path="/profile" element={<RequireAuth session={session}><ProfilePage /></RequireAuth>} />
-      <Route path="/groups" element={<RequireAuth session={session}><GroupsPage /></RequireAuth>} />
+      <Route path="/" element={<RequireAuth session={session ?? null}><DashboardPage /></RequireAuth>} />
+      <Route path="/course/:courseSlug" element={<RequireAuth session={session ?? null}><CoursePlanPage /></RequireAuth>} />
+      <Route path="/ide/:taskId" element={<RequireAuth session={session ?? null}><IDEPage /></RequireAuth>} />
+      <Route path="/admin" element={<RequireAuth session={session ?? null}><AdminPage /></RequireAuth>} />
+      <Route path="/lesson/:lessonId" element={<RequireAuth session={session ?? null}><LessonTheoryPage /></RequireAuth>} />
+      <Route path="/profile" element={<RequireAuth session={session ?? null}><ProfilePage /></RequireAuth>} />
+      <Route path="/groups" element={<RequireAuth session={session ?? null}><GroupsPage /></RequireAuth>} />
     </Routes>
   )
 }
