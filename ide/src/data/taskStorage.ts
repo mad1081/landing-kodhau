@@ -5,6 +5,7 @@ const STORAGE_KEY = 'kodhau-ide-admin-tasks'
 
 const DEFAULT_STARTER_CODE: Record<TaskCategory, string> = {
   javascript: '// Your code here\n',
+  python: '# Your code here\n',
   postgresql: '-- Your SQL here\n',
 }
 
