@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { IconPlus, IconChevronRight } from '@tabler/icons-react'
+import { IconPlus, IconChevronRight, IconCheck, IconX } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
 
 import { supabase } from '../lib/supabase'
@@ -29,8 +29,7 @@ export function AdminPage() {
   const [selectedCourse, setSelectedCourse] = useState<string>('')
   const [selectedModule, setSelectedModule] = useState<string>('')
   const [selectedLesson, setSelectedLesson] = useState<string>('')
-  const [success, setSuccess] = useState('')
-  const [error, setError] = useState('')
+  const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null)
 
   // Form fields
   const [courseTitle, setCourseTitle] = useState('')
@@ -74,16 +73,12 @@ export function AdminPage() {
   useEffect(() => { if (selectedCourse) fetchModules(selectedCourse) }, [selectedCourse, fetchModules])
   useEffect(() => { if (selectedModule) fetchLessons(selectedModule) }, [selectedModule, fetchLessons])
 
-  function flash(msg: string) {
-    setSuccess(msg)
-    setError('')
-    setTimeout(() => setSuccess(''), 2500)
+  function flash(msg: string, ok = true) {
+    setToast({ msg, ok })
+    setTimeout(() => setToast(null), 2500)
   }
 
-  function flashErr(msg: string) {
-    setError(msg)
-    setSuccess('')
-  }
+  function flashErr(msg: string) { flash(msg, false) }
 
   async function createCourse(e: React.FormEvent) {
     e.preventDefault()
@@ -155,6 +150,19 @@ export function AdminPage() {
 
   return (
     <AppShell>
+      {/* Toast overlay */}
+      {toast && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backdropFilter: 'blur(2px)', background: 'rgba(13,28,47,0.35)' }}>
+          <div className={`flex flex-col items-center gap-3 rounded-2xl px-10 py-8 shadow-2xl ${toast.ok ? 'bg-white' : 'bg-white'}`}>
+            <div className={`flex h-14 w-14 items-center justify-center rounded-full ${toast.ok ? 'bg-green-100' : 'bg-red-100'}`}>
+              {toast.ok
+                ? <IconCheck size={28} className="text-green-600" strokeWidth={2.5} />
+                : <IconX size={28} className="text-red-500" strokeWidth={2.5} />}
+            </div>
+            <p className="text-sm font-semibold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{toast.msg}</p>
+          </div>
+        </div>
+      )}
       <div className="px-8 py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -222,9 +230,7 @@ export function AdminPage() {
                 ))}
               </div>
 
-              {/* Feedback */}
-              {success && <p className="text-xs text-green-600 font-medium mb-4 bg-green-50 px-3 py-2 rounded-lg">{success}</p>}
-              {error && <p className="text-xs text-red-500 font-medium mb-4 bg-red-50 px-3 py-2 rounded-lg">{error}</p>}
+              {/* Feedback inline removed — using toast overlay */}
 
               {/* Course form */}
               {tab === 'course' && (
