@@ -10,26 +10,59 @@ export function TaskRow({ task, courseSlug }: TaskRowProps) {
   const navigate = useNavigate()
 
   return (
-    <div className="flex items-center justify-between py-2.5 pl-4 pr-2">
-      <div className="flex items-center gap-3">
+    <div className="flex items-center justify-between py-2">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         {task.completed ? (
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-100 text-green-600 text-xs">
-            ✓
+          <span
+            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+            style={{ background: '#005338' }}
+          >
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+              <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </span>
         ) : (
-          <span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-slate-300" />
+          <span
+            className="flex h-5 w-5 shrink-0 rounded-full border-2"
+            style={{ borderColor: '#c7c4d8' }}
+          />
         )}
         <span
-          className={`text-sm ${task.completed ? 'text-slate-400 line-through' : 'text-slate-700'}`}
+          className="text-sm leading-snug"
+          style={{
+            color: task.completed ? '#777587' : '#0d1c2f',
+            textDecoration: task.completed ? 'line-through' : 'none',
+          }}
         >
           {task.title}
         </span>
       </div>
 
-      {!task.completed && (
+      {task.completed ? (
+        <span
+          className="ml-4 shrink-0 text-[10px] font-bold uppercase tracking-widest"
+          style={{ color: '#005338' }}
+        >
+          Completed
+        </span>
+      ) : (
         <button
           onClick={() => navigate(`/ide/${courseSlug}-${task.id}`)}
-          className="rounded-lg border border-indigo-200 px-3 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition-colors"
+          className="ml-4 shrink-0 border px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest transition-all hover:text-white"
+          style={{
+            borderColor: 'rgba(53,37,205,0.2)',
+            color: '#3525cd',
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget
+            el.style.background = '#3525cd'
+            el.style.color = '#ffffff'
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget
+            el.style.background = 'transparent'
+            el.style.color = '#3525cd'
+          }}
         >
           Start Task
         </button>

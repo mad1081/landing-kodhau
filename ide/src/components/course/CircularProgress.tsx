@@ -4,49 +4,50 @@ interface CircularProgressProps {
   strokeWidth?: number
 }
 
-export function CircularProgress({ percent, size = 36, strokeWidth = 3 }: CircularProgressProps) {
-  const radius = (size - strokeWidth) / 2
-  const circumference = 2 * Math.PI * radius
-  const offset = circumference - (percent / 100) * circumference
+export function CircularProgress({ percent, size = 64, strokeWidth = 3 }: CircularProgressProps) {
+  const circumference = 2 * Math.PI * 16 // 100.53
 
   return (
-    <svg width={size} height={size} className="rotate-[-90deg]">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 36 36"
+      style={{ flexShrink: 0 }}
+    >
       {/* Track */}
       <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
+        cx="18"
+        cy="18"
+        r="16"
         fill="none"
-        stroke="#e2e8f0"
+        stroke="#d5e3fd"
         strokeWidth={strokeWidth}
       />
-      {/* Fill */}
+      {/* Progress */}
       <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
+        cx="18"
+        cy="18"
+        r="16"
         fill="none"
-        stroke={percent === 100 ? '#22c55e' : '#6366f1'}
+        stroke="#005338"
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}
-        strokeDashoffset={offset}
-        className="transition-all duration-500"
+        strokeDashoffset={circumference * (1 - percent / 100)}
+        transform="rotate(-90 18 18)"
+        style={{ transition: 'stroke-dashoffset 0.5s ease' }}
       />
-      {/* Label — counter-rotate so text is upright */}
+      {/* Center label */}
       <text
-        x="50%"
-        y="50%"
+        x="18"
+        y="18"
         dominantBaseline="middle"
         textAnchor="middle"
-        className="rotate-90"
         style={{
-          transform: `rotate(90deg)`,
-          transformOrigin: '50% 50%',
-          fontSize: size < 40 ? '9px' : '11px',
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 600,
-          fill: percent === 100 ? '#22c55e' : '#6366f1',
+          fontSize: '7px',
+          fontFamily: "'Space Grotesk', sans-serif",
+          fontWeight: 700,
+          fill: '#005338',
         }}
       >
         {percent}%

@@ -1,11 +1,32 @@
-import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { IconLayoutDashboard, IconSettings, IconUsers, IconUser } from '@tabler/icons-react'
+import { supabase } from '../../lib/supabase'
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: '⊞' },
-  { to: '/admin', label: 'Admin', icon: '⚙' },
+  { to: '/', label: 'Dashboard', icon: <IconLayoutDashboard size={18} /> },
+  { to: '/admin', label: 'Admin', icon: <IconSettings size={18} /> },
+  { to: '/groups', label: 'Student Groups', icon: <IconUsers size={18} /> },
+  { to: '/profile', label: 'Profile', icon: <IconUser size={18} /> },
 ]
 
 export function Sidebar() {
+  const [email, setEmail] = useState('')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) setEmail(data.user.email)
+    })
+  }, [])
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    navigate('/auth', { replace: true })
+  }
+
+  const initial = email ? email[0].toUpperCase() : '?'
+
   return (
     <aside className="flex h-screen w-60 flex-col bg-[#0d1c2f] text-white shrink-0">
       {/* Logo */}
@@ -33,21 +54,26 @@ export function Sidebar() {
               }`
             }
           >
-            <span className="text-base">{item.icon}</span>
+            <span className="flex items-center">{item.icon}</span>
             {item.label}
           </NavLink>
         ))}
       </nav>
 
       {/* User */}
-      <div className="flex items-center gap-3 px-4 py-4 border-t border-white/10">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-xs font-semibold">
-          D
+      <div className="border-t border-white/10 px-4 py-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-xs font-semibold">
+            {initial}
+          </div>
+          <p className="min-w-0 flex-1 truncate text-sm text-white">{email || '…'}</p>
         </div>
-        <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-white">Developer</p>
-          <p className="truncate text-xs text-slate-400">Student</p>
-        </div>
+        <button
+          onClick={handleSignOut}
+          className="mt-3 w-full rounded-lg py-1.5 text-xs text-slate-400 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+        >
+          Sign out
+        </button>
       </div>
     </aside>
   )

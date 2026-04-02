@@ -13,27 +13,25 @@
             <li><a href="#solution" class="text-slate-700">Solution</a></li>
             <li><a href="#features" class="text-slate-700">Features</a></li>
             <li><a href="#proof" class="text-slate-700">Proof</a></li>
-            <!-- <li><a href="https://kodhau-ide.vercel.app/" class="text-slate-700" target="_blank" -->
-            <li><a href="localhost:5173" class="text-slate-700" target="_blank"
+            <li><a :href="ideUrl" class="text-slate-700" target="_blank"
                 rel="noopener noreferrer">Try IDE</a></li>
           </ul>
         </nav>
 
         <div class="ml-auto flex items-center gap-3">
-          <!-- <a href="https://kodhau-ide.vercel.app/" target="_blank" rel="noopener noreferrer" -->
-          <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer"
+          <a :href="ideUrl" target="_blank" rel="noopener noreferrer"
             class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
             Try IDE
           </a>
 
-          <NuxtLink to="/dashboard"
+          <a :href="`${ideUrl}/auth`"
             class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
             Login
-          </NuxtLink>
-          <NuxtLink to="/dashboard"
+          </a>
+          <a :href="`${ideUrl}/auth`"
             class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">
             Register
-          </NuxtLink>
+          </a>
         </div>
       </div>
     </header>
@@ -465,10 +463,10 @@
             Create your account and begin the first track in minutes.
           </p>
           <div class="mt-10">
-            <NuxtLink to="/dashboard"
+            <a :href="`${ideUrl}/auth`"
               class="inline-block rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white">
               Register and start
-            </NuxtLink>
+            </a>
           </div>
         </div>
       </section>
@@ -501,6 +499,7 @@ import aituLogo from '~/assets/images/aitu.png'
 import harvardLogo from '~/assets/images/veritas.webp'
 import stanfordLogo from '~/assets/images/stanford.png'
 
+const { public: { ideUrl } } = useRuntimeConfig()
 const currentYear = new Date().getFullYear()
 
 interface TrustedBySchool {
