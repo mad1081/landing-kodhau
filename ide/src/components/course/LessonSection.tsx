@@ -36,7 +36,7 @@ export function LessonSection({ lesson, courseSlug }: LessonSectionProps) {
 
         <div className="space-y-4">
           {lesson.tasks.map(task => (
-            <TaskRow key={task.id} task={task} courseSlug={courseSlug} />
+            <TaskRow key={task.id} task={task} />
           ))}
         </div>
       </div>

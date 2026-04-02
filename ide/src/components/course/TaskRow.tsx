@@ -3,10 +3,9 @@ import type { Task } from '../../data/mockCoursePlan'
 
 interface TaskRowProps {
   task: Task
-  courseSlug: string
 }
 
-export function TaskRow({ task, courseSlug }: TaskRowProps) {
+export function TaskRow({ task }: TaskRowProps) {
   const navigate = useNavigate()
 
   return (
