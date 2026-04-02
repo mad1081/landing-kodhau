@@ -47,7 +47,8 @@ export function AdminPage() {
   const [taskDesc, setTaskDesc] = useState('')
   const [taskLang, setTaskLang] = useState('javascript')
   const [taskStarter, setTaskStarter] = useState('')
-  const [taskSolution, setTaskSolution] = useState('')
+  const [taskFuncName, setTaskFuncName] = useState('')
+  const [taskTestCases, setTaskTestCases] = useState('')
 
   const fetchCourses = useCallback(async () => {
     const res = await fetch(`${API}/api/courses`)
@@ -127,14 +128,18 @@ export function AdminPage() {
   async function createTask(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedLesson) { flashErr('Select a lesson first'); return }
+    let test_cases = null
+    if (taskTestCases.trim()) {
+      try { test_cases = JSON.parse(taskTestCases.trim()) } catch { flashErr('Invalid JSON in test cases'); return }
+    }
     const res = await fetch(`${API}/api/tasks`, {
       method: 'POST',
       headers: await authHeaders(),
-      body: JSON.stringify({ title: taskTitle.trim(), description: taskDesc.trim() || null, language: taskLang, starter_code: taskStarter.trim() || null, solution_code: taskSolution.trim() || null, lesson_id: selectedLesson, order_index: 0 }),
+      body: JSON.stringify({ title: taskTitle.trim(), description: taskDesc.trim() || null, language: taskLang, starter_code: taskStarter.trim() || null, function_name: taskFuncName.trim() || null, test_cases, lesson_id: selectedLesson, order_index: 0 }),
     })
     const data = await res.json()
     if (!res.ok) { flashErr(data.error); return }
-    setTaskTitle(''); setTaskDesc(''); setTaskStarter(''); setTaskSolution('')
+    setTaskTitle(''); setTaskDesc(''); setTaskStarter(''); setTaskFuncName(''); setTaskTestCases('')
     flash('Task created!')
   }
 
@@ -377,13 +382,23 @@ export function AdminPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Starter Code</label>
-                      <textarea className={inputCls} rows={5} value={taskStarter} onChange={e => setTaskStarter(e.target.value)} placeholder="function sum(a, b) {\n  // your code\n}" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }} />
+                      <label className={labelCls}>Function Name</label>
+                      <input className={inputCls} value={taskFuncName} onChange={e => setTaskFuncName(e.target.value)} placeholder="e.g. twoSum" style={{ fontFamily: "'JetBrains Mono', monospace" }} />
+                      <p className="text-[10px] text-slate-400 mt-1">JS/Python only. Must match the function in starter code.</p>
                     </div>
                     <div>
-                      <label className={labelCls}>Solution Code</label>
-                      <textarea className={inputCls} rows={5} value={taskSolution} onChange={e => setTaskSolution(e.target.value)} placeholder="function sum(a, b) {\n  return a + b\n}" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }} />
+                      <label className={labelCls}>Starter Code</label>
+                      <textarea className={inputCls} rows={4} value={taskStarter} onChange={e => setTaskStarter(e.target.value)} placeholder="function sum(a, b) {\n  // your code\n}" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }} />
                     </div>
+                  </div>
+                  <div>
+                    <label className={labelCls}>Test Cases (JSON)</label>
+                    <textarea
+                      className={inputCls} rows={4} value={taskTestCases} onChange={e => setTaskTestCases(e.target.value)}
+                      placeholder={`[{"input": [2, 3], "expected": 5}, {"input": [0, 0], "expected": 0}]`}
+                      style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }}
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1">For SQL: add <code>setup_sql</code> and <code>validation_sql</code> keys per test.</p>
                   </div>
                   <button type="submit" className="w-full py-2.5 text-sm font-semibold text-white rounded-xl bg-[#3525cd] hover:opacity-90 transition">
                     Create Task

@@ -4,7 +4,15 @@ export interface ProblemExample {
   explanation?: string
 }
 
-export type TaskCategory = 'javascript' | 'postgresql'
+export type TaskCategory = 'javascript' | 'python' | 'postgresql'
+
+export interface TestCase {
+  input: unknown[]   // args passed to the function
+  expected: unknown  // expected return value
+  // for SQL tasks:
+  setup_sql?: string
+  validation_sql?: string
+}
 
 export interface Problem {
   id: string
@@ -14,6 +22,8 @@ export interface Problem {
   examples: ProblemExample[]
   constraints: string[]
   starterCode: string
+  testCases?: TestCase[]
+  functionName?: string  // e.g. "twoSum" — runner needs this to call the function
 }
 
 /** @deprecated Use Problem */

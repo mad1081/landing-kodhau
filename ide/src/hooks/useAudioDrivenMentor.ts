@@ -40,6 +40,7 @@ export interface AudioDrivenMentorParams {
   examples: { input: string; output: string }[]
   constraints: string[]
   language: MentorLanguage
+  testContext?: string  // pre-formatted execution results from useCodeRunner
 }
 
 export function useAudioDrivenMentor(params: AudioDrivenMentorParams, voiceOn: boolean) {
@@ -124,10 +125,10 @@ Constraints:
 ${params.constraints.join('\n')}
 
 Current code:
-\`\`\`python
+\`\`\`
 ${code}
 \`\`\`
-
+${params.testContext ? `\nTest execution results:\n${params.testContext}\n` : ''}
 Provide minimal mentor feedback (no full solution, no final code). One short response. Use Markdown: **bold** for the key point, \`backticks\` for code or names.`
 
       const systemContent = systemPrompt.trim() + getLanguageInstruction(params.language)

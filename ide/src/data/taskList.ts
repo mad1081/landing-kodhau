@@ -27,6 +27,12 @@ function twoSum(nums, target) {
   return [];
 }
 `,
+    functionName: 'twoSum',
+    testCases: [
+      { input: [[2, 7, 11, 15], 9], expected: [0, 1] },
+      { input: [[3, 2, 4], 6], expected: [1, 2] },
+      { input: [[3, 3], 6], expected: [0, 1] },
+    ],
   },
   {
     id: 'valid-parentheses-js',
@@ -53,6 +59,13 @@ function isValid(s) {
   return false;
 }
 `,
+    functionName: 'isValid',
+    testCases: [
+      { input: ['()'], expected: true },
+      { input: ['()[]{}'], expected: true },
+      { input: ['(]'], expected: false },
+      { input: ['{[]}'], expected: true },
+    ],
   },
   {
     id: 'max-subarray-js',
@@ -76,6 +89,12 @@ function maxSubArray(nums) {
   return 0;
 }
 `,
+    functionName: 'maxSubArray',
+    testCases: [
+      { input: [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], expected: 6 },
+      { input: [[1]], expected: 1 },
+      { input: [[5, 4, -1, 7, 8]], expected: 23 },
+    ],
   },
   {
     id: 'top-n-per-group-sql',

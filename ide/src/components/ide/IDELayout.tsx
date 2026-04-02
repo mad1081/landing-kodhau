@@ -3,15 +3,12 @@ import { Link } from 'react-router-dom'
 import { ProblemPanel } from './ProblemPanel'
 import { CodeEditor, type EditorLanguage } from './CodeEditor'
 import { MentorPanel } from './MentorPanel'
-import {
-  OutputPanel,
-  getDefaultOutputLines,
-  type OutputLine,
-} from './OutputPanel'
+import { OutputPanel, type OutputLine } from './OutputPanel'
 import type { Problem } from '../../data/mockProblem'
 import { useAudioDrivenMentor } from '../../hooks/useAudioDrivenMentor'
 import { useVoice } from '../../hooks/useVoice'
 import type { MentorLanguage } from '../../hooks/useMentor'
+import { useCodeRunner, resultToOutputLines, resultToMentorContext } from '../../hooks/useCodeRunner'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
 const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'
@@ -45,7 +42,9 @@ export function IDELayout({ problem }: IDELayoutProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
   const [mentorLanguage, setMentorLanguage] = useState<MentorLanguage>(getInitialMentorLanguage)
   const [code, setCode] = useState(problem.starterCode)
-  const [outputLines] = useState<OutputLine[]>(getDefaultOutputLines)
+  const [outputLines, setOutputLines] = useState<OutputLine[]>([])
+  const [testContext, setTestContext] = useState<string | undefined>(undefined)
+  const { run, running } = useCodeRunner(problem.category)
 
   useEffect(() => {
     setCode(problem.starterCode)
@@ -59,12 +58,21 @@ export function IDELayout({ problem }: IDELayoutProps) {
   const editorLanguage: EditorLanguage = problem.category === 'postgresql' ? 'sql' : 'javascript'
 
   const { voiceOn, toggleVoice } = useVoice()
+  const handleRun = useCallback(async () => {
+    if (!problem.testCases?.length) return
+    const r = await run(code, problem.testCases, problem.functionName)
+    if (!r) return
+    setOutputLines(resultToOutputLines(r))
+    setTestContext(resultToMentorContext(r))
+  }, [code, problem, run])
+
   const mentorParams = {
     problemTitle: problem.title,
     problemDescription: problem.description,
     examples: problem.examples.map((e) => ({ input: e.input, output: e.output })),
     constraints: problem.constraints,
     language: mentorLanguage,
+    testContext,
   }
   const {
     phase,
@@ -113,13 +121,25 @@ export function IDELayout({ problem }: IDELayoutProps) {
           </Link>
           <span className="text-base font-semibold tracking-tight">KodHau IDE</span>
         </div>
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-        >
-          {isDark ? 'Light' : 'Dark'}
-        </button>
+        <div className="flex items-center gap-2">
+          {problem.testCases?.length ? (
+            <button
+              type="button"
+              onClick={handleRun}
+              disabled={running}
+              className="rounded-md bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
+            >
+              {running ? 'Running…' : '▶ Run'}
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          >
+            {isDark ? 'Light' : 'Dark'}
+          </button>
+        </div>
       </header>
 
       <div className="flex min-h-0 flex-1">
