@@ -4,11 +4,10 @@ import type { Module } from '../../data/mockCoursePlan'
 
 interface ModuleSectionProps {
   module: Module
-  courseSlug: string
   index: number
 }
 
-export function ModuleSection({ module, courseSlug, index }: ModuleSectionProps) {
+export function ModuleSection({ module, index }: ModuleSectionProps) {
   const allTasks = module.lessons.flatMap(l => l.tasks)
   const completedTasks = allTasks.filter(t => t.completed).length
   const isInProgress = completedTasks > 0 && completedTasks < allTasks.length

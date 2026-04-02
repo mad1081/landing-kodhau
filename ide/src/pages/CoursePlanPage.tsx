@@ -78,7 +78,7 @@ export function CoursePlanPage() {
             ) : (
               <div className="space-y-20">
                 {plan.modules.map((module, i) => (
-                  <ModuleSection key={module.id} module={module} courseSlug={plan.slug} index={i} />
+                  <ModuleSection key={module.id} module={module} index={i} />
                 ))}
               </div>
             )}
