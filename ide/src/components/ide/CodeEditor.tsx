@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Editor from '@monaco-editor/react'
 
-export type EditorLanguage = 'javascript' | 'sql'
+export type EditorLanguage = 'javascript' | 'python' | 'sql'
 
 interface CodeEditorProps {
   value: string

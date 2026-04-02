@@ -55,7 +55,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
     document.documentElement.classList.toggle('dark', isDark)
   }, [isDark])
 
-  const editorLanguage: EditorLanguage = problem.category === 'postgresql' ? 'sql' : 'javascript'
+  const editorLanguage: EditorLanguage = problem.category === 'postgresql' ? 'sql' : problem.category === 'python' ? 'python' : 'javascript'
 
   const { voiceOn, toggleVoice } = useVoice()
   const handleRun = useCallback(async () => {
