@@ -12,8 +12,6 @@ interface SupabaseCourse {
   icon: string
   color: string
   cover_image: string
-  total_lessons: number
-  completed_lessons: number
 }
 
 function mapCourse(row: SupabaseCourse): Course {
@@ -25,8 +23,8 @@ function mapCourse(row: SupabaseCourse): Course {
     icon: row.icon,
     color: row.color,
     coverImage: row.cover_image,
-    totalLessons: row.total_lessons,
-    completedLessons: row.completed_lessons,
+    totalLessons: 0,
+    completedLessons: 0,
   }
 }
 
