@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
 import { IconPlus, IconChevronRight } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
-import { supabase } from '../lib/supabase'
+
+const API = import.meta.env.VITE_API_URL
 
 type Tab = 'course' | 'module' | 'lesson' | 'task'
 
@@ -40,19 +41,22 @@ export function AdminPage() {
   const [taskSolution, setTaskSolution] = useState('')
 
   const fetchCourses = useCallback(async () => {
-    const { data } = await supabase.from('courses').select('id, slug, title, icon, color').order('created_at')
+    const res = await fetch(`${API}/api/courses`)
+    const data = await res.json()
     setCourses(data ?? [])
   }, [])
 
   const fetchModules = useCallback(async (courseId: string) => {
     if (!courseId) return
-    const { data } = await supabase.from('modules').select('id, title, course_id').eq('course_id', courseId).order('order_index')
+    const res = await fetch(`${API}/api/courses/${courseId}/modules`)
+    const data = await res.json()
     setModules(data ?? [])
   }, [])
 
   const fetchLessons = useCallback(async (moduleId: string) => {
     if (!moduleId) return
-    const { data } = await supabase.from('lessons').select('id, title, module_id').eq('module_id', moduleId).order('order_index')
+    const res = await fetch(`${API}/api/modules/${moduleId}/lessons`)
+    const data = await res.json()
     setLessons(data ?? [])
   }, [])
 
@@ -73,14 +77,13 @@ export function AdminPage() {
 
   async function createCourse(e: React.FormEvent) {
     e.preventDefault()
-    const { error: err } = await supabase.from('courses').insert({
-      title: courseTitle.trim(),
-      slug: courseSlug.trim(),
-      description: courseDesc.trim(),
-      icon: courseIcon.trim(),
-      color: courseColor,
+    const res = await fetch(`${API}/api/courses`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: courseTitle.trim(), slug: courseSlug.trim(), description: courseDesc.trim(), icon: courseIcon.trim(), color: courseColor }),
     })
-    if (err) { flashErr(err.message); return }
+    const data = await res.json()
+    if (!res.ok) { flashErr(data.error); return }
     setCourseTitle(''); setCourseSlug(''); setCourseDesc('')
     await fetchCourses()
     flash('Course created!')
@@ -89,12 +92,13 @@ export function AdminPage() {
   async function createModule(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedCourse) { flashErr('Select a course first'); return }
-    const { error: err } = await supabase.from('modules').insert({
-      title: moduleTitle.trim(),
-      course_id: selectedCourse,
-      order_index: modules.length,
+    const res = await fetch(`${API}/api/modules`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: moduleTitle.trim(), course_id: selectedCourse, order_index: modules.length }),
     })
-    if (err) { flashErr(err.message); return }
+    const data = await res.json()
+    if (!res.ok) { flashErr(data.error); return }
     setModuleTitle('')
     await fetchModules(selectedCourse)
     flash('Module created!')
@@ -103,13 +107,13 @@ export function AdminPage() {
   async function createLesson(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedModule) { flashErr('Select a module first'); return }
-    const { error: err } = await supabase.from('lessons').insert({
-      title: lessonTitle.trim(),
-      theory_md: lessonMd.trim() || null,
-      module_id: selectedModule,
-      order_index: lessons.length,
+    const res = await fetch(`${API}/api/lessons`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: lessonTitle.trim(), theory_md: lessonMd.trim() || null, module_id: selectedModule, order_index: lessons.length }),
     })
-    if (err) { flashErr(err.message); return }
+    const data = await res.json()
+    if (!res.ok) { flashErr(data.error); return }
     setLessonTitle(''); setLessonMd('')
     await fetchLessons(selectedModule)
     flash('Lesson created!')
@@ -118,16 +122,13 @@ export function AdminPage() {
   async function createTask(e: React.FormEvent) {
     e.preventDefault()
     if (!selectedLesson) { flashErr('Select a lesson first'); return }
-    const { error: err } = await supabase.from('tasks').insert({
-      title: taskTitle.trim(),
-      description: taskDesc.trim() || null,
-      language: taskLang,
-      starter_code: taskStarter.trim() || null,
-      solution_code: taskSolution.trim() || null,
-      lesson_id: selectedLesson,
-      order_index: 0,
+    const res = await fetch(`${API}/api/tasks`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: taskTitle.trim(), description: taskDesc.trim() || null, language: taskLang, starter_code: taskStarter.trim() || null, solution_code: taskSolution.trim() || null, lesson_id: selectedLesson, order_index: 0 }),
     })
-    if (err) { flashErr(err.message); return }
+    const data = await res.json()
+    if (!res.ok) { flashErr(data.error); return }
     setTaskTitle(''); setTaskDesc(''); setTaskStarter(''); setTaskSolution('')
     flash('Task created!')
   }
