@@ -47,7 +47,7 @@ export function TaskRow({ task, courseSlug }: TaskRowProps) {
         </span>
       ) : (
         <button
-          onClick={() => navigate(`/ide/${courseSlug}-${task.id}`)}
+          onClick={() => navigate(`/ide/${task.id}`)}
           className="ml-4 shrink-0 border px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest transition-all hover:text-white"
           style={{
             borderColor: 'rgba(53,37,205,0.2)',
