@@ -13,7 +13,7 @@ import { GroupsPage } from './pages/GroupsPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
 // DEV ONLY: set to false to skip auth
-const AUTH_ENABLED = false
+const AUTH_ENABLED = true
 
 function RequireAuth({ session, children }: { session: Session | null; children: JSX.Element }) {
   if (AUTH_ENABLED && !session) return <Navigate to="/auth" replace />

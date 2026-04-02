@@ -3,6 +3,7 @@ module.exports = function auth(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1]
 
   if (!token) {
+    // DEV ONLY: treat unauthenticated requests as admin
     req.user = null
     return next()
   }
