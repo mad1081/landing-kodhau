@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
 import type { Course } from '../data/mockCourses'
 import { mockCourses } from '../data/mockCourses'
 
-// Matches the Supabase column names (snake_case) → our Course interface (camelCase)
-interface SupabaseCourse {
+interface ApiCourse {
   id: string
   slug: string
   title: string
@@ -14,7 +12,7 @@ interface SupabaseCourse {
   cover_image: string
 }
 
-function mapCourse(row: SupabaseCourse): Course {
+function mapCourse(row: ApiCourse): Course {
   return {
     id: row.id,
     slug: row.slug,
@@ -28,8 +26,7 @@ function mapCourse(row: SupabaseCourse): Course {
   }
 }
 
-const isSupabaseConfigured =
-  import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+const API = import.meta.env.VITE_API_URL
 
 export function useCourses() {
   const [courses, setCourses] = useState<Course[]>([])
@@ -37,26 +34,24 @@ export function useCourses() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Fall back to mock data if Supabase isn't wired up yet
-    if (!isSupabaseConfigured) {
+    if (!API) {
       setCourses(mockCourses)
       setLoading(false)
       return
     }
 
     async function fetchCourses() {
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .order('created_at', { ascending: true })
-
-      if (error) {
-        setError(error.message)
-        setCourses(mockCourses) // fallback
-      } else {
-        setCourses((data as SupabaseCourse[]).map(mapCourse))
+      try {
+        const res = await fetch(`${API}/api/courses`)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data: ApiCourse[] = await res.json()
+        setCourses(data.map(mapCourse))
+      } catch (e: any) {
+        setError(e.message)
+        setCourses(mockCourses)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
 
     fetchCourses()

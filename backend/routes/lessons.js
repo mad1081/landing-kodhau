@@ -36,6 +36,32 @@ module.exports = function(app) {
     }
   })
 
+  // GET lesson with nested module + course + tasks
+  app.get('/api/lessons/:id/full', async (req, res) => {
+    try {
+      const { data, error } = await supabase
+        .from('lessons')
+        .select(`
+          id, title, theory_md,
+          module:modules (
+            id, title,
+            course:courses (id, slug, title)
+          ),
+          tasks (id, title, order_index)
+        `)
+        .eq('id', req.params.id)
+        .single()
+
+      if (error) throw error
+      res.json({
+        ...data,
+        tasks: (data.tasks || []).sort((a, b) => a.order_index - b.order_index),
+      })
+    } catch (e) {
+      res.status(500).json({ error: e.message })
+    }
+  })
+
   app.post('/api/lessons', async (req, res) => {
     try {
       if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'teacher')) {
