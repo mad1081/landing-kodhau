@@ -10,6 +10,7 @@ import { AuthPage } from './pages/AuthPage'
 import { LessonTheoryPage } from './pages/LessonTheoryPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { GroupsPage } from './pages/GroupsPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 // DEV ONLY: set to false to skip auth
 const AUTH_ENABLED = false
@@ -50,6 +51,7 @@ function App() {
       <Route path="/lesson/:lessonId" element={<RequireAuth session={session ?? null}><LessonTheoryPage /></RequireAuth>} />
       <Route path="/profile" element={<RequireAuth session={session ?? null}><ProfilePage /></RequireAuth>} />
       <Route path="/groups" element={<RequireAuth session={session ?? null}><GroupsPage /></RequireAuth>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }
