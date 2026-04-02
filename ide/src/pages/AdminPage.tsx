@@ -2,7 +2,15 @@ import { useEffect, useState, useCallback } from 'react'
 import { IconPlus, IconChevronRight } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
 
+import { supabase } from '../lib/supabase'
+
 const API = import.meta.env.VITE_API_URL
+
+async function authHeaders() {
+  const { data } = await supabase.auth.getSession()
+  const token = data.session?.access_token
+  return token ? { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` } : { 'Content-Type': 'application/json' }
+}
 
 type Tab = 'course' | 'module' | 'lesson' | 'task'
 
@@ -79,7 +87,7 @@ export function AdminPage() {
     e.preventDefault()
     const res = await fetch(`${API}/api/courses`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authHeaders(),
       body: JSON.stringify({ title: courseTitle.trim(), slug: courseSlug.trim(), description: courseDesc.trim(), icon: courseIcon.trim(), color: courseColor }),
     })
     const data = await res.json()
@@ -94,7 +102,7 @@ export function AdminPage() {
     if (!selectedCourse) { flashErr('Select a course first'); return }
     const res = await fetch(`${API}/api/modules`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authHeaders(),
       body: JSON.stringify({ title: moduleTitle.trim(), course_id: selectedCourse, order_index: modules.length }),
     })
     const data = await res.json()
@@ -109,7 +117,7 @@ export function AdminPage() {
     if (!selectedModule) { flashErr('Select a module first'); return }
     const res = await fetch(`${API}/api/lessons`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authHeaders(),
       body: JSON.stringify({ title: lessonTitle.trim(), theory_md: lessonMd.trim() || null, module_id: selectedModule, order_index: lessons.length }),
     })
     const data = await res.json()
@@ -124,7 +132,7 @@ export function AdminPage() {
     if (!selectedLesson) { flashErr('Select a lesson first'); return }
     const res = await fetch(`${API}/api/tasks`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: await authHeaders(),
       body: JSON.stringify({ title: taskTitle.trim(), description: taskDesc.trim() || null, language: taskLang, starter_code: taskStarter.trim() || null, solution_code: taskSolution.trim() || null, lesson_id: selectedLesson, order_index: 0 }),
     })
     const data = await res.json()
