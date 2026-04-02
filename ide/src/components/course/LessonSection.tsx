@@ -6,10 +6,9 @@ import { getLessonProgress } from '../../data/mockCoursePlan'
 
 interface LessonSectionProps {
   lesson: Lesson
-  courseSlug: string
 }
 
-export function LessonSection({ lesson, courseSlug }: LessonSectionProps) {
+export function LessonSection({ lesson }: LessonSectionProps) {
   const progress = getLessonProgress(lesson)
 
   return (

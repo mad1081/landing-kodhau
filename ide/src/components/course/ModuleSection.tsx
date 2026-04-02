@@ -136,7 +136,7 @@ export function ModuleSection({ module, courseSlug, index }: ModuleSectionProps)
         {/* Lessons */}
         <div className="lg:col-span-8 space-y-8">
           {module.lessons.map(lesson => (
-            <LessonSection key={lesson.id} lesson={lesson} courseSlug={courseSlug} />
+            <LessonSection key={lesson.id} lesson={lesson} />
           ))}
         </div>
 
