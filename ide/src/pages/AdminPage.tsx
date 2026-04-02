@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { IconBolt, IconHexagons, IconFileText, IconPencil, IconPlus, IconChevronDown, IconChevronRight } from '@tabler/icons-react'
+import { IconBolt, IconHexagons, IconPlus, IconChevronRight } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
 import { supabase } from '../lib/supabase'
 
@@ -9,10 +9,6 @@ interface Course { id: string; slug: string; title: string; icon: string; color:
 interface Module { id: string; title: string; course_id: string }
 interface Lesson { id: string; title: string; module_id: string }
 
-const ICON_MAP: Record<string, JSX.Element> = {
-  bolt: <IconBolt size={18} />,
-  hex: <IconHexagons size={18} />,
-}
 
 export function AdminPage() {
   const [tab, setTab] = useState<Tab>('course')
