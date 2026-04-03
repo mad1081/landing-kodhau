@@ -511,6 +511,8 @@ import postgresqlLogo from '~/assets/images/postgresql.svg'
 import aituLogo from '~/assets/images/aitu.png'
 import harvardLogo from '~/assets/images/veritas.webp'
 import stanfordLogo from '~/assets/images/stanford.png'
+import nuLogo from '~/assets/images/NU_horizontal_1.png'
+import satpayevLogo from '~/assets/images/Satabayev_University_logo.png'
 
 const { public: { ideUrl } } = useRuntimeConfig()
 const currentYear = new Date().getFullYear()
@@ -521,20 +523,15 @@ interface TrustedBySchool {
   url: string
 }
 
-const trustedBySchools: TrustedBySchool[] = [
+const schools = [
   { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
   { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
   { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
-  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
-  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
-  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
-  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
-  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
-  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
-  { name: 'Harvard', logo: harvardLogo, url: 'https://www.harvard.edu' },
-  { name: 'Astana IT University', logo: aituLogo, url: 'https://astanait.edu.kz' },
-  { name: 'Stanford', logo: stanfordLogo, url: 'https://www.stanford.edu' },
+  { name: 'Nazarbayev University', logo: nuLogo, url: 'https://nu.edu.kz' },
+  { name: 'Satbayev University', logo: satpayevLogo, url: 'https://satbayev.university' },
 ]
+
+const trustedBySchools: TrustedBySchool[] = [...schools, ...schools, ...schools]
 
 useHead({
   title: 'KodHau — Learn to code your dreams and design your future',
