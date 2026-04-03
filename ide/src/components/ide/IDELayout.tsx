@@ -10,6 +10,7 @@ import { useVoice } from '../../hooks/useVoice'
 import type { MentorLanguage } from '../../hooks/useMentor'
 import { useCodeRunner, resultToOutputLines, resultToMentorContext } from '../../hooks/useCodeRunner'
 import { useLang } from '../../i18n/LangContext'
+import { supabase } from '../../lib/supabase'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
 const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'
@@ -66,6 +67,17 @@ export function IDELayout({ problem }: IDELayoutProps) {
     if (!r) return
     setOutputLines(resultToOutputLines(r))
     setTestContext(resultToMentorContext(r))
+    // Save progress if all tests passed
+    if (r.passed === r.total && r.total > 0) {
+      supabase.auth.getSession().then(({ data }) => {
+        const token = data.session?.access_token
+        if (!token) return
+        fetch(`${import.meta.env.VITE_API_URL}/api/progress/${problem.id}`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        }).catch(() => {})
+      })
+    }
   }, [code, problem, run])
 
   const mentorParams = {

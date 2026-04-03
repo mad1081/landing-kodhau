@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { CoursePlan } from '../data/mockCoursePlan'
+import { supabase } from '../lib/supabase'
 
 const API = import.meta.env.VITE_API_URL
 
@@ -16,9 +17,21 @@ export function useCoursePlan(slug: string | undefined) {
       setError(null)
 
       try {
-        const res = await fetch(`${API}/api/courses/slug/${slug}/plan`)
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const { course, modules } = await res.json()
+        // Fetch plan and user progress in parallel
+        const { data: session } = await supabase.auth.getSession()
+        const token = session.session?.access_token
+
+        const [planRes, progressRes] = await Promise.all([
+          fetch(`${API}/api/courses/slug/${slug}/plan`),
+          fetch(`${API}/api/progress`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          }),
+        ])
+
+        if (!planRes.ok) throw new Error(`HTTP ${planRes.status}`)
+        const { course, modules } = await planRes.json()
+        const completedIds: string[] = progressRes.ok ? await progressRes.json() : []
+        const completedSet = new Set(completedIds)
 
         const mapped: CoursePlan = {
           slug: course.slug,
@@ -40,7 +53,7 @@ export function useCoursePlan(slug: string | undefined) {
                   .map((t: any) => ({
                     id: t.id,
                     title: t.title,
-                    completed: false,
+                    completed: completedSet.has(t.id),
                   })),
               })),
           })),
