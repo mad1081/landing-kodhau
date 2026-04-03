@@ -1,11 +1,11 @@
 ---
 title: "Код орындау"
-description: "Judge0 (JS/Python) және PGlite (SQL) орындау жүйелері"
+description: "Wandbox (JS/Python) және PGlite (SQL) орындау жүйелері"
 ---
 
 # Код орындау жүйесі
 
-KodHau екі орындау механизмін қолданады: JavaScript/Python үшін **Judge0**, SQL тапсырмалары үшін **PGlite** (браузерде).
+KodHau екі орындау механизмін қолданады: JavaScript/Python үшін **Wandbox**, SQL тапсырмалары үшін **PGlite** (браузерде).
 
 ---
 
@@ -20,8 +20,9 @@ useCodeRunner (ide/src/hooks/useCodeRunner.ts)
        ├─── JS/Python ──► POST /api/run (Express)
        │                        │
        │                        ▼
-       │                  Judge0 (RapidAPI)
-       │                  judge0-ce.p.rapidapi.com
+       │                  Wandbox API
+       │                  wandbox.org/api/compile.json
+       │                  (тегін, аутентификациясыз)
        │                        │
        │                        ▼
        │                  stdout / stderr
@@ -33,16 +34,26 @@ useCodeRunner (ide/src/hooks/useCodeRunner.ts)
 
 ---
 
-## Judge0 (JavaScript / Python)
+## Wandbox (JavaScript / Python)
 
 ### Конфигурация
 
 | Параметр | Мән |
 |---|---|
-| API | `https://judge0-ce.p.rapidapi.com` |
-| JavaScript тіл ID | `63` (Node.js 12.14.0) |
-| Python тіл ID | `71` (Python 3.8.1) |
-| Ортасы | Сервер жағы (RAPIDAPI_KEY env айнымалысы) |
+| API | `https://wandbox.org/api/compile.json` |
+| JavaScript компилятор | `nodejs-20.17.0` |
+| Python компилятор | `cpython-3.12.7` |
+| Аутентификация | Жоқ (тегін, ашық API) |
+| Ортасы | Сервер жағы (Express `/api/run`) |
+
+### Сұрау форматы
+
+```json
+{
+  "compiler": "cpython-3.12.7",
+  "code": "print('hello')"
+}
+```
 
 ### Тест орындау логикасы
 
@@ -77,14 +88,14 @@ for tc in __test_cases:
 print(json.dumps(__results))
 ```
 
-### Нәтиже форматы (Judge0 → бэкенд → фронтенд)
+### Нәтиже форматы (Wandbox → бэкенд → фронтенд)
 
-Judge0 жауабы:
+Wandbox жауабы:
 ```json
 {
-  "stdout": "[{\"ok\":true,\"got\":3,\"expected\":3}]\n",
-  "stderr": null,
-  "compile_output": null
+  "status": "0",
+  "program_output": "[{\"ok\":true,\"got\":3,\"expected\":3}]\n",
+  "program_error": ""
 }
 ```
 
@@ -145,6 +156,6 @@ AI Ментор тест нәтижелерін контекст ретінде 
 
 | Айнымалы | Орны | Сипаттама |
 |---|---|---|
-| `RAPIDAPI_KEY` | Render (env) | Judge0 API кілті |
 | `SUPABASE_URL` | Render (env) | Supabase жобасының URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | Render (env) | RLS айналып өту кілті |
+| `ANTHROPIC_API_KEY` | Render (env) | Claude AI ментор кілті |
