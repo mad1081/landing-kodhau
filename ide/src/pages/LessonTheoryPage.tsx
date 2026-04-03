@@ -24,13 +24,13 @@ export function LessonTheoryPage() {
           ← Dashboard
         </Link>
         {lesson && (
-          <span style={{ fontSize: '0.875rem', color: 'rgba(199,196,215,0.5)' }}>
+          <span style={{ fontSize: '0.875rem', color: 'rgba(199,196,215,0.5)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
             {(lesson.module as any)?.course?.title} / {(lesson.module as any)?.title} / {lesson.title}
           </span>
         )}
       </header>
 
-      <main style={{ paddingTop: '56px', maxWidth: '52rem', margin: '0 auto', padding: '80px 32px' }}>
+      <main style={{ maxWidth: '52rem', margin: '0 auto', padding: '88px 24px 64px' }}>
 
         {loading && (
           <div style={{ color: 'rgba(199,196,215,0.5)', fontSize: '0.875rem' }}>Loading lesson…</div>
