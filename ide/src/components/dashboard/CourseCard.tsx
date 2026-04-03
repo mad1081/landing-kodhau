@@ -12,7 +12,7 @@ export function CourseCard({ course }: CourseCardProps) {
     : 0
 
   return (
-    <div className="group flex flex-col rounded-2xl bg-white border border-slate-100 shadow-sm overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+    <div className="group flex flex-col rounded-2xl bg-white border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-2">
       {/* Cover image — 30% height, cropped */}
       <div className="h-32 w-full overflow-hidden">
         <img
@@ -26,7 +26,7 @@ export function CourseCard({ course }: CourseCardProps) {
       <div className="flex flex-col flex-1 p-5">
         {/* Icon */}
         <div
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-white text-xs font-bold mb-3 -mt-8 relative z-10 shadow-md"
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-white text-xs font-bold mb-3 -mt-8 relative z-10"
           style={{ backgroundColor: course.color }}
         >
           {course.icon}
