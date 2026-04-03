@@ -4,10 +4,12 @@ import { AppShell } from '../components/layout/AppShell'
 
 export function ProfilePage() {
   const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) setEmail(data.user.email)
+      if (data.user?.user_metadata?.role) setRole(data.user.user_metadata.role)
     })
   }, [])
 
@@ -20,7 +22,7 @@ export function ProfilePage() {
           {initial}
         </div>
         <p className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-          {email || '…'}
+          {email || '…'}{role && <span className="ml-2 text-base font-normal text-slate-400">— {role}</span>}
         </p>
       </div>
     </AppShell>
