@@ -38,7 +38,7 @@ export function useVoice() {
       return
     }
     const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY
-    const voiceId = import.meta.env.VITE_ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'
+    const voiceId = import.meta.env.VITE_ELEVENLABS_VOICE_ID || 'E3mW95MIKt5YUzwjsfbi'
     if (!apiKey) {
       console.warn('[Voice] VITE_ELEVENLABS_API_KEY not set; skipping TTS. Add the key in .env to hear audio.')
       playNextInQueue()

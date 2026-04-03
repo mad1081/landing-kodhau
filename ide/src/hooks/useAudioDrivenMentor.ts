@@ -194,7 +194,7 @@ Provide minimal mentor feedback (no full solution, no final code). One short res
       }
 
       const elevenKey = import.meta.env.VITE_ELEVENLABS_API_KEY
-      const voiceId = import.meta.env.VITE_ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'
+      const voiceId = import.meta.env.VITE_ELEVENLABS_VOICE_ID || 'E3mW95MIKt5YUzwjsfbi'
       if (!elevenKey) {
         durationMsRef.current = Math.max(2000, text.length * MS_PER_CHAR_VOICE_OFF)
         startTimeRef.current = performance.now()
