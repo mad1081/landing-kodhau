@@ -30,8 +30,8 @@ export function useCoursePlan(slug: string | undefined) {
 
         if (!planRes.ok) throw new Error(`HTTP ${planRes.status}`)
         const { course, modules } = await planRes.json()
-        const completedIds: string[] = progressRes.ok ? await progressRes.json() : []
-        const completedSet = new Set(completedIds)
+        const progressData = progressRes.ok ? await progressRes.json() : { taskIds: [] }
+        const completedSet = new Set<string>(progressData.taskIds ?? progressData)
 
         const mapped: CoursePlan = {
           slug: course.slug,

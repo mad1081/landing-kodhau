@@ -1,16 +1,39 @@
 const supabase = require('../lib/supabase')
 
 module.exports = function(app) {
-  // GET completed task IDs for current user
+  // GET progress: completed task IDs + lesson/course counts
   app.get('/api/progress', async (req, res) => {
-    if (!req.user) return res.json([])
+    if (!req.user) return res.json({ taskIds: [], lessonIds: [], courseLessons: {} })
     try {
       const { data, error } = await supabase
         .from('user_task_progress')
-        .select('task_id')
+        .select('task_id, tasks(lesson_id, lessons(module_id, modules(course_id)))')
         .eq('user_id', req.user.id)
       if (error) throw error
-      res.json((data || []).map(r => r.task_id))
+
+      const taskIds = (data || []).map(r => r.task_id)
+
+      // Unique completed lesson IDs
+      const lessonIds = [...new Set(
+        (data || []).map(r => r.tasks?.lesson_id).filter(Boolean)
+      )]
+
+      // Completed lessons per course_id
+      const courseLessons = {}
+      for (const row of (data || [])) {
+        const courseId = row.tasks?.lessons?.modules?.course_id
+        const lessonId = row.tasks?.lesson_id
+        if (courseId && lessonId) {
+          if (!courseLessons[courseId]) courseLessons[courseId] = new Set()
+          courseLessons[courseId].add(lessonId)
+        }
+      }
+      // Convert sets to counts
+      for (const key of Object.keys(courseLessons)) {
+        courseLessons[key] = courseLessons[key].size
+      }
+
+      res.json({ taskIds, lessonIds, courseLessons })
     } catch (e) {
       res.status(500).json({ error: e.message })
     }

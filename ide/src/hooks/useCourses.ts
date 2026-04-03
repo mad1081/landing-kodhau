@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Course } from '../data/mockCourses'
 import { mockCourses } from '../data/mockCourses'
-
+import { supabase } from '../lib/supabase'
 
 interface ApiCourse {
   id: string
@@ -14,12 +14,20 @@ interface ApiCourse {
   total_lessons: number
 }
 
+interface ProgressData {
+  taskIds: string[]
+  lessonIds: string[]
+  courseLessons: Record<string, number>
+}
+
 const API = import.meta.env.VITE_API_URL
 
 export function useCourses() {
   const [courses, setCourses] = useState<Course[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [tasksSolved, setTasksSolved] = useState(0)
+  const [lessonsCompleted, setLessonsCompleted] = useState(0)
 
   useEffect(() => {
     if (!API) {
@@ -30,12 +38,25 @@ export function useCourses() {
 
     async function fetchCourses() {
       try {
-        const [coursesRes] = await Promise.all([
+        const { data: session } = await supabase.auth.getSession()
+        const token = session.session?.access_token
+
+        const [coursesRes, progressRes] = await Promise.all([
           fetch(`${API}/api/courses`),
+          fetch(`${API}/api/progress`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          }),
         ])
 
         if (!coursesRes.ok) throw new Error(`HTTP ${coursesRes.status}`)
         const data: ApiCourse[] = await coursesRes.json()
+
+        let progress: ProgressData = { taskIds: [], lessonIds: [], courseLessons: {} }
+        if (progressRes.ok) progress = await progressRes.json()
+
+        setTasksSolved(progress.taskIds.length)
+        setLessonsCompleted(progress.lessonIds.length)
+
         setCourses(data.map(course => ({
           id: course.id,
           slug: course.slug,
@@ -45,7 +66,7 @@ export function useCourses() {
           color: course.color,
           coverImage: course.cover_image,
           totalLessons: course.total_lessons ?? 0,
-          completedLessons: 0, // per-course completed lessons needs separate endpoint
+          completedLessons: progress.courseLessons[course.id] ?? 0,
         })))
       } catch (e: any) {
         setError(e.message)
@@ -58,5 +79,5 @@ export function useCourses() {
     fetchCourses()
   }, [])
 
-  return { courses, loading, error }
+  return { courses, loading, error, tasksSolved, lessonsCompleted }
 }
