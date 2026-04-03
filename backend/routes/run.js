@@ -1,22 +1,45 @@
-const PISTON_URL = 'https://emkc.org/api/v2/piston/execute'
+const JUDGE0_URL = 'https://judge0-ce.p.rapidapi.com/submissions'
 
-const LANGUAGE_VERSIONS = {
-  javascript: '18.15.0',
-  python: '3.10.0',
+// Judge0 language IDs
+const LANGUAGE_IDS = {
+  javascript: 63,  // Node.js 12.14.0
+  python: 71,      // Python 3.8.1
 }
 
 module.exports = function(app) {
   app.post('/api/run', async (req, res) => {
+    const apiKey = process.env.RAPIDAPI_KEY
+    if (!apiKey) return res.status(500).json({ error: 'RAPIDAPI_KEY not set on server' })
+
+    const { language, files } = req.body
+    const source_code = files?.[0]?.content
+    const language_id = LANGUAGE_IDS[language]
+
+    if (!language_id) return res.status(400).json({ error: `Unsupported language: ${language}` })
+    if (!source_code) return res.status(400).json({ error: 'No source code provided' })
+
     try {
-      const { language, files } = req.body
-      const version = LANGUAGE_VERSIONS[language] ?? '*'
-      const response = await fetch(PISTON_URL, {
+      // Submit and wait for result
+      const response = await fetch(`${JUDGE0_URL}?base64_encoded=false&wait=true`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ language, version, files }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-RapidAPI-Key': apiKey,
+          'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
+        },
+        body: JSON.stringify({ source_code, language_id, stdin: '' }),
       })
+
       const data = await response.json()
-      res.status(response.status).json(data)
+      if (!response.ok) return res.status(response.status).json({ error: data.message ?? 'Judge0 error' })
+
+      // Normalize to Piston-like shape so frontend doesn't need changes
+      res.json({
+        run: {
+          stdout: data.stdout ?? '',
+          stderr: data.stderr ?? data.compile_output ?? '',
+        }
+      })
     } catch (e) {
       res.status(500).json({ error: e.message })
     }
