@@ -16,6 +16,7 @@ require('./routes/modules')(app)
 require('./routes/lessons')(app)
 require('./routes/tasks')(app)
 require('./routes/users')(app)
+require('./routes/run')(app)
 
 // Health check
 app.get('/health', (req, res) => {

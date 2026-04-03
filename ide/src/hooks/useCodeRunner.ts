@@ -19,6 +19,8 @@ export interface RunResult {
   stderr: string
 }
 
+const API = import.meta.env.VITE_API_URL
+
 // ── Piston (JS / Python) ─────────────────────────────────────────────────────
 
 function buildJsRunner(code: string, functionName: string, testCases: TestCase[]): string {
@@ -69,7 +71,7 @@ async function runPiston(
 
   const pistonLang = language === 'javascript' ? 'javascript' : 'python'
 
-  const res = await fetch('https://emkc.org/api/v2/piston/execute', {
+  const res = await fetch(`${API}/api/run`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

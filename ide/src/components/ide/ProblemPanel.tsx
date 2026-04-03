@@ -5,6 +5,9 @@ interface ProblemPanelProps {
 }
 
 export function ProblemPanel({ problem }: ProblemPanelProps) {
+  const hasExamples = problem.examples.length > 0
+  const hasTestCases = problem.testCases && problem.testCases.length > 0
+
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
       <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
@@ -13,37 +16,41 @@ export function ProblemPanel({ problem }: ProblemPanelProps) {
       <p className="mt-2 whitespace-pre-wrap text-sm text-slate-600 dark:text-slate-400">
         {problem.description}
       </p>
+
       <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Examples
+        Input / Output
       </h3>
-      <div className="mt-2 space-y-3">
-        {problem.examples.map((ex, i) => (
-          <div
-            key={i}
-            className="rounded-md border border-slate-200 bg-white p-3 text-sm dark:border-slate-600 dark:bg-slate-900"
-          >
-            <p className="font-medium text-slate-700 dark:text-slate-300">
-              Input: {ex.input}
-            </p>
-            <p className="mt-1 font-medium text-slate-700 dark:text-slate-300">
-              Output: {ex.output}
-            </p>
-            {ex.explanation && (
-              <p className="mt-1 text-slate-600 dark:text-slate-400">
-                {ex.explanation}
-              </p>
-            )}
+      <div className="mt-2 space-y-2">
+        {hasExamples && problem.examples.map((ex, i) => (
+          <div key={i} className="rounded-md border border-slate-200 bg-white p-3 text-sm dark:border-slate-600 dark:bg-slate-900">
+            <p className="font-medium text-slate-700 dark:text-slate-300">Input: {ex.input}</p>
+            <p className="mt-1 font-medium text-slate-700 dark:text-slate-300">Output: {ex.output}</p>
+            {ex.explanation && <p className="mt-1 text-slate-500 dark:text-slate-400">{ex.explanation}</p>}
           </div>
         ))}
-      </div>
-      <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Constraints
-      </h3>
-      <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-slate-600 dark:text-slate-400">
-        {problem.constraints.map((c, i) => (
-          <li key={i}>{c}</li>
+        {!hasExamples && hasTestCases && problem.testCases!.map((tc, i) => (
+          <div key={i} className="rounded-md border border-slate-200 bg-white p-3 text-sm font-mono dark:border-slate-600 dark:bg-slate-900">
+            <p className="text-slate-700 dark:text-slate-300">
+              <span className="font-semibold not-italic">In:</span> {JSON.stringify(tc.input)}
+            </p>
+            <p className="mt-1 text-emerald-600 dark:text-emerald-400">
+              <span className="font-semibold">Out:</span> {JSON.stringify(tc.expected)}
+            </p>
+          </div>
         ))}
-      </ul>
+        {!hasExamples && !hasTestCases && (
+          <p className="text-sm text-slate-400">No examples provided.</p>
+        )}
+      </div>
+
+      {problem.constraints.length > 0 && (
+        <>
+          <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Constraints</h3>
+          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-slate-600 dark:text-slate-400">
+            {problem.constraints.map((c, i) => <li key={i}>{c}</li>)}
+          </ul>
+        </>
+      )}
     </div>
   )
 }
