@@ -441,24 +441,19 @@
       <section id="proof" class="border-t border-slate-200 px-4 py-16 md:py-20">
         <div class="mx-auto max-w-3xl">
           <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
-            Credibility you can feel
+            {{ t('credTitle') }}
           </h2>
           <p class="mt-4 text-lg text-slate-600">
-            Built by working developers. Designed for learners who want a clean path, not a content dump.
+            {{ t('credSubtitle') }}
           </p>
           <div class="mt-10 space-y-6 border-t border-slate-200 pt-10">
             <blockquote class="border-l-4 border-slate-300 pl-4 text-slate-700">
-              <p class="text-lg">
-                "The biggest difference is the order. I stopped jumping around and finally built a small app
-                end-to-end."
-              </p>
-              <footer class="mt-2 text-sm text-slate-600">Amina · Self-taught developer</footer>
+              <p class="text-lg">{{ t('quote1') }}</p>
+              <footer class="mt-2 text-sm text-slate-600">{{ t('quote1Author') }}</footer>
             </blockquote>
             <blockquote class="border-l-4 border-slate-300 pl-4 text-slate-700">
-              <p class="text-lg">
-                "Short lessons + practice steps means I actually write code. I don't just watch someone else do it."
-              </p>
-              <footer class="mt-2 text-sm text-slate-600">Jon · Career switcher</footer>
+              <p class="text-lg">{{ t('quote2') }}</p>
+              <footer class="mt-2 text-sm text-slate-600">{{ t('quote2Author') }}</footer>
             </blockquote>
           </div>
         </div>
@@ -468,15 +463,15 @@
       <section id="cta" class="border-t border-slate-200 bg-slate-50 px-4 py-16 md:py-24">
         <div class="mx-auto max-w-2xl text-center">
           <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
-            Start learning with a plan you can follow
+            {{ t('ctaTitle') }}
           </h2>
           <p class="mt-4 text-lg text-slate-600">
-            Create your account and begin the first track in minutes.
+            {{ t('ctaSubtitle') }}
           </p>
           <div class="mt-10">
             <a :href="`${ideUrl}/auth`"
               class="inline-block rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white">
-              Register and start
+              {{ t('ctaButton') }}
             </a>
           </div>
         </div>
@@ -486,11 +481,11 @@
       <footer class="border-t border-slate-200 px-4 py-8">
         <div class="mx-auto flex max-w-4xl flex-col items-center justify-between gap-4 sm:flex-row">
           <span class="text-sm text-slate-600">
-            KodHau · {{ currentYear }} · All rights reserved · Created by Zhasulan Serikbek
+            KodHau · {{ currentYear }} · {{ t('footerRights') }} · {{ t('footerCreated') }}
           </span>
           <nav class="flex gap-6 text-sm">
-            <a href="#" class="text-slate-600">Terms</a>
-            <a href="#" class="text-slate-600">Privacy</a>
+            <a href="#" class="text-slate-600">{{ t('footerTerms') }}</a>
+            <a href="#" class="text-slate-600">{{ t('footerPrivacy') }}</a>
           </nav>
         </div>
       </footer>
@@ -499,7 +494,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 const { lang, setLang, t } = useLang()
 const mobileMenuOpen = ref(false)
 
@@ -733,67 +728,32 @@ interface ComparisonCard {
   traditional: ComparisonSide
 }
 
-const comparisonData: ComparisonCard[] = [
+const comparisonData = computed<ComparisonCard[]>(() => [
   {
-    category: 'Time to Productivity',
-    kodhau: { value: '14 дней', label: 'KodHau' },
-    traditional: { value: '3-4 месяца', label: 'Традиционные LMS' },
+    category: t('cmp1Cat'),
+    kodhau: { value: t('cmp1KhVal'), subtitle: t('cmp1KhSub'), label: 'KodHau', valueClass: 'text-green-600' },
+    traditional: { value: t('cmp1TrVal'), subtitle: t('cmp1TrSub'), label: t('cmpTradLabel') },
   },
   {
-    category: 'Подготовка контента',
-    kodhau: {
-      value: '0 минут',
-      subtitle: 'ИИ берет ваши регламенты',
-      label: 'KodHau',
-    },
-    traditional: {
-      value: '200+ часов',
-      subtitle: 'Прохождение курсов в LMS',
-      label: 'Традиционные LMS',
-    },
+    category: t('cmp2Cat'),
+    kodhau: { value: t('cmp2KhVal'), subtitle: t('cmp2KhSub'), label: 'KodHau', valueClass: 'text-green-600' },
+    traditional: { value: t('cmp2TrVal'), subtitle: t('cmp2TrSub'), label: t('cmpTradLabel') },
   },
   {
-    category: 'Удержание знаний',
-    kodhau: {
-      value: '95%',
-      subtitle: 'Обучение в моменте ошибки',
-      label: 'KodHau',
-    },
-    traditional: {
-      value: '12%',
-      subtitle: 'Через неделю всё забыто',
-      label: 'Традиционные LMS',
-    },
+    category: t('cmp3Cat'),
+    kodhau: { value: t('cmp3KhVal'), subtitle: t('cmp3KhSub'), label: 'KodHau', valueClass: 'text-green-600' },
+    traditional: { value: t('cmp3TrVal'), subtitle: t('cmp3TrSub'), label: t('cmpTradLabel') },
   },
   {
-    category: 'Внимание Senior-ментора',
-    kodhau: {
-      value: '0 часов',
-      subtitle: 'ИИ-тень делает всё сама',
-      label: 'KodHau',
-    },
-    traditional: {
-      value: '~10 ч/нед',
-      subtitle: 'На одного новичка',
-      label: 'Традиционные LMS',
-    },
+    category: t('cmp4Cat'),
+    kodhau: { value: t('cmp4KhVal'), subtitle: t('cmp4KhSub'), label: 'KodHau', valueClass: 'text-green-600' },
+    traditional: { value: t('cmp4TrVal'), subtitle: t('cmp4TrSub'), label: t('cmpTradLabel') },
   },
   {
-    category: 'Стоимость ошибки',
-    kodhau: {
-      value: '$0',
-      subtitle: 'ИИ блокирует ошибку до отправки',
-      label: 'KodHau',
-      valueClass: 'text-green-600',
-    },
-    traditional: {
-      value: '\u221E',
-      subtitle: 'Приходится исправлять ошибку',
-      label: 'Традиционные LMS',
-      // valueClass: 'text-red-500 text-6xl leading-none',
-      valueClass: 'text-red-500 text-6xl',
-    },
+    category: t('cmp5Cat'),
+    kodhau: { value: t('cmp5KhVal'), subtitle: t('cmp5KhSub'), label: 'KodHau', valueClass: 'text-green-600' },
+    traditional: { value: t('cmp5TrVal'), subtitle: t('cmp5TrSub'), label: t('cmpTradLabel') },
   },
-]
+])
 
 </script>

@@ -56,6 +56,43 @@ const translations = {
     kf2Desc: 'Read a concept, then immediately apply it with a concrete task.',
     kf3Title: 'AI mentor',
     kf3Desc: 'Get Socratic hints, not answers — so you actually learn.',
+
+    // Comparison cards
+    cmpTradLabel: 'Traditional courses',
+    cmp1Cat: 'Time to First Project',
+    cmp1KhVal: '14 days', cmp1KhSub: 'You ship a working app',
+    cmp1TrVal: '3–4 months', cmp1TrSub: 'Theory first, project maybe later',
+    cmp2Cat: 'Practice vs Theory',
+    cmp2KhVal: '80%', cmp2KhSub: 'Of your time is writing real code',
+    cmp2TrVal: '20%', cmp2TrSub: 'Most time is watching videos',
+    cmp3Cat: 'Knowledge Retention',
+    cmp3KhVal: '95%', cmp3KhSub: 'You learn when you hit a real error',
+    cmp3TrVal: '12%', cmp3TrSub: 'Forgotten within a week',
+    cmp4Cat: 'Feedback Speed',
+    cmp4KhVal: 'Instant', cmp4KhSub: 'AI reviews every submission',
+    cmp4TrVal: 'Days', cmp4TrSub: 'Waiting for a tutor reply',
+    cmp5Cat: 'Getting Unstuck',
+    cmp5KhVal: 'Minutes', cmp5KhSub: 'AI hint guides you to the answer',
+    cmp5TrVal: 'Hours', cmp5TrSub: 'Forum posts or searching alone',
+
+    // Credibility
+    credTitle: 'Credibility you can feel',
+    credSubtitle: 'Built by working developers. Designed for learners who want a clear path, not a content dump.',
+    quote1: '"The biggest difference is the order. I stopped jumping around and finally built a small app end-to-end."',
+    quote1Author: 'Amina · Self-taught developer',
+    quote2: '"Short lessons + practice steps means I actually write code. I don\'t just watch someone else do it."',
+    quote2Author: 'Jon · Career switcher',
+
+    // CTA
+    ctaTitle: 'Start learning with a plan you can follow',
+    ctaSubtitle: 'Create your account and begin the first track in minutes.',
+    ctaButton: 'Register and start',
+
+    // Footer
+    footerRights: 'All rights reserved',
+    footerCreated: 'Created by Zhasulan Serikbek',
+    footerTerms: 'Terms',
+    footerPrivacy: 'Privacy',
   },
 
   ru: {
@@ -104,6 +141,39 @@ const translations = {
     kf2Desc: 'Прочитайте концепт — сразу примените его в конкретной задаче.',
     kf3Title: 'ИИ-ментор',
     kf3Desc: 'Получайте сократические подсказки, а не готовые ответы — так вы действительно учитесь.',
+
+    cmpTradLabel: 'Традиционные курсы',
+    cmp1Cat: 'Время до первого проекта',
+    cmp1KhVal: '14 дней', cmp1KhSub: 'Вы создаёте рабочее приложение',
+    cmp1TrVal: '3–4 месяца', cmp1TrSub: 'Сначала теория, проект — потом',
+    cmp2Cat: 'Практика против теории',
+    cmp2KhVal: '80%', cmp2KhSub: 'Вашего времени уходит на написание кода',
+    cmp2TrVal: '20%', cmp2TrSub: 'Большую часть времени смотрите видео',
+    cmp3Cat: 'Удержание знаний',
+    cmp3KhVal: '95%', cmp3KhSub: 'Вы учитесь в момент реальной ошибки',
+    cmp3TrVal: '12%', cmp3TrSub: 'Через неделю всё забыто',
+    cmp4Cat: 'Скорость обратной связи',
+    cmp4KhVal: 'Мгновенно', cmp4KhSub: 'ИИ проверяет каждое решение',
+    cmp4TrVal: 'Дни', cmp4TrSub: 'Ожидание ответа преподавателя',
+    cmp5Cat: 'Выход из тупика',
+    cmp5KhVal: 'Минуты', cmp5KhSub: 'ИИ-подсказка ведёт вас к ответу',
+    cmp5TrVal: 'Часы', cmp5TrSub: 'Форумы или поиск в одиночку',
+
+    credTitle: 'Доверие, которое ощущается',
+    credSubtitle: 'Создано практикующими разработчиками. Для тех, кто хочет чёткий путь, а не свалку контента.',
+    quote1: '«Главное отличие — порядок. Я перестал метаться и наконец собрал небольшое приложение от начала до конца.»',
+    quote1Author: 'Амина · Самоучка',
+    quote2: '«Короткие уроки + практика — это значит, что я реально пишу код. Не просто наблюдаю за другим.»',
+    quote2Author: 'Джон · Смена карьеры',
+
+    ctaTitle: 'Начните учиться по понятному плану',
+    ctaSubtitle: 'Создайте аккаунт и начните первый трек за несколько минут.',
+    ctaButton: 'Зарегистрироваться и начать',
+
+    footerRights: 'Все права защищены',
+    footerCreated: 'Создано Жасуланом Серикбеком',
+    footerTerms: 'Условия',
+    footerPrivacy: 'Конфиденциальность',
   },
 
   kk: {
@@ -152,6 +222,39 @@ const translations = {
     kf2Desc: 'Тұжырымдаманы оқыңыз — бірден нақты тапсырмада қолданыңыз.',
     kf3Title: 'ЖИ-ментор',
     kf3Desc: 'Дайын жауаптар емес, сократтық кеңестер алыңыз — осылай шынымен үйренесіз.',
+
+    cmpTradLabel: 'Дәстүрлі курстар',
+    cmp1Cat: 'Бірінші жобаға дейін',
+    cmp1KhVal: '14 күн', cmp1KhSub: 'Жұмыс істейтін қосымша жасайсыз',
+    cmp1TrVal: '3–4 ай', cmp1TrSub: 'Алдымен теория, жоба — кейін',
+    cmp2Cat: 'Практика мен теория',
+    cmp2KhVal: '80%', cmp2KhSub: 'Уақытыңыз нақты код жазуға кетеді',
+    cmp2TrVal: '20%', cmp2TrSub: 'Уақыттың көбі видео қарауға кетеді',
+    cmp3Cat: 'Білімді сақтау',
+    cmp3KhVal: '95%', cmp3KhSub: 'Нақты қатені кезінде үйренесіз',
+    cmp3TrVal: '12%', cmp3TrSub: 'Бір аптада ұмытылады',
+    cmp4Cat: 'Кері байланыс жылдамдығы',
+    cmp4KhVal: 'Бірден', cmp4KhSub: 'ЖИ әр шешімді тексереді',
+    cmp4TrVal: 'Күндер', cmp4TrSub: 'Оқытушының жауабын күту',
+    cmp5Cat: 'Тығырықтан шығу',
+    cmp5KhVal: 'Минуттар', cmp5KhSub: 'ЖИ-кеңес жауапқа жетелейді',
+    cmp5TrVal: 'Сағаттар', cmp5TrSub: 'Форумдар немесе жалғыз іздеу',
+
+    credTitle: 'Сезіне алатын сенімділік',
+    credSubtitle: 'Жұмыс істейтін әзірлеушілер жасаған. Контент үймесін емес, нақты жолды қалайтын үйренушілер үшін.',
+    quote1: '«Ең үлкен айырмашылық — реттілік. Секіруді тоқтаттым және соңында кішкентай қосымша жасап шықтым.»',
+    quote1Author: 'Амина · Өз бетімен үйренуші',
+    quote2: '«Қысқа сабақтар + практика — мен шынымен код жазамын. Тек біреудің жазғанын қараған жоқпын.»',
+    quote2Author: 'Джон · Мансап ауыстырушы',
+
+    ctaTitle: 'Ұстана алатын жоспармен оқуды бастаңыз',
+    ctaSubtitle: 'Аккаунт жасап, бірінші тректі минуттарда бастаңыз.',
+    ctaButton: 'Тіркеліп бастау',
+
+    footerRights: 'Барлық құқықтар қорғалған',
+    footerCreated: 'Жасулан Серікбек жасаған',
+    footerTerms: 'Шарттар',
+    footerPrivacy: 'Құпиялылық',
   },
 } as const
 
