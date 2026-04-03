@@ -1,16 +1,30 @@
 const supabase = require('../lib/supabase')
 
 module.exports = function(app) {
-  // GET all courses
+  // GET all courses with lesson counts
   app.get('/api/courses', async (req, res) => {
     try {
       const { data, error } = await supabase
         .from('courses')
-        .select('*')
+        .select(`
+          *,
+          modules (
+            lessons (id)
+          )
+        `)
         .order('created_at')
 
       if (error) throw error
-      res.json(data || [])
+
+      const mapped = (data || []).map(course => ({
+        ...course,
+        total_lessons: course.modules?.reduce(
+          (sum, m) => sum + (m.lessons?.length ?? 0), 0
+        ) ?? 0,
+        modules: undefined,
+      }))
+
+      res.json(mapped)
     } catch (e) {
       res.status(500).json({ error: e.message })
     }

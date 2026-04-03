@@ -1,11 +1,27 @@
+import { useEffect, useState } from 'react'
 import { AppShell } from '../components/layout/AppShell'
 import { CourseCard } from '../components/dashboard/CourseCard'
 import { useCourses } from '../hooks/useCourses'
 import { useLang } from '../i18n/LangContext'
+import { supabase } from '../lib/supabase'
+
+const API = import.meta.env.VITE_API_URL
 
 export function DashboardPage() {
   const { courses, loading, error } = useCourses()
   const { t } = useLang()
+  const [tasksSolved, setTasksSolved] = useState(0)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      const token = data.session?.access_token
+      if (!token) return
+      fetch(`${API}/api/progress`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.json())
+        .then((ids: string[]) => setTasksSolved(ids.length))
+        .catch(() => {})
+    })
+  }, [])
 
   return (
     <AppShell>
@@ -20,8 +36,8 @@ export function DashboardPage() {
         <div className="grid grid-cols-3 gap-3 mb-8 max-w-lg">
           {[
             { label: t('courses'), value: courses.length },
-            { label: t('lessonsCompleted'), value: 0 },
-            { label: t('tasksSolved'), value: 0 },
+            { label: t('lessonsCompleted'), value: courses.reduce((s, c) => s + c.totalLessons, 0) },
+            { label: t('tasksSolved'), value: tasksSolved },
           ].map((stat) => (
             <div key={stat.label} className="rounded-2xl bg-white border border-slate-100 px-5 py-4 shadow-sm">
               <p className="text-2xl font-bold text-indigo-600" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
