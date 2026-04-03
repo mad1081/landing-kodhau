@@ -52,7 +52,13 @@ export function useCourses() {
         const data: ApiCourse[] = await coursesRes.json()
 
         let progress: ProgressData = { taskIds: [], lessonIds: [], courseLessons: {} }
-        if (progressRes.ok) progress = await progressRes.json()
+        if (progressRes.ok) {
+          const raw = await progressRes.json()
+          // Handle both old format (array) and new format (object)
+          progress = Array.isArray(raw)
+            ? { taskIds: raw, lessonIds: [], courseLessons: {} }
+            : raw
+        }
 
         setTasksSolved(progress.taskIds.length)
         setLessonsCompleted(progress.lessonIds.length)
