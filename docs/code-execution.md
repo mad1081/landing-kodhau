@@ -1,3 +1,8 @@
+---
+title: "Код орындау"
+description: "Judge0 (JS/Python) және PGlite (SQL) орындау жүйелері"
+---
+
 # Код орындау жүйесі
 
 KodHau екі орындау механизмін қолданады: JavaScript/Python үшін **Judge0**, SQL тапсырмалары үшін **PGlite** (браузерде).

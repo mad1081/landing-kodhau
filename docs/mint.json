@@ -1,0 +1,44 @@
+{
+  "name": "KodHau",
+  "logo": {
+    "light": "/logo.svg",
+    "dark": "/logo.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#6366F1",
+    "light": "#818CF8",
+    "dark": "#4F46E5"
+  },
+  "topbarLinks": [
+    {
+      "name": "Платформа",
+      "url": "https://kodhau-ide.vercel.app"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "GitHub",
+    "url": "https://github.com/mad1081/landing-kodhau"
+  },
+  "navigation": [
+    {
+      "group": "Кіріспе",
+      "pages": ["introduction"]
+    },
+    {
+      "group": "API",
+      "pages": ["api"]
+    },
+    {
+      "group": "Техникалық",
+      "pages": ["database", "auth", "code-execution"]
+    },
+    {
+      "group": "Орнату",
+      "pages": ["setup"]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/mad1081/landing-kodhau"
+  }
+}

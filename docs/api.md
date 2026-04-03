@@ -1,3 +1,8 @@
+---
+title: "API эндпоинттері"
+description: "KodHau REST API — барлық маршруттар, параметрлер және мысалдар"
+---
+
 # API эндпоинттері
 
 **Base URL (өндіріс):** `https://kodhau-backend.onrender.com`  
