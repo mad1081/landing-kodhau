@@ -18,6 +18,7 @@ require('./routes/tasks')(app)
 require('./routes/users')(app)
 require('./routes/run')(app)
 require('./routes/progress')(app)
+require('./routes/groups')(app)
 
 // Health check
 app.get('/health', (req, res) => {
