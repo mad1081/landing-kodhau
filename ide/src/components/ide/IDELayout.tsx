@@ -9,6 +9,7 @@ import { useAudioDrivenMentor } from '../../hooks/useAudioDrivenMentor'
 import { useVoice } from '../../hooks/useVoice'
 import type { MentorLanguage } from '../../hooks/useMentor'
 import { useCodeRunner, resultToOutputLines, resultToMentorContext } from '../../hooks/useCodeRunner'
+import { useLang } from '../../i18n/LangContext'
 
 const THEME_STORAGE_KEY = 'kodhau-ide-theme'
 const MENTOR_LANGUAGE_KEY = 'kodhau-ide-mentor-language'
@@ -58,6 +59,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
   const editorLanguage: EditorLanguage = problem.category === 'postgresql' ? 'sql' : problem.category === 'python' ? 'python' : 'javascript'
 
   const { voiceOn, toggleVoice } = useVoice()
+  const { t } = useLang()
   const handleRun = useCallback(async () => {
     if (!problem.testCases?.length) return
     const r = await run(code, problem.testCases, problem.functionName)
@@ -117,7 +119,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
             to="/"
             className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
           >
-            ← Back to tasks
+            {t('backToTasks')}
           </Link>
           <span className="text-base font-semibold tracking-tight">KodHau IDE</span>
         </div>
@@ -129,7 +131,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
               disabled={running}
               className="rounded-md bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
             >
-              {running ? 'Running…' : '▶ Run'}
+              {running ? t('running') : t('run')}
             </button>
           ) : null}
           <button
@@ -137,7 +139,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
             onClick={toggleTheme}
             className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
-            {isDark ? 'Light' : 'Dark'}
+            {isDark ? t('light') : t('dark')}
           </button>
         </div>
       </header>

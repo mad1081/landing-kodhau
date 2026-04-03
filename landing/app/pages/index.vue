@@ -9,28 +9,35 @@
 
         <nav class="hidden flex-1 justify-center sm:flex">
           <ul class="flex items-center gap-8 text-sm font-medium text-slate-700">
-            <li><a href="#problem" class="text-slate-700">Problem</a></li>
-            <li><a href="#solution" class="text-slate-700">Solution</a></li>
-            <li><a href="#features" class="text-slate-700">Features</a></li>
-            <li><a href="#proof" class="text-slate-700">Proof</a></li>
-            <li><a :href="ideUrl" class="text-slate-700" target="_blank"
-                rel="noopener noreferrer">Try IDE</a></li>
+            <li><a href="#problem" class="text-slate-700">{{ t('navProblem') }}</a></li>
+            <li><a href="#solution" class="text-slate-700">{{ t('navSolution') }}</a></li>
+            <li><a href="#features" class="text-slate-700">{{ t('navFeatures') }}</a></li>
+            <li><a href="#proof" class="text-slate-700">{{ t('navProof') }}</a></li>
+            <li><a :href="ideUrl" class="text-slate-700" target="_blank" rel="noopener noreferrer">{{ t('navTryIde') }}</a></li>
           </ul>
         </nav>
 
         <div class="ml-auto flex items-center gap-3">
+          <!-- Language picker -->
+          <div class="flex gap-1">
+            <button v-for="l in (['kk','ru','en'] as const)" :key="l"
+              @click="setLang(l)"
+              :class="['rounded px-2 py-1 text-xs font-bold transition-colors', lang === l ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-900']">
+              {{ l === 'kk' ? 'ҚАЗ' : l === 'ru' ? 'РУС' : 'ENG' }}
+            </button>
+          </div>
+
           <a :href="ideUrl" target="_blank" rel="noopener noreferrer"
             class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
-            Try IDE
+            {{ t('navTryIde') }}
           </a>
-
           <a :href="`${ideUrl}/auth`"
             class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
-            Login
+            {{ t('login') }}
           </a>
           <a :href="`${ideUrl}/auth`"
             class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">
-            Register
+            {{ t('register') }}
           </a>
         </div>
       </div>
@@ -65,33 +72,32 @@
         <div class="font-inter pointer-events-none relative z-10 mx-auto max-w-4xl text-center">
           <h1
             class="overflow-visible text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
-            Освойте
+            {{ t('heroLine1') }}
             <span class="inline-block rounded-none px-2 py-1" style="
                 background: linear-gradient(105deg, #ea580c 0%, #eab308 100%);
                 transform: skewX(-6deg);
               ">
-              <span class="inline-block text-white" style="transform: skewX(6deg)">программирование</span>
+              <span class="inline-block text-white" style="transform: skewX(6deg)">{{ t('heroWord1') }}</span>
             </span>
-            <!-- your -->
             <br class="hidden sm:inline" />
-            всего за
+            {{ t('heroLine2') }}
             <span class="inline-block rounded-none px-2 py-1" style="
                 background: linear-gradient(105deg, #2563eb 0%, #7c3aed 100%);
                 transform: skewX(6deg);
               ">
-              <span class="inline-block text-white" style="transform: skewX(-6deg)">месяц</span>
+              <span class="inline-block text-white" style="transform: skewX(-6deg)">{{ t('heroWord2') }}</span>
             </span>
-            вместе <br class="hidden sm:inline" />
-            с нами!
+            <br class="hidden sm:inline" />
+            {{ t('heroLine3') }}
           </h1>
           <p class="mx-auto mt-8 max-w-xl text-base text-slate-500 md:text-lg">
-            Живые занятия с ИИ-ментором, который поможет вам освоить программирование за месяц. Без лишних слов, только практические задания и обратная связь.
+            {{ t('heroSubtitle') }}
           </p>
           <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a href="#"
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-semibold text-white"
               @click.prevent="onGetStarted">
-              <span>Explore Course</span>
+              <span>{{ t('exploreCourse') }}</span>
               <kbd class="rounded-md bg-blue-400 px-2 py-0.5 text-sm font-medium text-white">
                 ⌘ S
               </kbd>
@@ -99,7 +105,7 @@
             <a href="#"
               class="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900"
               @click.prevent="onScheduleCall">
-              <span>Join Free Course</span>
+              <span>{{ t('joinFree') }}</span>
               <kbd class="rounded-md bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">
                 ⌘ K
               </kbd>
@@ -111,7 +117,7 @@
       <!-- Trusted by: infinite logo marquee -->
       <section class="border-y border-slate-200 bg-white py-8">
         <p class="text-center text-sm font-semibold uppercase tracking-wider text-slate-500">
-          Trusted by students at
+          {{ t('trustedBy') }}
         </p>
         <div class="relative mt-6 overflow-hidden">
           <div class="flex w-max animate-trusted-marquee items-center gap-12 px-4" aria-hidden="true">
@@ -135,18 +141,12 @@
       <section id="problem" class="border-t border-slate-200 bg-slate-50 px-4 py-16 md:py-20">
         <div class="mx-auto max-w-3xl">
           <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
-            Most people learn in the wrong order
+            {{ t('problemTitle') }}
           </h2>
           <ul class="mt-8 space-y-6 text-lg text-slate-700">
-            <li>
-              You bounce between videos and docs, but nothing connects into a plan.
-            </li>
-            <li>
-              You can follow a tutorial, but you freeze when you have to build alone.
-            </li>
-            <li>
-              You spend weeks on topics that don't move you closer to a real project.
-            </li>
+            <li>{{ t('problem1') }}</li>
+            <li>{{ t('problem2') }}</li>
+            <li>{{ t('problem3') }}</li>
           </ul>
         </div>
       </section>
@@ -156,10 +156,10 @@
           <!-- Header -->
           <div class="text-center">
             <h2 class="text-4xl font-bold text-gray-900 md:text-4xl">
-              Почему KodHau?
+              {{ t('whyTitle') }}
             </h2>
             <p class="mx-auto mt-4 max-w-3xl text-lg text-gray-600 md:text-xl">
-              Для студентов, которым нужен результат, а не отчеты об «успеваемости».
+              {{ t('whySubtitle') }}
             </p>
           </div>
 
@@ -222,10 +222,10 @@
       <section id="solution" class="border-t border-slate-200 px-4 py-16 md:py-20">
         <div class="mx-auto max-w-4xl">
           <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
-            Learn by building, with guardrails
+            {{ t('solutionTitle') }}
           </h2>
           <p class="mt-4 text-lg text-slate-600">
-            KodHau guides you through the essentials in the right sequence, then makes you practice until it clicks.
+            {{ t('solutionSubtitle') }}
           </p>
           <ul class="mt-10 grid gap-6 sm:grid-cols-2">
             <li class="rounded-md border border-slate-200 bg-white p-6">
@@ -239,10 +239,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-lg font-semibold text-slate-900">Structured curriculum</h3>
-                  <p class="mt-2 text-slate-600">
-                    A single path that builds foundations first, then projects—so you always know what's next.
-                  </p>
+                  <h3 class="text-lg font-semibold text-slate-900">{{ t('feat1Title') }}</h3>
+                  <p class="mt-2 text-slate-600">{{ t('feat1Desc') }}</p>
                 </div>
               </div>
             </li>
@@ -256,10 +254,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-lg font-semibold text-slate-900">Real coding practice</h3>
-                  <p class="mt-2 text-slate-600">
-                    Short exercises and project steps that force you to write code, not just consume content.
-                  </p>
+                  <h3 class="text-lg font-semibold text-slate-900">{{ t('feat2Title') }}</h3>
+                  <p class="mt-2 text-slate-600">{{ t('feat2Desc') }}</p>
                 </div>
               </div>
             </li>
@@ -273,10 +269,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-lg font-semibold text-slate-900">Modern stack</h3>
-                  <p class="mt-2 text-slate-600">
-                    Learn with tools you'll actually use: Git, TypeScript, APIs, and modern front-end patterns.
-                  </p>
+                  <h3 class="text-lg font-semibold text-slate-900">{{ t('feat3Title') }}</h3>
+                  <p class="mt-2 text-slate-600">{{ t('feat3Desc') }}</p>
                 </div>
               </div>
             </li>
@@ -289,10 +283,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-lg font-semibold text-slate-900">Clarity and focus</h3>
-                  <p class="mt-2 text-slate-600">
-                    Tight lessons, clear checklists, and practical outcomes—so you keep moving.
-                  </p>
+                  <h3 class="text-lg font-semibold text-slate-900">{{ t('feat4Title') }}</h3>
+                  <p class="mt-2 text-slate-600">{{ t('feat4Desc') }}</p>
                 </div>
               </div>
             </li>
@@ -304,7 +296,7 @@
       <section id="features" class="border-t border-slate-200 bg-slate-50 px-4 py-16 md:py-20">
         <div class="mx-auto max-w-4xl">
           <h2 class="text-2xl font-bold text-slate-900 md:text-3xl">
-            Key features
+            {{ t('featuresTitle') }}
           </h2>
           <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <div class="rounded-md border border-slate-200 bg-white p-6">
@@ -317,10 +309,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-base font-semibold text-slate-900">Milestone-driven path</h3>
-                  <p class="mt-1 text-slate-600">
-                    You always know what "done" looks like before you move on.
-                  </p>
+                  <h3 class="text-base font-semibold text-slate-900">{{ t('kf1Title') }}</h3>
+                  <p class="mt-1 text-slate-600">{{ t('kf1Desc') }}</p>
                 </div>
               </div>
             </div>
@@ -339,10 +329,8 @@
                   </svg>
                 </span>
                 <div>
-                  <h3 class="text-base font-semibold text-slate-900">Short lessons, clear steps</h3>
-                  <p class="mt-1 text-slate-600">
-                    Read a concept, then immediately apply it with a concrete task.
-                  </p>
+                  <h3 class="text-base font-semibold text-slate-900">{{ t('kf2Title') }}</h3>
+                  <p class="mt-1 text-slate-600">{{ t('kf2Desc') }}</p>
                 </div>
               </div>
             </div>
@@ -489,6 +477,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
+const { lang, setLang, t } = useLang()
 
 import htmlLogo from '~/assets/images/html.svg'
 import cssLogo from '~/assets/images/css.svg'

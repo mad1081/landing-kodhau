@@ -8,15 +8,18 @@ interface OutputPanelProps {
   lines: OutputLine[]
 }
 
+import { useLang } from '../../i18n/LangContext'
+
 export function OutputPanel({ lines }: OutputPanelProps) {
+  const { t } = useLang()
   return (
     <div className="flex h-full flex-col overflow-y-auto border-t border-slate-200 bg-slate-900 px-4 py-3 dark:border-slate-700">
       <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-        Output
+        {t('output')}
       </h3>
       <div className="font-mono text-sm">
         {lines.length === 0 ? (
-          <p className="text-slate-500">Run your code to see output.</p>
+          <p className="text-slate-500">{t('runToSeeOutput')}</p>
         ) : (
           lines.map((line) => (
             <div

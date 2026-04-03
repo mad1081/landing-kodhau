@@ -1,10 +1,12 @@
 import type { Problem } from '../../data/mockProblem'
+import { useLang } from '../../i18n/LangContext'
 
 interface ProblemPanelProps {
   problem: Problem
 }
 
 export function ProblemPanel({ problem }: ProblemPanelProps) {
+  const { t } = useLang()
   const hasExamples = problem.examples.length > 0
   const hasTestCases = problem.testCases && problem.testCases.length > 0
 
@@ -18,7 +20,7 @@ export function ProblemPanel({ problem }: ProblemPanelProps) {
       </p>
 
       <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Input / Output
+        {t('inputOutput')}
       </h3>
       <div className="mt-2 space-y-2">
         {hasExamples && problem.examples.map((ex, i) => (
@@ -39,13 +41,13 @@ export function ProblemPanel({ problem }: ProblemPanelProps) {
           </div>
         ))}
         {!hasExamples && !hasTestCases && (
-          <p className="text-sm text-slate-400">No examples provided.</p>
+          <p className="text-sm text-slate-400">{t('noExamples')}</p>
         )}
       </div>
 
       {problem.constraints.length > 0 && (
         <>
-          <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">Constraints</h3>
+          <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">{t('constraints')}</h3>
           <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-slate-600 dark:text-slate-400">
             {problem.constraints.map((c, i) => <li key={i}>{c}</li>)}
           </ul>

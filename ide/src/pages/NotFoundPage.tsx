@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { AppShell } from '../components/layout/AppShell'
+import { useLang } from '../i18n/LangContext'
 
 export function NotFoundPage() {
   const navigate = useNavigate()
+  const { t } = useLang()
 
   return (
     <AppShell>
@@ -11,16 +13,14 @@ export function NotFoundPage() {
           404
         </p>
         <p className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-          Page not found
+          {t('pageNotFound')}
         </p>
-        <p className="text-sm text-slate-400">
-          The page you're looking for doesn't exist.
-        </p>
+        <p className="text-sm text-slate-400">{t('pageNotFoundDesc')}</p>
         <button
           onClick={() => navigate('/')}
           className="mt-2 rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors"
         >
-          Go home
+          {t('goHome')}
         </button>
       </div>
     </AppShell>
