@@ -56,7 +56,7 @@ export function useVoice() {
           },
           body: JSON.stringify({
             text: text.slice(0, 2500),
-            model_id: 'eleven_multilingual_v2',
+            model_id: 'eleven_turbo_v2_5',
           }),
         }
       )
