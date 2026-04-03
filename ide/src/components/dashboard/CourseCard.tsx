@@ -12,7 +12,7 @@ export function CourseCard({ course }: CourseCardProps) {
     : 0
 
   return (
-    <div className="group flex flex-col rounded-2xl bg-white border border-slate-100 overflow-hidden transition-all duration-300 hover:-translate-y-2">
+    <div className="group flex flex-col rounded-2xl bg-white border border-slate-100 shadow-sm overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
       {/* Cover image — 30% height, cropped */}
       <div className="h-32 w-full overflow-hidden">
         <img
