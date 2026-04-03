@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { IconPlus, IconChevronRight, IconCheck, IconX } from '@tabler/icons-react'
 import { AppShell } from '../components/layout/AppShell'
-
+import { useLang } from '../i18n/LangContext'
 import { supabase } from '../lib/supabase'
 
 const API = import.meta.env.VITE_API_URL
@@ -22,6 +22,7 @@ interface Lesson { id: string; title: string; module_id: string }
 
 
 export function AdminPage() {
+  const { t } = useLang()
   const [tab, setTab] = useState<Tab>('course')
   const [courses, setCourses] = useState<Course[]>([])
   const [modules, setModules] = useState<Module[]>([])
@@ -92,12 +93,12 @@ export function AdminPage() {
     if (!res.ok) { flashErr(data.error); return }
     setCourseTitle(''); setCourseSlug(''); setCourseDesc('')
     await fetchCourses()
-    flash('Course created!')
+    flash(t('courseCreated'))
   }
 
   async function createModule(e: React.FormEvent) {
     e.preventDefault()
-    if (!selectedCourse) { flashErr('Select a course first'); return }
+    if (!selectedCourse) { flashErr(t('selectCourseFirst')); return }
     const res = await fetch(`${API}/api/modules`, {
       method: 'POST',
       headers: await authHeaders(),
@@ -107,12 +108,12 @@ export function AdminPage() {
     if (!res.ok) { flashErr(data.error); return }
     setModuleTitle('')
     await fetchModules(selectedCourse)
-    flash('Module created!')
+    flash(t('moduleCreated'))
   }
 
   async function createLesson(e: React.FormEvent) {
     e.preventDefault()
-    if (!selectedModule) { flashErr('Select a module first'); return }
+    if (!selectedModule) { flashErr(t('selectModuleFirst')); return }
     const res = await fetch(`${API}/api/lessons`, {
       method: 'POST',
       headers: await authHeaders(),
@@ -122,15 +123,15 @@ export function AdminPage() {
     if (!res.ok) { flashErr(data.error); return }
     setLessonTitle(''); setLessonMd('')
     await fetchLessons(selectedModule)
-    flash('Lesson created!')
+    flash(t('lessonCreated'))
   }
 
   async function createTask(e: React.FormEvent) {
     e.preventDefault()
-    if (!selectedLesson) { flashErr('Select a lesson first'); return }
+    if (!selectedLesson) { flashErr(t('selectLessonFirst')); return }
     let test_cases = null
     if (taskTestCases.trim()) {
-      try { test_cases = JSON.parse(taskTestCases.trim()) } catch { flashErr('Invalid JSON in test cases'); return }
+      try { test_cases = JSON.parse(taskTestCases.trim()) } catch { flashErr(t('invalidJson')); return }
     }
     const res = await fetch(`${API}/api/tasks`, {
       method: 'POST',
@@ -140,17 +141,17 @@ export function AdminPage() {
     const data = await res.json()
     if (!res.ok) { flashErr(data.error); return }
     setTaskTitle(''); setTaskDesc(''); setTaskStarter(''); setTaskFuncName(''); setTaskTestCases('')
-    flash('Task created!')
+    flash(t('taskCreated'))
   }
 
   const inputCls = 'w-full bg-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3525cd]/30'
   const selectCls = 'w-full bg-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#3525cd]/30'
   const labelCls = 'block text-xs font-semibold text-slate-500 mb-1.5'
   const tabs: { id: Tab; label: string }[] = [
-    { id: 'course', label: 'New Course' },
-    { id: 'module', label: 'New Module' },
-    { id: 'lesson', label: 'New Lesson' },
-    { id: 'task', label: 'New Task' },
+    { id: 'course', label: t('newCourse') },
+    { id: 'module', label: t('newModule') },
+    { id: 'lesson', label: t('newLesson') },
+    { id: 'task', label: t('newTask') },
   ]
 
   return (
@@ -171,9 +172,9 @@ export function AdminPage() {
       <div className="px-4 py-6 sm:px-8 sm:py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-            Course Management
+            {t('courseManagement')}
           </h1>
-          <p className="mt-1 text-sm text-slate-500">Manage courses, modules, lessons, and tasks.</p>
+          <p className="mt-1 text-sm text-slate-500">{t('manageCourses')}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -182,7 +183,7 @@ export function AdminPage() {
           <section className="lg:col-span-4 space-y-4">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-sm font-bold tracking-tight border-l-4 border-[#3525cd] pl-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                Live Repositories
+                {t('liveRepositories')}
               </h2>
               <button
                 onClick={() => setTab('course')}
@@ -195,7 +196,7 @@ export function AdminPage() {
 
             <div className="rounded-xl p-2 space-y-2" style={{ background: '#eff4ff' }}>
               {courses.length === 0 && (
-                <p className="text-xs text-slate-400 px-3 py-2">No courses yet. Create one →</p>
+                <p className="text-xs text-slate-400 px-3 py-2">{t('noCoursesYet')}</p>
               )}
               {courses.map(c => (
                 <button
@@ -242,30 +243,30 @@ export function AdminPage() {
                 <form onSubmit={createCourse} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Title</label>
+                      <label className={labelCls}>{t('titleLabel')}</label>
                       <input className={inputCls} value={courseTitle} onChange={e => setCourseTitle(e.target.value)} placeholder="Fullstack JS" required />
                     </div>
                     <div>
-                      <label className={labelCls}>Slug</label>
+                      <label className={labelCls}>{t('slugLabel')}</label>
                       <input className={inputCls} value={courseSlug} onChange={e => setCourseSlug(e.target.value)} placeholder="fullstack-js" required />
                     </div>
                   </div>
                   <div>
-                    <label className={labelCls}>Description</label>
+                    <label className={labelCls}>{t('descriptionLabel')}</label>
                     <input className={inputCls} value={courseDesc} onChange={e => setCourseDesc(e.target.value)} placeholder="Short description" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Icon (emoji or text)</label>
+                      <label className={labelCls}>{t('iconLabel')}</label>
                       <input className={inputCls} value={courseIcon} onChange={e => setCourseIcon(e.target.value)} placeholder="JS" maxLength={4} />
                     </div>
                     <div>
-                      <label className={labelCls}>Color</label>
+                      <label className={labelCls}>{t('colorLabel')}</label>
                       <input type="color" className="w-full h-10 rounded-lg cursor-pointer border-none" value={courseColor} onChange={e => setCourseColor(e.target.value)} />
                     </div>
                   </div>
                   <button type="submit" className="w-full py-2.5 text-sm font-semibold text-white rounded-xl bg-[#3525cd] hover:opacity-90 transition">
-                    Create Course
+                    {t('createCourse')}
                   </button>
                 </form>
               )}
@@ -274,23 +275,23 @@ export function AdminPage() {
               {tab === 'module' && (
                 <form onSubmit={createModule} className="space-y-4">
                   <div>
-                    <label className={labelCls}>Course</label>
+                    <label className={labelCls}>{t('courseLabel')}</label>
                     <select className={selectCls} value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} required>
-                      <option value="">Select course…</option>
+                      <option value="">{t('selectCourseOption')}</option>
                       {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className={labelCls}>Module Title</label>
+                    <label className={labelCls}>{t('moduleTitleLabel')}</label>
                     <input className={inputCls} value={moduleTitle} onChange={e => setModuleTitle(e.target.value)} placeholder="Module 01: JavaScript Basics" required />
                   </div>
                   {modules.length > 0 && (
                     <div className="text-xs text-slate-400">
-                      Existing: {modules.map(m => m.title).join(', ')}
+                      {t('existingLabel')} {modules.map(m => m.title).join(', ')}
                     </div>
                   )}
                   <button type="submit" className="w-full py-2.5 text-sm font-semibold text-white rounded-xl bg-[#3525cd] hover:opacity-90 transition">
-                    Create Module
+                    {t('createModule')}
                   </button>
                 </form>
               )}
@@ -300,26 +301,26 @@ export function AdminPage() {
                 <form onSubmit={createLesson} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Course</label>
+                      <label className={labelCls}>{t('courseLabel')}</label>
                       <select className={selectCls} value={selectedCourse} onChange={e => { setSelectedCourse(e.target.value); setSelectedModule('') }} required>
-                        <option value="">Select course…</option>
+                        <option value="">{t('selectCourseOption')}</option>
                         {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className={labelCls}>Module</label>
+                      <label className={labelCls}>{t('moduleLabel')}</label>
                       <select className={selectCls} value={selectedModule} onChange={e => setSelectedModule(e.target.value)} required>
-                        <option value="">Select module…</option>
+                        <option value="">{t('selectModuleOption')}</option>
                         {modules.map(m => <option key={m.id} value={m.id}>{m.title}</option>)}
                       </select>
                     </div>
                   </div>
                   <div>
-                    <label className={labelCls}>Lesson Title</label>
+                    <label className={labelCls}>{t('lessonTitleLabel')}</label>
                     <input className={inputCls} value={lessonTitle} onChange={e => setLessonTitle(e.target.value)} placeholder="Variables & Scope" required />
                   </div>
                   <div>
-                    <label className={labelCls}>Theory (Markdown)</label>
+                    <label className={labelCls}>{t('theoryMarkdown')}</label>
                     <textarea
                       className={inputCls}
                       rows={12}
@@ -328,10 +329,10 @@ export function AdminPage() {
                       placeholder={`## Introduction\n\nExplain the topic here...\n\n\`\`\`javascript\nconsole.log('Hello')\n\`\`\``}
                       style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }}
                     />
-                    <p className="text-[10px] text-slate-400 mt-1">Supports Markdown with code blocks.</p>
+                    <p className="text-[10px] text-slate-400 mt-1">{t('supportsMarkdown')}</p>
                   </div>
                   <button type="submit" className="w-full py-2.5 text-sm font-semibold text-white rounded-xl bg-[#3525cd] hover:opacity-90 transition">
-                    Create Lesson
+                    {t('createLesson')}
                   </button>
                 </form>
               )}
@@ -341,34 +342,34 @@ export function AdminPage() {
                 <form onSubmit={createTask} className="space-y-4">
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <label className={labelCls}>Course</label>
+                      <label className={labelCls}>{t('courseLabel')}</label>
                       <select className={selectCls} value={selectedCourse} onChange={e => { setSelectedCourse(e.target.value); setSelectedModule(''); setSelectedLesson('') }}>
-                        <option value="">Select…</option>
+                        <option value="">{t('selectOption')}</option>
                         {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className={labelCls}>Module</label>
+                      <label className={labelCls}>{t('moduleLabel')}</label>
                       <select className={selectCls} value={selectedModule} onChange={e => { setSelectedModule(e.target.value); setSelectedLesson('') }}>
-                        <option value="">Select…</option>
+                        <option value="">{t('selectOption')}</option>
                         {modules.map(m => <option key={m.id} value={m.id}>{m.title}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className={labelCls}>Lesson</label>
+                      <label className={labelCls}>{t('lessonLabel')}</label>
                       <select className={selectCls} value={selectedLesson} onChange={e => setSelectedLesson(e.target.value)} required>
-                        <option value="">Select…</option>
+                        <option value="">{t('selectOption')}</option>
                         {lessons.map(l => <option key={l.id} value={l.id}>{l.title}</option>)}
                       </select>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Task Title</label>
+                      <label className={labelCls}>{t('taskTitleLabel')}</label>
                       <input className={inputCls} value={taskTitle} onChange={e => setTaskTitle(e.target.value)} placeholder="Write a sum function" required />
                     </div>
                     <div>
-                      <label className={labelCls}>Language</label>
+                      <label className={labelCls}>{t('languageLabel')}</label>
                       <select className={selectCls} value={taskLang} onChange={e => setTaskLang(e.target.value)}>
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
@@ -377,31 +378,31 @@ export function AdminPage() {
                     </div>
                   </div>
                   <div>
-                    <label className={labelCls}>Description</label>
+                    <label className={labelCls}>{t('descriptionLabel')}</label>
                     <textarea className={inputCls} rows={2} value={taskDesc} onChange={e => setTaskDesc(e.target.value)} placeholder="What should the student do?" style={{ resize: 'vertical' }} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelCls}>Function Name</label>
+                      <label className={labelCls}>{t('functionNameLabel')}</label>
                       <input className={inputCls} value={taskFuncName} onChange={e => setTaskFuncName(e.target.value)} placeholder="e.g. twoSum" style={{ fontFamily: "'JetBrains Mono', monospace" }} />
-                      <p className="text-[10px] text-slate-400 mt-1">JS/Python only. Must match the function in starter code.</p>
+                      <p className="text-[10px] text-slate-400 mt-1">{t('functionNameHint')}</p>
                     </div>
                     <div>
-                      <label className={labelCls}>Starter Code</label>
+                      <label className={labelCls}>{t('starterCodeLabel')}</label>
                       <textarea className={inputCls} rows={4} value={taskStarter} onChange={e => setTaskStarter(e.target.value)} placeholder="function sum(a, b) {\n  // your code\n}" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }} />
                     </div>
                   </div>
                   <div>
-                    <label className={labelCls}>Test Cases (JSON)</label>
+                    <label className={labelCls}>{t('testCasesJson')}</label>
                     <textarea
                       className={inputCls} rows={4} value={taskTestCases} onChange={e => setTaskTestCases(e.target.value)}
                       placeholder={`[{"input": [2, 3], "expected": 5}, {"input": [0, 0], "expected": 0}]`}
                       style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }}
                     />
-                    <p className="text-[10px] text-slate-400 mt-1">For SQL: add <code>setup_sql</code> and <code>validation_sql</code> keys per test.</p>
+                    <p className="text-[10px] text-slate-400 mt-1">{t('testCasesHint')}</p>
                   </div>
                   <button type="submit" className="w-full py-2.5 text-sm font-semibold text-white rounded-xl bg-[#3525cd] hover:opacity-90 transition">
-                    Create Task
+                    {t('createTask')}
                   </button>
                 </form>
               )}
