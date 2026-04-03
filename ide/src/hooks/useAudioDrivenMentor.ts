@@ -221,7 +221,7 @@ Provide minimal mentor feedback (no full solution, no final code). One short res
       let blob: Blob
       try {
         const ttsRes = await fetch(
-          `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
+          `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_64`,
           {
             method: 'POST',
             headers: { 'xi-api-key': elevenKey, 'Content-Type': 'application/json' },
