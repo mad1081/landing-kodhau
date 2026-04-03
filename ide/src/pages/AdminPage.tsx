@@ -382,9 +382,10 @@ export function AdminPage() {
                       placeholder={`## Introduction\n\nExplain the topic here...`}
                       style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem', resize: 'vertical' }} />
                     <div className="mt-2 flex items-center gap-2">
-                      <label className="flex cursor-not-allowed items-center gap-2 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-xs text-slate-400 select-none" title="Coming soon">
+                      <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-xs text-slate-400 hover:border-indigo-400 hover:text-indigo-500 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 17.2a2 2 0 0 1-2.83-2.83l8.49-8.49"/></svg>
                         Attach .md file
+                        <input type="file" accept=".md" className="hidden" />
                       </label>
                       <p className="text-[10px] text-slate-400">{t('supportsMarkdown')}</p>
                     </div>
