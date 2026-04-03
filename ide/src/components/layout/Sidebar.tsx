@@ -23,21 +23,25 @@ interface SidebarProps {
 
 export function Sidebar({ open, collapsed, onClose, onToggleCollapse }: SidebarProps) {
   const [email, setEmail] = useState('')
+  const [role, setRole] = useState('student')
   const navigate = useNavigate()
   const { t, lang, setLang } = useLang()
-
-  const navItems = [
-    { to: '/', label: t('dashboard'), icon: <IconLayoutDashboard size={18} /> },
-    { to: '/admin', label: t('admin'), icon: <IconSettings size={18} /> },
-    { to: '/groups', label: t('studentGroups'), icon: <IconUsers size={18} /> },
-    { to: '/profile', label: t('profile'), icon: <IconUser size={18} /> },
-  ]
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (data.user?.email) setEmail(data.user.email)
+      setRole(data.user?.user_metadata?.role || 'student')
     })
   }, [])
+
+  const isStaff = role === 'admin' || role === 'teacher'
+
+  const navItems = [
+    { to: '/', label: t('dashboard'), icon: <IconLayoutDashboard size={18} /> },
+    ...(isStaff ? [{ to: '/admin', label: t('admin'), icon: <IconSettings size={18} /> }] : []),
+    ...(isStaff ? [{ to: '/groups', label: t('studentGroups'), icon: <IconUsers size={18} /> }] : []),
+    { to: '/profile', label: t('profile'), icon: <IconUser size={18} /> },
+  ]
 
   async function handleSignOut() {
     await supabase.auth.signOut()
