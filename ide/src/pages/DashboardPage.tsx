@@ -9,7 +9,7 @@ export function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="px-8 py-8">
+      <div className="px-4 py-6 sm:px-8 sm:py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
             {t('welcomeBack')}
@@ -17,7 +17,7 @@ export function DashboardPage() {
           <p className="mt-1 text-sm text-slate-500">{t('pickUp')}</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mb-8 max-w-lg">
+        <div className="grid grid-cols-3 gap-3 mb-8 max-w-lg">
           {[
             { label: t('courses'), value: courses.length },
             { label: t('lessonsCompleted'), value: 0 },

@@ -168,7 +168,7 @@ export function AdminPage() {
           </div>
         </div>
       )}
-      <div className="px-8 py-8">
+      <div className="px-4 py-6 sm:px-8 sm:py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-[#0d1c2f]" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
             Course Management
@@ -176,7 +176,7 @@ export function AdminPage() {
           <p className="mt-1 text-sm text-slate-500">Manage courses, modules, lessons, and tasks.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
           {/* Left: courses list */}
           <section className="lg:col-span-4 space-y-4">

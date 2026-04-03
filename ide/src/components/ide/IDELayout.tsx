@@ -112,16 +112,16 @@ export function IDELayout({ problem }: IDELayoutProps) {
   }, [])
 
   return (
-    <div className="flex h-screen flex-col bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">
-      <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
-        <div className="flex items-center gap-3">
+    <div className="flex h-[100dvh] flex-col bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100">
+      <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
+        <div className="flex items-center gap-2 min-w-0">
           <Link
             to="/"
-            className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+            className="shrink-0 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
           >
             {t('backToTasks')}
           </Link>
-          <span className="text-base font-semibold tracking-tight">KodHau IDE</span>
+          <span className="hidden sm:inline text-base font-semibold tracking-tight truncate">KodHau IDE</span>
         </div>
         <div className="flex items-center gap-2">
           {problem.testCases?.length ? (
@@ -129,7 +129,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
               type="button"
               onClick={handleRun}
               disabled={running}
-              className="rounded-md bg-emerald-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
+              className="rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
             >
               {running ? t('running') : t('run')}
             </button>
@@ -137,20 +137,24 @@ export function IDELayout({ problem }: IDELayoutProps) {
           <button
             type="button"
             onClick={toggleTheme}
-            className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
             {isDark ? t('light') : t('dark')}
           </button>
         </div>
       </header>
 
-      <div className="flex min-h-0 flex-1">
-        <aside className="w-[30%] min-w-[280px] shrink-0">
+      {/* Desktop: side-by-side. Mobile: vertical stack */}
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row overflow-auto lg:overflow-hidden">
+
+        {/* Problem panel — full width on mobile, 30% on desktop */}
+        <aside className="w-full lg:w-[30%] lg:min-w-[260px] lg:max-w-[380px] lg:shrink-0 lg:overflow-hidden">
           <ProblemPanel problem={problem} />
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <section className="h-[45%] min-h-[200px] shrink-0 p-2">
+        <div className="flex min-w-0 flex-1 flex-col min-h-0">
+          {/* Editor */}
+          <section className="h-64 sm:h-72 lg:h-[45%] shrink-0 p-1">
             <CodeEditor
               value={code}
               onChange={setCode}
@@ -159,7 +163,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
             />
           </section>
           <section className="flex min-h-0 flex-1 flex-col">
-            <div className="h-[45%] min-h-[160px] shrink-0">
+            <div className="min-h-[180px] lg:h-[45%] lg:shrink-0">
               <MentorPanel
                 phase={phase}
                 displayedText={displayedText}
@@ -174,7 +178,7 @@ export function IDELayout({ problem }: IDELayoutProps) {
                 onLanguageChange={handleMentorLanguageChange}
               />
             </div>
-            <div className="h-[10%] min-h-[80px] shrink-0">
+            <div className="min-h-[80px] lg:h-[10%] lg:shrink-0">
               <OutputPanel lines={outputLines} />
             </div>
           </section>
