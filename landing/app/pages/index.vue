@@ -7,7 +7,7 @@
           <span class="text-base font-semibold tracking-tight text-slate-900">KodHau</span>
         </a>
 
-        <nav class="hidden flex-1 justify-center sm:flex">
+        <nav class="hidden flex-1 justify-center lg:flex">
           <ul class="flex items-center gap-8 text-sm font-medium text-slate-700">
             <li><a href="#problem" class="text-slate-700">{{ t('navProblem') }}</a></li>
             <li><a href="#solution" class="text-slate-700">{{ t('navSolution') }}</a></li>
@@ -17,28 +17,51 @@
           </ul>
         </nav>
 
-        <div class="ml-auto flex items-center gap-3">
+        <div class="ml-auto flex items-center gap-2">
           <!-- Language picker -->
           <div class="flex gap-1">
             <button v-for="l in (['kk','ru','en'] as const)" :key="l"
               @click="setLang(l)"
-              :class="['rounded px-2 py-1 text-xs font-bold transition-colors', lang === l ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-900']">
+              :class="['rounded px-1.5 py-1 text-[10px] font-bold transition-colors', lang === l ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-900']">
               {{ l === 'kk' ? 'ҚАЗ' : l === 'ru' ? 'РУС' : 'ENG' }}
             </button>
           </div>
 
-          <a :href="ideUrl" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
-            {{ t('navTryIde') }}
-          </a>
           <a :href="`${ideUrl}/auth`"
-            class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900">
+            class="hidden sm:inline-flex items-center justify-center rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900">
             {{ t('login') }}
           </a>
           <a :href="`${ideUrl}/auth`"
-            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">
+            class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white">
             {{ t('register') }}
           </a>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="lg:hidden ml-1 rounded-md p-2 text-slate-600 hover:bg-slate-100"
+            @click="mobileMenuOpen = !mobileMenuOpen"
+            aria-label="Toggle menu"
+          >
+            <svg v-if="!mobileMenuOpen" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
+            </svg>
+            <svg v-else class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile nav drawer -->
+      <div v-if="mobileMenuOpen" class="lg:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
+        <a href="#problem" class="block text-sm font-medium text-slate-700 py-2" @click="mobileMenuOpen = false">{{ t('navProblem') }}</a>
+        <a href="#solution" class="block text-sm font-medium text-slate-700 py-2" @click="mobileMenuOpen = false">{{ t('navSolution') }}</a>
+        <a href="#features" class="block text-sm font-medium text-slate-700 py-2" @click="mobileMenuOpen = false">{{ t('navFeatures') }}</a>
+        <a href="#proof" class="block text-sm font-medium text-slate-700 py-2" @click="mobileMenuOpen = false">{{ t('navProof') }}</a>
+        <a :href="ideUrl" target="_blank" rel="noopener noreferrer" class="block text-sm font-medium text-slate-700 py-2" @click="mobileMenuOpen = false">{{ t('navTryIde') }}</a>
+        <div class="pt-2 border-t border-slate-100 flex gap-3">
+          <a :href="`${ideUrl}/auth`" class="flex-1 text-center rounded-md border border-slate-200 px-4 py-2 text-sm font-medium text-slate-900">{{ t('login') }}</a>
+          <a :href="`${ideUrl}/auth`" class="flex-1 text-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white">{{ t('register') }}</a>
         </div>
       </div>
     </header>
@@ -478,6 +501,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
 const { lang, setLang, t } = useLang()
+const mobileMenuOpen = ref(false)
 
 import htmlLogo from '~/assets/images/html.svg'
 import cssLogo from '~/assets/images/css.svg'
