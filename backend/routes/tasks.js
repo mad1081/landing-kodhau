@@ -37,12 +37,12 @@ module.exports = function(app) {
         return res.status(403).json({ error: 'Forbidden' })
       }
 
-      const { lesson_id, title, description, language, starter_code, solution_code, test_cases, order_index } = req.body
+      const { lesson_id, title, description, language, starter_code, function_name, test_cases, order_index } = req.body
       const { data, error } = await supabase
         .from('tasks')
         .insert([{
           lesson_id, title, description: description || null, language: language || 'javascript',
-          starter_code: starter_code || null, solution_code: solution_code || null,
+          starter_code: starter_code || null, function_name: function_name || null,
           test_cases: test_cases || null, order_index: order_index || 0
         }])
         .select()
