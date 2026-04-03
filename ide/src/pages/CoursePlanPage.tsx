@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Navigate } from 'react-router-dom'
 import { AppShell } from '../components/layout/AppShell'
 import { ModuleSection } from '../components/course/ModuleSection'
 import { useCoursePlan } from '../hooks/useCoursePlan'
@@ -19,9 +19,7 @@ export function CoursePlanPage() {
           </div>
         )}
 
-        {error && (
-          <p className="text-red-500 text-sm">Failed to load course: {error}</p>
-        )}
+        {!loading && error && <Navigate to="/__not_found" replace />}
 
         {!loading && plan && (
           <>
