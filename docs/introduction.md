@@ -33,6 +33,10 @@ landing-kodhau/
 
 ---
 
+## Онлайн құжаттама
+
+**[kodhau.mintlify.app](https://kodhau.mintlify.app)** — толық интерактивті docs сайты
+
 ## Құжаттар
 
 - [API эндпоинттері](./api.md)
