@@ -151,7 +151,7 @@ pnpm dev
 |---|---|
 | Лендинг | https://kodhau.vercel.app |
 | IDE платформасы | https://kodhau-ide.vercel.app |
-| Бэкенд API | https://kodhau-backend.onrender.com |
+| Бэкенд API | https://kodhau-learning.onrender.com |
 | Supabase дашборд | https://supabase.com/dashboard/project/vauvwjvotkoawembictz |
 
 ---

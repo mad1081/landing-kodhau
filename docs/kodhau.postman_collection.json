@@ -1,20 +1,20 @@
 {
   "info": {
+    "_postman_id": "kodhau-api-collection",
     "name": "KodHau API",
-    "description": "KodHau платформасының REST API коллекциясы. Base URL: https://kodhau-backend.onrender.com",
+    "description": "KodHau платформасының REST API коллекциясы.\nBase URL: https://kodhau-learning.onrender.com",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "https://kodhau-backend.onrender.com",
+      "value": "https://kodhau-learning.onrender.com",
       "type": "string"
     },
     {
       "key": "TOKEN",
       "value": "",
-      "type": "string",
-      "description": "Supabase JWT токені. /auth бетінен алып осы жерге қойыңыз."
+      "type": "string"
     }
   ],
   "item": [
@@ -25,8 +25,12 @@
           "name": "Health Check",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/health",
-            "description": "Сервердің жұмыс істеп тұрғанын тексеру"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/health",
+              "host": ["{{BASE_URL}}"],
+              "path": ["health"]
+            }
           }
         }
       ]
@@ -38,91 +42,90 @@
           "name": "Get All Courses",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/courses",
-            "description": "Барлық курстар тізімін алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses"]
+            }
           }
         },
         {
           "name": "Get Course by ID",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/courses/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_COURSE_ID" }
-            ],
-            "description": "ID бойынша жеке курс алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/YOUR_COURSE_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "YOUR_COURSE_ID"]
+            }
           }
         },
         {
           "name": "Get Course Plan by Slug",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/courses/slug/python/plan",
-            "description": "Slug бойынша толық курс жоспарын алу (модульдер → сабақтар → тапсырмалар)"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/slug/python/plan",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "slug", "python", "plan"]
+            }
           }
         },
         {
           "name": "Create Course",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/courses",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"JavaScript\",\n  \"slug\": \"javascript\",\n  \"description\": \"JS нөлден жоғары деңгейге\",\n  \"icon\": \"⚡\",\n  \"color\": \"#F59E0B\"\n}"
+              "raw": "{\n  \"title\": \"JavaScript\",\n  \"slug\": \"javascript\",\n  \"description\": \"JS нөлден жоғары деңгейге\",\n  \"icon\": \"⚡\",\n  \"color\": \"#F59E0B\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Жаңа курс жасау (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses"]
+            }
           }
         },
         {
           "name": "Update Course",
           "request": {
             "method": "PUT",
-            "url": "{{BASE_URL}}/api/courses/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_COURSE_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"JavaScript негіздері\",\n  \"slug\": \"javascript\",\n  \"description\": \"Жаңартылған сипаттама\",\n  \"icon\": \"⚡\",\n  \"color\": \"#F59E0B\"\n}"
+              "raw": "{\n  \"title\": \"JavaScript негіздері\",\n  \"slug\": \"javascript\",\n  \"description\": \"Жаңартылған сипаттама\",\n  \"icon\": \"⚡\",\n  \"color\": \"#F59E0B\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Курсты жаңарту (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/YOUR_COURSE_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "YOUR_COURSE_ID"]
+            }
           }
         },
         {
           "name": "Delete Course",
           "request": {
             "method": "DELETE",
-            "url": "{{BASE_URL}}/api/courses/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_COURSE_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Курсты жою (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/YOUR_COURSE_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "YOUR_COURSE_ID"]
+            }
           }
         }
       ]
@@ -134,75 +137,66 @@
           "name": "Get Modules by Course",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/courses/:courseId/modules",
-            "url_params": [
-              { "key": "courseId", "value": "YOUR_COURSE_ID" }
-            ],
-            "description": "Курс модульдерін алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/YOUR_COURSE_ID/modules",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "YOUR_COURSE_ID", "modules"]
+            }
           }
         },
         {
           "name": "Create Module",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/modules",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"course_id\": \"YOUR_COURSE_ID\",\n  \"title\": \"02: Тізімдер мен сөздіктер\",\n  \"order_index\": 2\n}"
+              "raw": "{\n  \"course_id\": \"YOUR_COURSE_ID\",\n  \"title\": \"02: Тізімдер мен сөздіктер\",\n  \"order_index\": 2\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Жаңа модуль жасау (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/modules",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "modules"]
+            }
           }
         },
         {
           "name": "Update Module",
           "request": {
             "method": "PUT",
-            "url": "{{BASE_URL}}/api/modules/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_MODULE_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"02: Жаңартылған атау\",\n  \"order_index\": 2\n}"
+              "raw": "{\n  \"title\": \"02: Жаңартылған атау\",\n  \"order_index\": 2\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Модульді жаңарту (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/modules/YOUR_MODULE_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "modules", "YOUR_MODULE_ID"]
+            }
           }
         },
         {
           "name": "Delete Module",
           "request": {
             "method": "DELETE",
-            "url": "{{BASE_URL}}/api/modules/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_MODULE_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Модульді жою (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/modules/YOUR_MODULE_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "modules", "YOUR_MODULE_ID"]
+            }
           }
         }
       ]
@@ -214,97 +208,90 @@
           "name": "Get Lessons by Module",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/modules/:moduleId/lessons",
-            "url_params": [
-              { "key": "moduleId", "value": "YOUR_MODULE_ID" }
-            ],
-            "description": "Модуль сабақтарын алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/modules/YOUR_MODULE_ID/lessons",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "modules", "YOUR_MODULE_ID", "lessons"]
+            }
           }
         },
         {
           "name": "Get Lesson by ID",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/lessons/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_LESSON_ID" }
-            ],
-            "description": "ID бойынша жеке сабақ алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons/YOUR_LESSON_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons", "YOUR_LESSON_ID"]
+            }
           }
         },
         {
           "name": "Get Full Lesson (nested)",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/lessons/:id/full",
-            "url_params": [
-              { "key": "id", "value": "YOUR_LESSON_ID" }
-            ],
-            "description": "Сабақты модуль + курс + тапсырмалармен бірге алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons/YOUR_LESSON_ID/full",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons", "YOUR_LESSON_ID", "full"]
+            }
           }
         },
         {
           "name": "Create Lesson",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/lessons",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"module_id\": \"YOUR_MODULE_ID\",\n  \"title\": \"Тізімдер\",\n  \"theory_md\": \"# Тізімдер\\n\\nPython-да тізімдер...\",\n  \"order_index\": 1\n}"
+              "raw": "{\n  \"module_id\": \"YOUR_MODULE_ID\",\n  \"title\": \"Тізімдер\",\n  \"theory_md\": \"# Тізімдер\\n\\nPython-да тізімдер...\",\n  \"order_index\": 1\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Жаңа сабақ жасау (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons"]
+            }
           }
         },
         {
           "name": "Update Lesson",
           "request": {
             "method": "PUT",
-            "url": "{{BASE_URL}}/api/lessons/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_LESSON_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Жаңартылған тақырып\",\n  \"theory_md\": \"# Жаңа мазмұн\",\n  \"order_index\": 1\n}"
+              "raw": "{\n  \"title\": \"Жаңартылған тақырып\",\n  \"theory_md\": \"# Жаңа мазмұн\",\n  \"order_index\": 1\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Сабақты жаңарту (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons/YOUR_LESSON_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons", "YOUR_LESSON_ID"]
+            }
           }
         },
         {
           "name": "Delete Lesson",
           "request": {
             "method": "DELETE",
-            "url": "{{BASE_URL}}/api/lessons/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_LESSON_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Сабақты жою (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons/YOUR_LESSON_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons", "YOUR_LESSON_ID"]
+            }
           }
         }
       ]
@@ -316,86 +303,78 @@
           "name": "Get Tasks by Lesson",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/lessons/:lessonId/tasks",
-            "url_params": [
-              { "key": "lessonId", "value": "YOUR_LESSON_ID" }
-            ],
-            "description": "Сабақ тапсырмаларын алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/lessons/YOUR_LESSON_ID/tasks",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "lessons", "YOUR_LESSON_ID", "tasks"]
+            }
           }
         },
         {
           "name": "Get Task by ID",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/tasks/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_TASK_ID" }
-            ],
-            "description": "ID бойынша жеке тапсырма алу"
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/tasks/YOUR_TASK_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "tasks", "YOUR_TASK_ID"]
+            }
           }
         },
         {
           "name": "Create Task",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/tasks",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"lesson_id\": \"YOUR_LESSON_ID\",\n  \"title\": \"isEven\",\n  \"description\": \"Санның жұп екенін тексер\",\n  \"language\": \"python\",\n  \"starter_code\": \"def isEven(n):\\n    pass\",\n  \"function_name\": \"isEven\",\n  \"test_cases\": [\n    { \"input\": [2], \"expected\": true },\n    { \"input\": [3], \"expected\": false }\n  ],\n  \"order_index\": 1\n}"
+              "raw": "{\n  \"lesson_id\": \"YOUR_LESSON_ID\",\n  \"title\": \"isEven\",\n  \"description\": \"Санның жұп екенін тексер\",\n  \"language\": \"python\",\n  \"starter_code\": \"def isEven(n):\\n    pass\",\n  \"function_name\": \"isEven\",\n  \"test_cases\": [\n    { \"input\": [2], \"expected\": true },\n    { \"input\": [3], \"expected\": false }\n  ],\n  \"order_index\": 1\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Жаңа тапсырма жасау (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/tasks",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "tasks"]
+            }
           }
         },
         {
           "name": "Update Task",
           "request": {
             "method": "PUT",
-            "url": "{{BASE_URL}}/api/tasks/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_TASK_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"isEven — жаңартылды\",\n  \"description\": \"Жаңа сипаттама\",\n  \"language\": \"python\",\n  \"starter_code\": \"def isEven(n):\\n    pass\",\n  \"test_cases\": [\n    { \"input\": [2], \"expected\": true },\n    { \"input\": [3], \"expected\": false }\n  ],\n  \"order_index\": 1\n}"
+              "raw": "{\n  \"title\": \"isEven — жаңартылды\",\n  \"description\": \"Жаңа сипаттама\",\n  \"language\": \"python\",\n  \"starter_code\": \"def isEven(n):\\n    pass\",\n  \"test_cases\": [\n    { \"input\": [2], \"expected\": true },\n    { \"input\": [3], \"expected\": false }\n  ],\n  \"order_index\": 1\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Тапсырманы жаңарту (admin/teacher)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/tasks/YOUR_TASK_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "tasks", "YOUR_TASK_ID"]
+            }
           }
         },
         {
           "name": "Delete Task",
           "request": {
             "method": "DELETE",
-            "url": "{{BASE_URL}}/api/tasks/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_TASK_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Тапсырманы жою (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/tasks/YOUR_TASK_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "tasks", "YOUR_TASK_ID"]
+            }
           }
         }
       ]
@@ -407,70 +386,48 @@
           "name": "Get My Profile",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/profile",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Өз профилін алу (кез-келген тіркелген пайдаланушы)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/profile",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "profile"]
+            }
           }
         },
         {
           "name": "Get All Users",
           "request": {
             "method": "GET",
-            "url": "{{BASE_URL}}/api/users",
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" }
             ],
-            "description": "Барлық пайдаланушылар (тек admin)"
-          }
-        },
-        {
-          "name": "Get User by ID",
-          "request": {
-            "method": "GET",
-            "url": "{{BASE_URL}}/api/users/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_USER_ID" }
-            ],
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              }
-            ],
-            "description": "ID бойынша пайдаланушы (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "users"]
+            }
           }
         },
         {
           "name": "Update User Role",
           "request": {
             "method": "PUT",
-            "url": "{{BASE_URL}}/api/users/:id",
-            "url_params": [
-              { "key": "id", "value": "YOUR_USER_ID" }
-            ],
             "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{TOKEN}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"role\": \"teacher\"\n}"
+              "raw": "{\n  \"role\": \"teacher\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Пайдаланушы рөлін жаңарту (тек admin)"
+            "url": {
+              "raw": "{{BASE_URL}}/api/users/YOUR_USER_ID",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "users", "YOUR_USER_ID"]
+            }
           }
         }
       ]
@@ -482,36 +439,38 @@
           "name": "Run JavaScript",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/run",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"language\": \"javascript\",\n  \"files\": [\n    {\n      \"content\": \"function twoSum(a, b) { return a + b; }\\nconsole.log(twoSum(1, 2));\"\n    }\n  ]\n}"
+              "raw": "{\n  \"language\": \"javascript\",\n  \"files\": [\n    {\n      \"content\": \"function twoSum(a, b) { return a + b; }\\nconsole.log(twoSum(1, 2));\"\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "JavaScript кодын Judge0 арқылы орындау"
+            "url": {
+              "raw": "{{BASE_URL}}/api/run",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "run"]
+            }
           }
         },
         {
           "name": "Run Python",
           "request": {
             "method": "POST",
-            "url": "{{BASE_URL}}/api/run",
             "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+              { "key": "Content-Type", "value": "application/json" }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"language\": \"python\",\n  \"files\": [\n    {\n      \"content\": \"def twoSum(a, b):\\n    return a + b\\n\\nprint(twoSum(1, 2))\"\n    }\n  ]\n}"
+              "raw": "{\n  \"language\": \"python\",\n  \"files\": [\n    {\n      \"content\": \"def twoSum(a, b):\\n    return a + b\\n\\nprint(twoSum(1, 2))\"\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
             },
-            "description": "Python кодын Judge0 арқылы орындау"
+            "url": {
+              "raw": "{{BASE_URL}}/api/run",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "run"]
+            }
           }
         }
       ]
