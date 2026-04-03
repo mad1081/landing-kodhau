@@ -31,7 +31,7 @@ export function AppShell({ children }: AppShellProps) {
   }, [])
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#f8f9ff]">
+    <div className="h-screen overflow-hidden bg-[#f8f9ff]">
       <Sidebar
         open={mobileOpen}
         collapsed={collapsed}
@@ -39,7 +39,8 @@ export function AppShell({ children }: AppShellProps) {
         onToggleCollapse={toggleCollapse}
       />
 
-      <div className="flex flex-1 flex-col min-w-0 overflow-hidden">
+      {/* Main content — on desktop offset by sidebar width, on mobile full width */}
+      <div className={`flex h-full flex-col min-w-0 overflow-hidden transition-[margin] duration-300 ${collapsed ? 'lg:ml-14' : 'lg:ml-60'}`}>
         {/* Mobile top bar */}
         <header className="flex items-center gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
           <button

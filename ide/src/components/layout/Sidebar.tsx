@@ -60,11 +60,9 @@ export function Sidebar({ open, collapsed, onClose, onToggleCollapse }: SidebarP
       <aside
         className={`
           fixed inset-y-0 left-0 z-40 flex flex-col bg-[#0d1c2f] text-white
-          transition-transform duration-300 ease-in-out
-          lg:relative lg:translate-x-0 lg:transition-[width] lg:duration-300
-          ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          ${collapsed ? 'lg:w-14' : 'lg:w-60'}
-          w-60
+          transition-all duration-300 ease-in-out
+          ${open ? 'translate-x-0' : '-translate-x-full'}
+          ${collapsed ? 'lg:translate-x-0 lg:w-14 w-60' : 'lg:translate-x-0 lg:w-60 w-60'}
         `}
       >
         {/* Logo + collapse toggle */}
