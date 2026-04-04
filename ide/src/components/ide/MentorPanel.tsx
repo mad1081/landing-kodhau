@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import type { Components } from 'react-markdown'
 import type { MentorMessage, MentorLanguage } from '../../hooks/useMentor'
 import type { MentorPhase } from '../../hooks/useAudioDrivenMentor'
+import { useLang } from '../../i18n/LangContext'
 
 const mentorMarkdownComponents: Components = {
   strong: (props) => (
@@ -36,21 +37,8 @@ const LANGUAGE_OPTIONS: { value: MentorLanguage; label: string }[] = [
   { value: 'kk', label: 'Қазақша' },
 ]
 
-function getStatusMessage(phase: MentorPhase): string {
-  switch (phase) {
-    case 'GENERATING_TEXT':
-      return 'Analyzing your code…'
-    case 'GENERATING_AUDIO':
-    case 'AUDIO_READY':
-      return 'Preparing response…'
-    case 'SPEAKING_AND_RENDERING':
-      return ''
-    case 'CANCELLED':
-      return 'Cancelled'
-    default:
-      return ''
-  }
-}
+// Status messages are built inside the component so they can use t()
+
 
 export function MentorPanel({
   phase,
@@ -65,7 +53,19 @@ export function MentorPanel({
   language,
   onLanguageChange,
 }: MentorPanelProps) {
-  const statusMessage = getStatusMessage(phase)
+  const { t } = useLang()
+
+  function getStatusMessage(): string {
+    switch (phase) {
+      case 'GENERATING_TEXT': return t('analyzingCode')
+      case 'GENERATING_AUDIO':
+      case 'AUDIO_READY': return t('preparingResponse')
+      case 'CANCELLED': return t('cancelled')
+      default: return ''
+    }
+  }
+
+  const statusMessage = getStatusMessage()
   const showTypewriter = phase === 'SPEAKING_AND_RENDERING'
   const subtitleText = displayedText
 
@@ -73,7 +73,7 @@ export function MentorPanel({
     <div className="flex h-full flex-col overflow-hidden border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-2 dark:border-slate-700">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-          AI Mentor
+          {t('aiMentor')}
         </h3>
         <div className="flex flex-wrap items-center gap-2">
           <select
@@ -95,7 +95,7 @@ export function MentorPanel({
             disabled={askButtonDisabled}
             className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700"
           >
-            Ask mentor
+            {t('askMentor')}
           </button>
           {askButtonDisabled && (
             <button
@@ -103,7 +103,7 @@ export function MentorPanel({
               onClick={onCancel}
               className="rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-900/30 dark:text-red-300"
             >
-              Cancel
+              {t('cancel')}
             </button>
           )}
           <button
@@ -111,14 +111,14 @@ export function MentorPanel({
             onClick={onToggleVoice}
             className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
           >
-            Voice {voiceOn ? 'ON' : 'OFF'}
+            {voiceOn ? t('voiceOn') : t('voiceOff')}
           </button>
         </div>
       </div>
       {subtitleText !== '' && (phase === 'SPEAKING_AND_RENDERING' || phase === 'COMPLETED') && (
         <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 dark:border-slate-700 dark:bg-slate-900">
           <p className="text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            Subtitles
+            {t('subtitles')}
           </p>
           <div className="mt-1 text-sm text-slate-700 dark:text-slate-300 [&_p]:my-0">
             <ReactMarkdown components={mentorMarkdownComponents}>{subtitleText}</ReactMarkdown>
