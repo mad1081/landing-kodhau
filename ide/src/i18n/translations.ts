@@ -241,7 +241,7 @@ export const translations = {
     profile: 'Профиль',
     signOut: 'Шығу',
 
-    welcomeBack: 'Қайта келдіңіз!',
+    welcomeBack: 'Қош келдіңіз!',
     pickUp: 'Тоқтаған жерінізден жалғастырыңыз.',
     courses: 'Курстар',
     lessonsCompleted: 'Өтілген сабақтар',
