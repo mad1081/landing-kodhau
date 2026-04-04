@@ -87,7 +87,13 @@ export function useAudioDrivenMentor(params: AudioDrivenMentorParams, voiceOn: b
     setPhase('CANCELLED')
     setDisplayedText('')
     pendingTextRef.current = ''
-    setTimeout(() => setPhase('IDLE'), 0)
+    // Only reset to IDLE if no new request has started since this cancel.
+    // Without the check, the setTimeout fires after askMentor's setPhase('GENERATING_TEXT')
+    // and overrides it back to IDLE, briefly re-enabling the button mid-fetch.
+    const cancelledAt = requestIdRef.current
+    setTimeout(() => {
+      if (requestIdRef.current === cancelledAt) setPhase('IDLE')
+    }, 0)
   }
 
   const askMentor = useCallback(
@@ -283,21 +289,25 @@ Provide minimal mentor feedback (no full solution, no final code). One short res
           const progress = Math.min(1, elapsed / durationMs)
           const len = Math.floor(progress * text.length)
           setDisplayedText(text.slice(0, len))
-          if (progress < 1 && !audio.ended) {
+          if (progress < 1) {
+            // Still typing — keep running
             typewriterRafRef.current = requestAnimationFrame(runTypewriter)
           } else {
+            // Text fully rendered; show all text but wait for audio to end before
+            // unblocking the button — onEnded handles COMPLETED when audio stops.
+            setDisplayedText(text)
             typewriterRafRef.current = null
-            if (!completedForRequestRef.current) {
+            if (audio.ended && !completedForRequestRef.current) {
               completedForRequestRef.current = true
               setPhase('COMPLETED')
-              setDisplayedText(text)
               setMessages((m) => [...m, { id: `mentor-${Date.now()}`, role: 'mentor', text }])
+              if (objectUrlRef.current) {
+                URL.revokeObjectURL(objectUrlRef.current)
+                objectUrlRef.current = null
+              }
+              audioRef.current = null
             }
-            if (objectUrlRef.current) {
-              URL.revokeObjectURL(objectUrlRef.current)
-              objectUrlRef.current = null
-            }
-            audioRef.current = null
+            // If audio hasn't ended yet, onEnded fires and completes it
           }
         }
         typewriterRafRef.current = requestAnimationFrame(runTypewriter)
