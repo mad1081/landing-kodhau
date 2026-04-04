@@ -225,7 +225,7 @@ Provide minimal mentor feedback (no full solution, no final code). One short res
           {
             method: 'POST',
             headers: { 'xi-api-key': elevenKey, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: stripMarkdownForTTS(text).slice(0, 2500), model_id: 'eleven_turbo_v2_5' }),
+            body: JSON.stringify({ text: stripMarkdownForTTS(text).slice(0, 2500), model_id: 'eleven_v3' }),
             signal,
           }
         )
