@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import type { Task } from '../../data/mockCoursePlan'
+import { useLang } from '../../i18n/LangContext'
 
 interface TaskRowProps {
   task: Task
@@ -7,6 +8,7 @@ interface TaskRowProps {
 
 export function TaskRow({ task }: TaskRowProps) {
   const navigate = useNavigate()
+  const { t } = useLang()
 
   return (
     <div className="flex items-center justify-between py-2">
@@ -42,7 +44,7 @@ export function TaskRow({ task }: TaskRowProps) {
           className="ml-4 shrink-0 text-[10px] font-bold uppercase tracking-widest"
           style={{ color: '#005338' }}
         >
-          Completed
+          {t('completed')}
         </span>
       ) : (
         <button
@@ -63,7 +65,7 @@ export function TaskRow({ task }: TaskRowProps) {
             el.style.color = '#3525cd'
           }}
         >
-          Start Task
+          {t('startTask')}
         </button>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import type { Course } from '../../data/mockCourses'
+import { useLang } from '../../i18n/LangContext'
 
 interface CourseCardProps {
   course: Course
@@ -7,6 +8,7 @@ interface CourseCardProps {
 
 export function CourseCard({ course }: CourseCardProps) {
   const navigate = useNavigate()
+  const { t } = useLang()
   const progress = course.totalLessons > 0
     ? Math.round((course.completedLessons / course.totalLessons) * 100)
     : 0
@@ -45,7 +47,7 @@ export function CourseCard({ course }: CourseCardProps) {
         {/* Progress */}
         <div className="mb-4">
           <div className="flex justify-between text-xs text-slate-400 mb-1.5">
-            <span>{course.completedLessons}/{course.totalLessons} lessons</span>
+            <span>{course.completedLessons}/{course.totalLessons} {t('lessons')}</span>
             <span>{progress}%</span>
           </div>
           <div className="h-1.5 w-full rounded-full bg-slate-100">
@@ -62,7 +64,7 @@ export function CourseCard({ course }: CourseCardProps) {
           className="w-full rounded-xl py-2.5 px-5 text-sm font-bold text-white flex items-center justify-center gap-2 group-hover:gap-4 transition-all duration-300"
           style={{ background: 'linear-gradient(135deg, #3525cd 0%, #4f46e5 100%)' }}
         >
-          Go to Course
+          {t('goToCourse')}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

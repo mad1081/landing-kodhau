@@ -1,6 +1,7 @@
 import { IconLock } from '@tabler/icons-react'
 import { LessonSection } from './LessonSection'
 import type { Module } from '../../data/mockCoursePlan'
+import { useLang } from '../../i18n/LangContext'
 
 interface ModuleSectionProps {
   module: Module
@@ -8,6 +9,7 @@ interface ModuleSectionProps {
 }
 
 export function ModuleSection({ module, index }: ModuleSectionProps) {
+  const { t } = useLang()
   const allTasks = module.lessons.flatMap(l => l.tasks)
   const completedTasks = allTasks.filter(t => t.completed).length
   const isInProgress = completedTasks > 0 && completedTasks < allTasks.length
@@ -117,7 +119,7 @@ export function ModuleSection({ module, index }: ModuleSectionProps) {
             className="px-4 py-1.5 font-bold rounded-full text-xs uppercase tracking-widest"
             style={{ background: 'rgba(53,37,205,0.094)', color: '#3525cd' }}
           >
-            In Progress
+            {t('inProgress')}
           </span>
         )}
         {completedTasks === allTasks.length && allTasks.length > 0 && (
@@ -125,7 +127,7 @@ export function ModuleSection({ module, index }: ModuleSectionProps) {
             className="px-4 py-1.5 font-bold rounded-full text-xs uppercase tracking-widest"
             style={{ background: 'rgba(0,83,56,0.1)', color: '#005338' }}
           >
-            Complete
+            {t('moduleComplete')}
           </span>
         )}
       </div>
@@ -150,23 +152,23 @@ export function ModuleSection({ module, index }: ModuleSectionProps) {
                 letterSpacing: '0.2em',
               }}
             >
-              Module Resources
+              {t('moduleResources')}
             </h4>
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-white">
                 <p className="text-xs font-bold mb-1" style={{ color: '#0d1c2f' }}>
-                  Cheat Sheet
+                  {t('cheatSheet')}
                 </p>
                 <p className="text-[10px]" style={{ color: '#464555' }}>
-                  A quick guide to syntax and common functions.
+                  {t('cheatSheetDesc')}
                 </p>
               </div>
               <div className="p-4 rounded-lg bg-white">
                 <p className="text-xs font-bold mb-1" style={{ color: '#0d1c2f' }}>
-                  Code Sandbox
+                  {t('codeSandbox')}
                 </p>
                 <p className="text-[10px]" style={{ color: '#464555' }}>
-                  Experiment with your code in a safe environment.
+                  {t('codeSandboxDesc')}
                 </p>
               </div>
             </div>

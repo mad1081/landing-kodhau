@@ -3,10 +3,12 @@ import { AppShell } from '../components/layout/AppShell'
 import { ModuleSection } from '../components/course/ModuleSection'
 import { useCoursePlan } from '../hooks/useCoursePlan'
 import { getCourseProgress } from '../data/mockCoursePlan'
+import { useLang } from '../i18n/LangContext'
 
 export function CoursePlanPage() {
   const { courseSlug } = useParams<{ courseSlug: string }>()
   const { plan, loading, error } = useCoursePlan(courseSlug)
+  const { t } = useLang()
 
   return (
     <AppShell>
@@ -52,10 +54,10 @@ export function CoursePlanPage() {
                       <>
                         <div className="flex justify-between items-center mb-3">
                           <span className="font-bold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: '#3525cd' }}>
-                            {progress}% Completed
+                            {progress}% {t('completed')}
                           </span>
                           <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#464555' }}>
-                            Overall Progress
+                            {t('overallProgress')}
                           </span>
                         </div>
                         <div className="h-3 w-full rounded-full overflow-hidden" style={{ background: '#d5e3fd' }}>
@@ -72,7 +74,7 @@ export function CoursePlanPage() {
             </header>
 
             {plan.modules.length === 0 ? (
-              <p className="text-slate-400 text-sm">No modules yet. Add them in the Admin panel.</p>
+              <p className="text-slate-400 text-sm">{t('noModulesAdmin')}</p>
             ) : (
               <div className="space-y-20">
                 {plan.modules.map((module, i) => (
